@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --white-field: #e8edf9;
+  --black-field: #b7c0d8;
+  --active-field: #7B61FF;
+  --fortress-field: #F4F7FA;
+}
+
 * {
   margin: 0;
   padding: 0;
