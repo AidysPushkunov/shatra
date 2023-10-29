@@ -1,1 +1,0 @@
-export { Pawn } from "./pawn";

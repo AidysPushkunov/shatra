@@ -1,6 +1,6 @@
 import React from "react";
 
-type PawnProps = {
+type FigureProps = {
   intent:
     | "whiteShatra"
     | "blackShatra"
@@ -10,7 +10,7 @@ type PawnProps = {
     | "blackBaatyr";
 };
 
-const Pawn: React.FC<PawnProps> = ({ intent }) => {
+const FigureEntities: React.FC<FigureProps> = ({ intent }) => {
   return (
     <div>
       {intent === "whiteShatra" ? (
@@ -126,4 +126,4 @@ const Pawn: React.FC<PawnProps> = ({ intent }) => {
   );
 };
 
-export { Pawn };
+export { FigureEntities };

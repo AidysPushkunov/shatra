@@ -8,14 +8,7 @@ const config: Config = {
     "./src/**/*.{ts,tsx}",
   ],
   theme: {
-    extend: {
-      colors: {
-        "white-field": "var(--white-field)",
-        "black-field": "var(--black-field)",
-        "active-field": "var(--active-field)",
-        "fortress-field": "var(--fortress-field)",
-      },
-    },
+    extend: {},
   },
   plugins: [],
 };

@@ -1,1 +1,1 @@
-export { Board } from "./board";
+export { BoardWidget } from "./BoardWidget";
