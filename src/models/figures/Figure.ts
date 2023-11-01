@@ -6,7 +6,7 @@ import { FigureEntities } from "@/entities/figure";
 export enum FigureNames {
   FIGURE = "figure",
   SHATRA = "shatra",
-  BIY = "biy",
+  BIY = "whiteBiy",
   BAATYR = "baatyr",
 }
 

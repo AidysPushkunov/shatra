@@ -24,6 +24,6 @@ export class Board {
   }
 
   public addFigures() {
-    new Biy(Colors.WHITE, this.getCell(0, 0));
+    new Biy(Colors.WHITE, this.getCell(3, 3));
   }
 }

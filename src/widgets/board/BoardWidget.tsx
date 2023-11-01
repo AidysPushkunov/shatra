@@ -14,7 +14,7 @@ const BoardWidget: React.FC<BoardProps> = ({ board, setBoard }) => {
       {board.cells.map((row, index) => (
         <React.Fragment key={index}>
           {row.map((cell) => (
-            <ShowFigure intent={cell.color} key={cell.id} />
+            <ShowFigure intent={cell.color} cell={cell} key={cell.id} />
           ))}
         </React.Fragment>
       ))}
