@@ -10,7 +10,7 @@ type ShowFieldProps = {
 };
 
 function svgToURL(s: any) {
-  const uri = window.btoa(decodeURI(encodeURIComponent(s)));
+  const uri = window.btoa(unescape(encodeURIComponent(s)));
   return "data:image/svg+xml;base64," + uri;
 }
 
@@ -20,7 +20,7 @@ const url = svgToURL(svg);
 
 const ShowFigure: React.FC<ShowFieldProps> = ({ intent, cell }) => {
   const [image] = useImage(url);
-  return <Field intent={intent}>{<Image image={image} />}</Field>;
+  return <Field intent={intent}>{<Image x={14} y={14} image={image} />}</Field>;
 };
 
 export { ShowFigure };
