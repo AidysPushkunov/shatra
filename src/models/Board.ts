@@ -1,6 +1,7 @@
 import { Cell } from "./Cell";
 import { Colors } from "./Colors";
 import { Biy } from "./figures/Biy";
+import { Baatyr } from "./figures/Baatyr";
 
 export class Board {
   cells: Cell[][] = [];

@@ -27,8 +27,9 @@ export default function Home() {
         this project is to create an Internet platform for the game “Shatra” in
         real time between two people or with artificial intelligence.
       </p>
-
-      <BoardWidget board={board} setBoard={setBoard} />
+      <div className="flex items-center justify-center mr-[525px]">
+        <BoardWidget board={board} setBoard={setBoard} />
+      </div>
     </>
   );
 }
