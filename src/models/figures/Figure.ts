@@ -12,7 +12,14 @@ export enum FigureNames {
 
 export class Figure {
   color: Colors;
-  logo: typeof FigureEntities | null;
+  logo:
+    | "whiteShatra"
+    | "blackShatra"
+    | "whiteBiy"
+    | "blackBiy"
+    | "whiteBaatyr"
+    | "blackBaatyr"
+    | undefined;
   cell: Cell;
   name: FigureNames;
   id: number;
@@ -21,7 +28,7 @@ export class Figure {
     this.color = color;
     this.cell = cell;
     this.cell.figure = this;
-    this.logo = null;
+    this.logo = undefined;
     this.name = FigureNames.FIGURE;
     this.id = Math.random();
   }

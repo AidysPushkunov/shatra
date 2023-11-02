@@ -9,7 +9,8 @@ type FigureProps = {
     | "whiteBiy"
     | "blackBiy"
     | "whiteBaatyr"
-    | "blackBaatyr";
+    | "blackBaatyr"
+    | undefined;
 };
 
 function svgToURL(s: any) {
@@ -136,7 +137,10 @@ const FigureEntities: React.FC<FigureProps> = ({ intent }) => {
       ? blackShatra
       : intent === "whiteBiy"
       ? whiteBiy
-      : blackBiy;
+      : intent === "blackBiy"
+      ? blackBiy
+      : undefined;
+
   const url = svgToURL(currentFigure);
   const [image] = useImage(url);
 
