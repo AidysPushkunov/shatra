@@ -11,6 +11,7 @@ type FigureProps = {
     | "whiteBaatyr"
     | "blackBaatyr"
     | undefined;
+
 };
 
 function svgToURL(s: any) {

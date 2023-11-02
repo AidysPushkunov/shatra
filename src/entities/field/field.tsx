@@ -1,5 +1,6 @@
 "use client";
 
+import { Cell } from "@/models/Cell";
 import React from "react";
 import { Stage, Layer, Rect } from "react-konva";
 
@@ -12,19 +13,29 @@ const fieldIntent = {
 
 type FieldProps = {
   intent: "black" | "white" | "active" | "fortress";
+  cell: Cell;
   children: React.ReactNode;
+  selected: boolean;
+  clickField: (cell: Cell) => void;
 };
 
-const Field: React.FC<FieldProps> = ({ intent, children }) => {
+const Field: React.FC<FieldProps> = ({
+  intent,
+  cell,
+  children,
+  selected,
+  clickField,
+}) => {
   return (
     <Stage width={75} height={75}>
       <Layer>
         <Rect
+          onClick={() => clickField(cell)}
           x={0}
           y={0}
           width={75}
           height={75}
-          fill={fieldIntent[intent]}
+          fill={selected ? fieldIntent.active : fieldIntent[intent]}
           shadowBlur={10}
         />
         {children}
