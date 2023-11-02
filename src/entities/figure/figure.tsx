@@ -49,8 +49,8 @@ const FigureEntities: React.FC<FigureProps> = ({ intent }) => {
       {intent === "whiteShatra" ? (
         <Image
           image={image}
-          x={12}
-          y={12}
+          x={10}
+          y={10}
           width={55}
           height={55}
           alt="whiteShatra"
@@ -58,8 +58,8 @@ const FigureEntities: React.FC<FigureProps> = ({ intent }) => {
       ) : intent === "blackShatra" ? (
         <Image
           image={image}
-          x={12}
-          y={12}
+          x={10}
+          y={10}
           width={55}
           height={55}
           alt="whiteShatra"
@@ -67,8 +67,8 @@ const FigureEntities: React.FC<FigureProps> = ({ intent }) => {
       ) : intent === "whiteBiy" ? (
         <Image
           image={image}
-          x={12}
-          y={12}
+          x={10}
+          y={10}
           width={55}
           height={55}
           alt="whiteBiy"
@@ -76,8 +76,8 @@ const FigureEntities: React.FC<FigureProps> = ({ intent }) => {
       ) : intent === "blackBiy" ? (
         <Image
           image={image}
-          x={12}
-          y={12}
+          x={10}
+          y={10}
           width={55}
           height={55}
           alt="blackBiy"
@@ -85,8 +85,8 @@ const FigureEntities: React.FC<FigureProps> = ({ intent }) => {
       ) : intent === "whiteBaatyr" ? (
         <Image
           image={image}
-          x={12}
-          y={12}
+          x={10}
+          y={10}
           width={55}
           height={55}
           alt="whiteBaatyr"
@@ -94,8 +94,8 @@ const FigureEntities: React.FC<FigureProps> = ({ intent }) => {
       ) : intent === "blackBaatyr" ? (
         <Image
           image={image}
-          x={12}
-          y={12}
+          x={10}
+          y={10}
           width={55}
           height={55}
           alt="blackBaatyr"
