@@ -7,8 +7,10 @@ import { Stage, Layer, Rect, Circle } from "react-konva";
 const fieldIntent = {
   black: "#b7c0d8",
   white: "#e8edf9",
-  active: "#7B61FF",
+  active: "rgba(123, 97, 255, 0.5)",
+  activeField: "#BAAEFE",
   fortress: "#F4F7FA",
+  attackFigure: "#CD0000",
 };
 
 type FieldProps = {
@@ -34,13 +36,22 @@ const Field: React.FC<FieldProps> = ({
           y={0}
           width={75}
           height={75}
-          fill={selected ? fieldIntent.active : fieldIntent[intent]}
+          fill={
+            selected
+              ? fieldIntent.activeField
+              : cell.available && cell.figure
+              ? fieldIntent.attackFigure
+              : fieldIntent[intent]
+          }
           shadowBlur={10}
         />
         {intent === "fortress" ? (
           <></>
         ) : (
-          <Circle x={37.5} y={37.5} radius={10} fill="#7B61FF" />
+          cell.available &&
+          !cell.figure && (
+            <Circle x={37.5} y={37.5} radius={10} fill={fieldIntent.active} />
+          )
         )}
         {children}
       </Layer>

@@ -10,12 +10,33 @@ interface BoardProps {
 }
 
 const BoardWidget: React.FC<BoardProps> = ({ board, setBoard }) => {
-  const [selectedCell, setSelectedCell] = React.useState<Cell | null>();
+  const [selectedCell, setSelectedCell] = React.useState<Cell | null>(null);
 
   function clickField(cell: Cell) {
-    if (cell.figure) {
+    if (
+      selectedCell &&
+      selectedCell !== cell &&
+      selectedCell.figure?.canMove(cell)
+    ) {
+      selectedCell.moveFigure(cell);
+      setSelectedCell(null);
+    } else {
       setSelectedCell(cell);
     }
+  }
+
+  React.useEffect(() => {
+    highlightCells();
+  }, [selectedCell]);
+
+  function highlightCells() {
+    board.highlightCells(selectedCell);
+    updateBoard();
+  }
+
+  function updateBoard() {
+    const newBoard = board.getCopyBoard();
+    setBoard(newBoard);
   }
 
   return (
