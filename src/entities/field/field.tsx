@@ -2,7 +2,7 @@
 
 import { Cell } from "@/models/Cell";
 import React from "react";
-import { Stage, Layer, Rect } from "react-konva";
+import { Stage, Layer, Rect, Circle } from "react-konva";
 
 const fieldIntent = {
   black: "#b7c0d8",
@@ -37,6 +37,11 @@ const Field: React.FC<FieldProps> = ({
           fill={selected ? fieldIntent.active : fieldIntent[intent]}
           shadowBlur={10}
         />
+        {intent === "fortress" ? (
+          <></>
+        ) : (
+          <Circle x={37.5} y={37.5} radius={10} fill="#7B61FF" />
+        )}
         {children}
       </Layer>
     </Stage>
