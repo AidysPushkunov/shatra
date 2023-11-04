@@ -35,6 +35,6 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
 
-## Telengit Shatra
+## Altai Shatra
 
-Shatra is an intellectual board game of the Telengit people. The goal of this project is to create an Internet platform for the game “Shatra” in real time between two people or with artificial intelligence.
+Shatra is an intellectual board game of the Altai people. The goal of this project is to create an Internet platform for the game “Shatra” in real time between two people or with artificial intelligence.
