@@ -8,4 +8,9 @@ export class Biy extends Figure {
     this.logo = color === Colors.BLACK ? "blackBiy" : "whiteBiy";
     this.name = FigureNames.BIY;
   }
+
+  canMove(target: Cell): boolean {
+    if (!super.canMove(target)) return false;
+    return true;
+  }
 }
