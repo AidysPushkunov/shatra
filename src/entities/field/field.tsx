@@ -28,9 +28,8 @@ const Field: React.FC<FieldProps> = ({
 }) => {
   return (
     <Stage width={75} height={75}>
-      <Layer>
+      <Layer onClick={() => clickField(cell)}>
         <Rect
-          onClick={() => clickField(cell)}
           x={0}
           y={0}
           width={75}
