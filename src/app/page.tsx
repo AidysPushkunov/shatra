@@ -6,6 +6,7 @@ import { BoardWidget } from "@/widgets/board";
 import { Board } from "@/models/Board";
 import { Player } from "@/models/Player";
 import { Colors } from "@/models/Colors";
+import { LostFigures } from "@/widgets/lostFigures";
 
 export default function Home() {
   const [board, setBoard] = React.useState(new Board());
@@ -38,6 +39,10 @@ export default function Home() {
   return (
     <>
       {<h3>Тургуза ӧйдӧ јӱрӱш: {currentPlayer?.color}</h3>}
+      <div>
+        <LostFigures title="Кара шатралар: " figures={board.lostBlackFigures} />
+        <LostFigures title="Ак шатралар: " figures={board.lostWhiteFigures} />
+      </div>
       <div className="flex justify-center my-14">
         <BoardWidget
           board={board}
