@@ -7,6 +7,7 @@ import { Board } from "@/models/Board";
 import { Player } from "@/models/Player";
 import { Colors } from "@/models/Colors";
 import { LostFigures } from "@/widgets/lostFigures";
+import { Timer } from "@/widgets/timer";
 
 export default function Home() {
   const [board, setBoard] = React.useState(new Board());
@@ -43,6 +44,7 @@ export default function Home() {
         <LostFigures title="Кара шатралар: " figures={board.lostBlackFigures} />
         <LostFigures title="Ак шатралар: " figures={board.lostWhiteFigures} />
       </div>
+      <Timer restart={restart} currentPlayer={currentPlayer} />
       <div className="flex justify-center my-14">
         <BoardWidget
           board={board}
