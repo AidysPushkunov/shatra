@@ -11,6 +11,22 @@ export class Biy extends Figure {
 
   canMove(target: Cell): boolean {
     if (!super.canMove(target)) return false;
-    return true;
+
+    const direction = this.cell.figure?.color === Colors.BLACK ? 1 : -1;
+
+    if (
+      (target.y === this.cell.y + direction && target.x === this.cell.x + 1) ||
+      (target.y === this.cell.y + direction && target.x === this.cell.x - 1) ||
+      (target.y === this.cell.y && target.x === this.cell.x - 1) ||
+      (target.y === this.cell.y && target.x === this.cell.x + 1) ||
+      (target.y === this.cell.y + direction && target.x === this.cell.x) ||
+      (target.y === this.cell.y - direction && target.x === this.cell.x) ||
+      (target.y === this.cell.y - direction && target.x === this.cell.x - 1) ||
+      (target.y === this.cell.y - direction && target.x === this.cell.x + 1)
+    ) {
+      return true;
+    }
+
+    return false;
   }
 }

@@ -26,8 +26,13 @@ export class Shatra extends Figure {
       (target.y === this.cell.y + direction && target.x === this.cell.x + 1) ||
       (target.y === this.cell.y + direction && target.x === this.cell.x - 1) ||
       (target.y === this.cell.y && target.x === this.cell.x - 1) ||
-      (target.y === this.cell.y &&
-        target.x === this.cell.x + 1 &&
+      (target.y === this.cell.y && target.x === this.cell.x + 1) ||
+      (target.y === this.cell.y + direction && target.x === this.cell.x) ||
+      (((target.y === this.cell.y - direction && target.x === this.cell.x) ||
+        (target.y === this.cell.y - direction &&
+          target.x === this.cell.x - 1) ||
+        (target.y === this.cell.y - direction &&
+          target.x === this.cell.x + 1)) &&
         this.cell.isEnemy(target))
     ) {
       return true;
