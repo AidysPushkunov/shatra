@@ -14,6 +14,10 @@ export default function Home() {
   const [whitePlayer, setWhitePlayer] = React.useState(
     new Player(Colors.WHITE)
   );
+
+  const [onFortress, setOnFortress] = React.useState([]);
+
+  
   const [blackPlayer, setBlackPlayer] = React.useState(
     new Player(Colors.BLACK)
   );

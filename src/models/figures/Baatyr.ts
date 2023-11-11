@@ -22,6 +22,10 @@ export class Baatyr extends Figure {
       return true;
     }
 
+    if (this.cell.isFortressAbility(target)) {
+      return true;
+    }
+
     return false;
   }
 }

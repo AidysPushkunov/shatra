@@ -6,6 +6,7 @@ export class Cell {
   readonly x: number;
   readonly y: number;
   readonly color: Colors;
+  infortress: boolean;
   figure: Figure | null;
   board: Board;
   available: boolean;
@@ -16,11 +17,13 @@ export class Cell {
     x: number,
     y: number,
     color: Colors,
+    inFortress: boolean,
     figure: Figure | null
   ) {
     this.x = x;
     this.y = y;
     this.color = color;
+    this.infortress = inFortress;
     this.figure = figure;
     this.board = board;
     this.available = false;
@@ -87,6 +90,20 @@ export class Cell {
     }
 
     return true;
+  }
+
+  isFortressAbility(target: Cell): boolean {
+    if (target.infortress) {
+      console.log("This fortress enemy? ", target.x, target.y);
+      if (target.y >= 10) {
+        return true;
+      }
+
+      if (target.y <= 3) {
+        return true;
+      }
+    }
+    return false;
   }
 
   setFigure(figure: Figure) {

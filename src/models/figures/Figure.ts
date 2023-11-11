@@ -30,17 +30,52 @@ export class Figure {
     this.cell.figure = this;
     this.logo = undefined;
     this.name = FigureNames.FIGURE;
+
     this.id = Math.random();
   }
+
+  // figureOnFortress(cell: Cell): boolean {
+  //   for (let i = 0; i < 14; i++) {
+  //     for (let j = 0; j < 7; j++) {
+  //       if (cell.y === 13 && cell.x >= 2 && cell.x <= 4) {
+  //         return true;
+  //       }
+
+  //       if (cell.y === 12 && cell.x >= 2 && cell.x <= 4) {
+  //         return true;
+  //       }
+
+  //       if (cell.y === 11 && cell.x >= 2 && cell.x <= 4) {
+  //         return true;
+  //       }
+
+  //       if (cell.y === 10 && cell.x === 3) {
+  //         return true;
+  //       }
+
+  //       if (cell.y === 0 && cell.x >= 2 && cell.x <= 4) {
+  //         return true;
+  //       }
+  //       if (cell.y === 1 && cell.x >= 2 && cell.x <= 4) {
+  //         return true;
+  //       }
+  //       if (cell.y === 2 && cell.x >= 2 && cell.x <= 4) {
+  //         return true;
+  //       }
+  //       if (cell.y === 3 && cell.x === 3) {
+  //         return true;
+  //       }
+  //     }
+  //   }
+
+  //   return false;
+  // }
 
   canMove(target: Cell): boolean {
     if (target.figure?.color === this.color) {
       return false;
     }
 
-    if (target.figure?.name === FigureNames.BIY) {
-      return false;
-    }
     return true;
   }
 

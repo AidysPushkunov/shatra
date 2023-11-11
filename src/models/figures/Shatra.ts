@@ -12,6 +12,10 @@ export class Shatra extends Figure {
   canMove(target: Cell): boolean {
     if (!super.canMove(target)) return false;
 
+    if (this.cell.isFortressAbility(this.cell)) {
+      return true;
+    }
+
     const direction = this.cell.figure?.color === Colors.BLACK ? 1 : -1;
 
     if (

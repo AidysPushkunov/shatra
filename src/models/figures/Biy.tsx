@@ -27,6 +27,10 @@ export class Biy extends Figure {
       return true;
     }
 
+    if (this.cell.isFortressAbility(this.cell)) {
+      return true;
+    }
+
     return false;
   }
 }

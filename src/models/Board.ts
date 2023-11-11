@@ -35,9 +35,22 @@ export class Board {
             (i === 13 && j === 6) ||
             (i === 13 && j === 0)
           ) {
-            row.push(new Cell(this, j, i, Colors.FORTRESS, null));
+            row.push(new Cell(this, j, i, Colors.FORTRESS, false, null));
           } else {
-            row.push(new Cell(this, j, i, Colors.WHITE, null));
+            if (
+              (i === 0 && j >= 2 && j <= 4) ||
+              (i === 1 && j >= 2 && j <= 4) ||
+              (i === 2 && j >= 2 && j <= 4) ||
+              (i === 3 && j === 3) ||
+              (i === 13 && j >= 2 && j <= 4) ||
+              (i === 12 && j >= 2 && j <= 4) ||
+              (i === 11 && j >= 2 && j <= 4) ||
+              (i === 10 && j === 3)
+            ) {
+              row.push(new Cell(this, j, i, Colors.WHITE, true, null));
+            } else {
+              row.push(new Cell(this, j, i, Colors.WHITE, false, null));
+            }
           }
         } else {
           if (
@@ -63,9 +76,22 @@ export class Board {
             (i === 12 && j === 0) ||
             (i === 13 && j === 1)
           ) {
-            row.push(new Cell(this, j, i, Colors.FORTRESS, null));
+            row.push(new Cell(this, j, i, Colors.FORTRESS, false, null));
           } else {
-            row.push(new Cell(this, j, i, Colors.BLACK, null));
+            if (
+              (i === 0 && j >= 2 && j <= 4) ||
+              (i === 1 && j >= 2 && j <= 4) ||
+              (i === 2 && j >= 2 && j <= 4) ||
+              (i === 3 && j === 3) ||
+              (i === 13 && j >= 2 && j <= 4) ||
+              (i === 12 && j >= 2 && j <= 4) ||
+              (i === 11 && j >= 2 && j <= 4) ||
+              (i === 10 && j === 3)
+            ) {
+              row.push(new Cell(this, j, i, Colors.BLACK, true, null));
+            } else {
+              row.push(new Cell(this, j, i, Colors.BLACK, false, null));
+            }
           }
         }
       }
@@ -95,6 +121,10 @@ export class Board {
     return this.cells[y][x];
   }
 
+  // public getFortressAbility(cell: Cell) {
+  //   console.log(cell.figure?.fortressAbility);
+  // }
+
   private addShatra() {
     for (let i = 2; i <= 4; i++) {
       new Shatra(Colors.BLACK, this.getCell(i, 0));
@@ -120,11 +150,12 @@ export class Board {
     new Biy(Colors.WHITE, this.getCell(3, 10));
   }
 
-  private addBaatyr() {}
+  private addBaatyr() {
+    this.addBaatyr();
+  }
 
   public addFigures() {
     this.addShatra();
     this.addBiy();
-    this.addBaatyr();
   }
 }
