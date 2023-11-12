@@ -12,10 +12,6 @@ export class Shatra extends Figure {
   canMove(target: Cell): boolean {
     if (!super.canMove(target)) return false;
 
-    if (this.cell.isFortressAbility(this.cell)) {
-      return true;
-    }
-
     const direction = this.cell.figure?.color === Colors.BLACK ? 1 : -1;
 
     if (
@@ -40,6 +36,24 @@ export class Shatra extends Figure {
         this.cell.isEnemy(target))
     ) {
       return true;
+    }
+
+    if (this.cell.isFortressAbility(this.cell)) {
+      if (this.cell.y >= 10) {
+        for (let i = 7; i <= 9; i++) {
+          for (let j = 0; j <= 6; j++) {
+            if (target.x === j && target.y === i) return true;
+          }
+        }
+      } else {
+        for (let i = 4; i <= 6; i++) {
+          for (let j = 0; j <= 6; j++) {
+            if (target.x === j && target.y === i) return true;
+          }
+        }
+      }
+
+      return false;
     }
 
     return false;

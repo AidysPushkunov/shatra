@@ -28,7 +28,21 @@ export class Biy extends Figure {
     }
 
     if (this.cell.isFortressAbility(this.cell)) {
-      return true;
+      if (this.cell.figure?.color === Colors.WHITE) {
+        for (let i = 7; i <= 9; i++) {
+          for (let j = 0; j <= 6; j++) {
+            if (target.x === j && target.y === i) return true;
+          }
+        }
+      } else {
+        for (let i = 4; i <= 6; i++) {
+          for (let j = 0; j <= 6; j++) {
+            if (target.x === j && target.y === i) return true;
+          }
+        }
+      }
+
+      return false;
     }
 
     return false;

@@ -92,7 +92,7 @@ export class Cell {
     return true;
   }
 
-  isFortressAbility(target: Cell): boolean {
+  isFortressAbility(target: Cell) {
     if (target.infortress) {
       console.log("This fortress enemy? ", target.x, target.y);
       if (target.y >= 10) {
