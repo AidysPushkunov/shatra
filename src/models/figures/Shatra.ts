@@ -56,6 +56,49 @@ export class Shatra extends Figure {
       return false;
     }
 
+    if (this.cell.canEat(target)) {
+      let eatFieldForward: number;
+      this.cell.figure?.color === Colors.WHITE
+        ? (eatFieldForward = 2)
+        : (eatFieldForward = -2);
+
+      if (
+        this.cell.x - eatFieldForward === target.x &&
+        this.cell.y - eatFieldForward === target.y
+      )
+        return true;
+
+      if (
+        this.cell.x + eatFieldForward === target.x &&
+        this.cell.y + eatFieldForward === target.y
+      )
+        return true;
+
+      if (
+        this.cell.x === target.x &&
+        this.cell.y + eatFieldForward === target.y
+      )
+        return true;
+
+      if (
+        this.cell.x + eatFieldForward === target.x &&
+        this.cell.y === target.y
+      )
+        return true;
+
+      if (
+        this.cell.x - eatFieldForward === target.x &&
+        this.cell.y === target.y
+      )
+        return true;
+
+      if (
+        this.cell.x === target.x &&
+        this.cell.y - eatFieldForward === target.y
+      )
+        return true;
+    }
+
     return false;
   }
 

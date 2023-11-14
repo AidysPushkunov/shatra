@@ -92,7 +92,7 @@ export class Cell {
     return true;
   }
 
-  isFortressAbility(target: Cell) {
+  isFortressAbility(target: Cell): Boolean {
     if (target.infortress) {
       console.log("This fortress enemy? ", target.x, target.y);
       if (target.y >= 10) {
@@ -103,6 +103,91 @@ export class Cell {
         return true;
       }
     }
+    return false;
+  }
+
+  canEat(target: Cell): Boolean {
+    const areaFigureXForward = this.x - 1 < 0 ? this.x : this.x - 1;
+    const areaFigureYForward = this.y - 1 < 0 ? this.y : this.y - 1;
+    const areaFigureXBack = this.x + 1 > 6 ? this.x : this.x + 1;
+    const areaFigureYBack = this.y + 1 > 13 ? this.y : this.y + 1;
+
+    if (
+      !this.board.getCell(areaFigureXForward, areaFigureYForward).isEmpty() &&
+      this.board.getCell(areaFigureXForward, areaFigureYForward).figure
+        ?.color !== this.figure?.color
+    ) {
+      if (
+        Boolean(
+          this.board
+            .getCell(
+              areaFigureXForward - 1 < 0
+                ? areaFigureXForward
+                : areaFigureXForward - 1,
+              areaFigureYForward - 1 < 0
+                ? areaFigureYForward
+                : areaFigureYForward - 1
+            )
+            .isEmpty()
+        )
+      ) {
+        return true;
+      }
+    }
+
+    if (
+      !this.board.getCell(areaFigureXForward, this.y).isEmpty() &&
+      this.board.getCell(areaFigureXForward, this.y).figure?.color !==
+        this.figure?.color
+    ) {
+      if (
+        this.board
+          .getCell(
+            areaFigureXForward - 1 < 0
+              ? areaFigureXForward
+              : areaFigureXForward - 1,
+            this.y
+          )
+          .isEmpty()
+      ) {
+        return true;
+      }
+    }
+
+    if (
+      !this.board.getCell(this.x, areaFigureYBack).isEmpty() &&
+      this.board.getCell(this.x, areaFigureYBack).figure?.color !==
+        this.figure?.color
+    ) {
+      if (
+        this.board
+          .getCell(
+            this.x,
+            areaFigureYBack + 1 > 13 ? areaFigureYBack : areaFigureYBack + 1
+          )
+          .isEmpty()
+      ) {
+        return true;
+      }
+    }
+
+    if (
+      !this.board.getCell(areaFigureXBack, areaFigureYBack).isEmpty() &&
+      this.board.getCell(areaFigureXBack, areaFigureYBack).figure?.color !==
+        this.figure?.color
+    ) {
+      if (
+        this.board
+          .getCell(
+            areaFigureXBack + 1 > 6 ? areaFigureXBack : areaFigureXBack + 1,
+            areaFigureYBack + 1 > 13 ? areaFigureYBack : areaFigureYBack + 1
+          )
+          .isEmpty()
+      ) {
+        return true;
+      }
+    }
+
     return false;
   }
 
