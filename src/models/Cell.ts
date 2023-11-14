@@ -34,9 +34,99 @@ export class Cell {
     return this.figure === null;
   }
 
+  canEat(target: Cell): Boolean {
+    const areaFigureXForward = this.x - 1 < 0 ? this.x : this.x - 1;
+    const areaFigureYForward = this.y - 1 < 0 ? this.y : this.y - 1;
+    const areaFigureXBack = this.x + 1 > 6 ? this.x : this.x + 1;
+    const areaFigureYBack = this.y + 1 > 13 ? this.y : this.y + 1;
+
+    // left top diogonal
+    if (
+      !this.board.getCell(areaFigureXForward, areaFigureYForward).isEmpty() &&
+      this.board.getCell(areaFigureXForward, areaFigureYForward).figure
+        ?.color !== this.figure?.color
+    ) {
+      if (
+        this.isEnemy(this.board.getCell(areaFigureXForward, areaFigureYForward))
+      ) {
+        return true;
+      }
+    }
+
+    // left bottom diogonal
+    if (
+      !this.board.getCell(areaFigureXBack, areaFigureYBack).isEmpty() &&
+      this.board.getCell(areaFigureXBack, areaFigureYBack).figure?.color !==
+        this.figure?.color
+    ) {
+      if (this.isEnemy(this.board.getCell(areaFigureXBack, areaFigureYBack))) {
+        return true;
+      }
+    }
+
+    //right top diogonal
+    if (
+      !this.board.getCell(areaFigureXBack, areaFigureYForward).isEmpty() &&
+      this.board.getCell(areaFigureXBack, areaFigureYForward).figure?.color !==
+        this.figure?.color
+    ) {
+      if (
+        this.isEnemy(this.board.getCell(areaFigureXBack, areaFigureYForward))
+      ) {
+        return true;
+      }
+    }
+
+    // right
+    if (
+      !this.board.getCell(areaFigureXForward, this.y).isEmpty() &&
+      this.board.getCell(areaFigureXForward, this.y).figure?.color !==
+        this.figure?.color
+    ) {
+      if (this.isEnemy(this.board.getCell(areaFigureXForward, this.y))) {
+        return true;
+      }
+    }
+
+    // left
+    if (
+      !this.board.getCell(areaFigureXBack, this.y).isEmpty() &&
+      this.board.getCell(areaFigureXBack, this.y).figure?.color !==
+        this.figure?.color
+    ) {
+      if (this.isEnemy(this.board.getCell(areaFigureXBack, this.y))) {
+        return true;
+      }
+    }
+
+    // bottom
+    if (
+      !this.board.getCell(this.x, areaFigureYBack).isEmpty() &&
+      this.board.getCell(this.x, areaFigureYBack).figure?.color !==
+        this.figure?.color
+    ) {
+      if (this.isEnemy(this.board.getCell(this.x, areaFigureYBack))) {
+        return true;
+      }
+    }
+
+    // top
+    if (
+      !this.board.getCell(this.x, areaFigureYForward).isEmpty() &&
+      this.board.getCell(this.x, areaFigureYForward).figure?.color !==
+        this.figure?.color
+    ) {
+      if (this.isEnemy(this.board.getCell(this.x, areaFigureYForward))) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   isEnemy(target: Cell): boolean {
-    if (target.figure) {
-      return this.figure?.color !== target.figure.color;
+    if (Boolean(target.figure)) {
+      return this.figure?.color !== target.figure?.color;
     }
 
     return false;
@@ -103,91 +193,6 @@ export class Cell {
         return true;
       }
     }
-    return false;
-  }
-
-  canEat(target: Cell): Boolean {
-    const areaFigureXForward = this.x - 1 < 0 ? this.x : this.x - 1;
-    const areaFigureYForward = this.y - 1 < 0 ? this.y : this.y - 1;
-    const areaFigureXBack = this.x + 1 > 6 ? this.x : this.x + 1;
-    const areaFigureYBack = this.y + 1 > 13 ? this.y : this.y + 1;
-
-    if (
-      !this.board.getCell(areaFigureXForward, areaFigureYForward).isEmpty() &&
-      this.board.getCell(areaFigureXForward, areaFigureYForward).figure
-        ?.color !== this.figure?.color
-    ) {
-      if (
-        Boolean(
-          this.board
-            .getCell(
-              areaFigureXForward - 1 < 0
-                ? areaFigureXForward
-                : areaFigureXForward - 1,
-              areaFigureYForward - 1 < 0
-                ? areaFigureYForward
-                : areaFigureYForward - 1
-            )
-            .isEmpty()
-        )
-      ) {
-        return true;
-      }
-    }
-
-    if (
-      !this.board.getCell(areaFigureXForward, this.y).isEmpty() &&
-      this.board.getCell(areaFigureXForward, this.y).figure?.color !==
-        this.figure?.color
-    ) {
-      if (
-        this.board
-          .getCell(
-            areaFigureXForward - 1 < 0
-              ? areaFigureXForward
-              : areaFigureXForward - 1,
-            this.y
-          )
-          .isEmpty()
-      ) {
-        return true;
-      }
-    }
-
-    if (
-      !this.board.getCell(this.x, areaFigureYBack).isEmpty() &&
-      this.board.getCell(this.x, areaFigureYBack).figure?.color !==
-        this.figure?.color
-    ) {
-      if (
-        this.board
-          .getCell(
-            this.x,
-            areaFigureYBack + 1 > 13 ? areaFigureYBack : areaFigureYBack + 1
-          )
-          .isEmpty()
-      ) {
-        return true;
-      }
-    }
-
-    if (
-      !this.board.getCell(areaFigureXBack, areaFigureYBack).isEmpty() &&
-      this.board.getCell(areaFigureXBack, areaFigureYBack).figure?.color !==
-        this.figure?.color
-    ) {
-      if (
-        this.board
-          .getCell(
-            areaFigureXBack + 1 > 6 ? areaFigureXBack : areaFigureXBack + 1,
-            areaFigureYBack + 1 > 13 ? areaFigureYBack : areaFigureYBack + 1
-          )
-          .isEmpty()
-      ) {
-        return true;
-      }
-    }
-
     return false;
   }
 

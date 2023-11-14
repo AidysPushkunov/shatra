@@ -12,6 +12,48 @@ export class Shatra extends Figure {
   canMove(target: Cell): boolean {
     if (!super.canMove(target)) return false;
 
+    if (this.cell.canEat(target)) {
+      let eatFieldForward = this.cell.figure?.color === Colors.WHITE ? 2 : -2;
+
+      if (
+        this.cell.x - eatFieldForward === target.x &&
+        this.cell.y - eatFieldForward === target.y
+      )
+        return true;
+
+      if (
+        this.cell.x + eatFieldForward === target.x &&
+        this.cell.y + eatFieldForward === target.y
+      )
+        return true;
+
+      if (
+        this.cell.x === target.x &&
+        this.cell.y + eatFieldForward === target.y
+      )
+        return true;
+
+      if (
+        this.cell.x + eatFieldForward === target.x &&
+        this.cell.y === target.y
+      )
+        return true;
+
+      if (
+        this.cell.x - eatFieldForward === target.x &&
+        this.cell.y === target.y
+      )
+        return true;
+
+      if (
+        this.cell.x === target.x &&
+        this.cell.y - eatFieldForward === target.y
+      )
+        return true;
+
+      return false;
+    }
+
     const direction = this.cell.figure?.color === Colors.BLACK ? 1 : -1;
 
     if (
@@ -54,49 +96,6 @@ export class Shatra extends Figure {
       }
 
       return false;
-    }
-
-    if (this.cell.canEat(target)) {
-      let eatFieldForward: number;
-      this.cell.figure?.color === Colors.WHITE
-        ? (eatFieldForward = 2)
-        : (eatFieldForward = -2);
-
-      if (
-        this.cell.x - eatFieldForward === target.x &&
-        this.cell.y - eatFieldForward === target.y
-      )
-        return true;
-
-      if (
-        this.cell.x + eatFieldForward === target.x &&
-        this.cell.y + eatFieldForward === target.y
-      )
-        return true;
-
-      if (
-        this.cell.x === target.x &&
-        this.cell.y + eatFieldForward === target.y
-      )
-        return true;
-
-      if (
-        this.cell.x + eatFieldForward === target.x &&
-        this.cell.y === target.y
-      )
-        return true;
-
-      if (
-        this.cell.x - eatFieldForward === target.x &&
-        this.cell.y === target.y
-      )
-        return true;
-
-      if (
-        this.cell.x === target.x &&
-        this.cell.y - eatFieldForward === target.y
-      )
-        return true;
     }
 
     return false;
