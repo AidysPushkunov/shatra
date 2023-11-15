@@ -64,7 +64,7 @@ export class Cell {
       }
     }
 
-    //right top diogonal
+    //left top diogonal
     if (
       !this.board.getCell(areaFigureXBack, areaFigureYForward).isEmpty() &&
       this.board.getCell(areaFigureXBack, areaFigureYForward).figure?.color !==
@@ -73,6 +73,17 @@ export class Cell {
       if (
         this.isEnemy(this.board.getCell(areaFigureXBack, areaFigureYForward))
       ) {
+        return true;
+      }
+    }
+
+    //right bottom diogonal
+    if (
+      !this.board.getCell(areaFigureXForward, areaFigureYBack).isEmpty() &&
+      this.board.getCell(areaFigureXForward, areaFigureYBack).figure?.color !==
+        this.figure?.color
+    ) {
+      if (this.isEnemy(this.board.getCell(areaFigureXForward, areaFigureYBack))) {
         return true;
       }
     }

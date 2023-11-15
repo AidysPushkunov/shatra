@@ -11,57 +11,145 @@ export class Shatra extends Figure {
 
   canMove(target: Cell): boolean {
     if (!super.canMove(target)) return false;
+    let eatFieldForward = this.cell.figure?.color === Colors.WHITE ? 2 : -2;
 
     if (this.cell.canEat(target)) {
-      let eatFieldForward = this.cell.figure?.color === Colors.WHITE ? 2 : -2;
+      let areaFigureXForward =
+        this.cell.x + 1 > 6
+          ? this.cell.x
+          : this.cell.figure?.color === Colors.WHITE
+          ? this.cell.x + 1
+          : this.cell.x - 1;
+      let areaFigureYForward =
+        this.cell.y + 1 > 13
+          ? this.cell.y
+          : this.cell.figure?.color === Colors.WHITE
+          ? this.cell.y + 1
+          : this.cell.y - 1;
+      let areaFigureXBack =
+        this.cell.x - 1 < 0
+          ? this.cell.x
+          : this.cell.figure?.color === Colors.WHITE
+          ? this.cell.x - 1
+          : this.cell.x + 1;
+      let areaFigureYBack =
+        this.cell.y - 1 < 0
+          ? this.cell.y
+          : this.cell.figure?.color === Colors.WHITE
+          ? this.cell.y - 1
+          : this.cell.y + 1;
+
+      // left top diogonal
+      if (
+        !this.cell.board.getCell(areaFigureXBack, areaFigureYBack).isEmpty() &&
+        this.cell.board.getCell(areaFigureXBack, areaFigureYBack).figure
+          ?.color !== this.cell.figure?.color
+      ) {
+        if (
+          this.cell.x - eatFieldForward === target.x &&
+          this.cell.y - eatFieldForward === target.y
+        )
+          return true;
+      }
+
+      // bottom left diogonal
+      if (
+        !this.cell.board
+          .getCell(areaFigureXBack, areaFigureYForward)
+          .isEmpty() &&
+        this.cell.board.getCell(areaFigureXBack, areaFigureYForward).figure
+          ?.color !== this.cell.figure?.color
+      ) {
+        if (
+          this.cell.x - eatFieldForward === target.x &&
+          this.cell.y + eatFieldForward === target.y
+        )
+          return true;
+      }
+
+      //right top diogonal
+      if (
+        !this.cell.board
+          .getCell(areaFigureXForward, areaFigureYBack)
+          .isEmpty() &&
+        this.cell.board.getCell(areaFigureXForward, areaFigureYBack).figure
+          ?.color !== this.cell.figure?.color
+      ) {
+        if (
+          this.cell.x + eatFieldForward === target.x &&
+          this.cell.y - eatFieldForward === target.y
+        )
+          return true;
+      }
+
+      //right bottom diogonal
+      if (
+        !this.cell.board
+          .getCell(areaFigureXForward, areaFigureYForward)
+          .isEmpty() &&
+        this.cell.board.getCell(areaFigureXForward, areaFigureYForward).figure
+          ?.color !== this.cell.figure?.color
+      ) {
+        if (
+          this.cell.x + eatFieldForward === target.x &&
+          this.cell.y + eatFieldForward === target.y
+        )
+          return true;
+      }
+
+      // bottom
+      if (
+        !this.cell.board.getCell(this.cell.x, areaFigureYForward).isEmpty() &&
+        this.cell.board.getCell(this.cell.x, areaFigureYForward).figure
+          ?.color !== this.cell.figure?.color
+      ) {
+        if (
+          this.cell.x === target.x &&
+          this.cell.y + eatFieldForward === target.y
+        )
+          return true;
+      }
+
+      // right
 
       if (
-        this.cell.x - eatFieldForward === target.x &&
-        this.cell.y - eatFieldForward === target.y
-      )
-        return true;
+        !this.cell.board.getCell(areaFigureXForward, this.cell.y).isEmpty() &&
+        this.cell.board.getCell(areaFigureXForward, this.cell.y).figure
+          ?.color !== this.cell.figure?.color
+      ) {
+        if (
+          this.cell.x + eatFieldForward === target.x &&
+          this.cell.y === target.y
+        )
+          return true;
+      }
+
+      // left
+      if (
+        !this.cell.board.getCell(areaFigureXBack, this.cell.y).isEmpty() &&
+        this.cell.board.getCell(areaFigureXBack, this.cell.y).figure?.color !==
+          this.cell.figure?.color
+      ) {
+        if (
+          this.cell.x - eatFieldForward === target.x &&
+          this.cell.y === target.y
+        )
+          return true;
+      }
+
+      // top
 
       if (
-        this.cell.x + eatFieldForward === target.x &&
-        this.cell.y + eatFieldForward === target.y
-      )
-        return true;
-
-      if (
-        this.cell.x + eatFieldForward === target.x &&
-        this.cell.y - eatFieldForward === target.y
-      )
-        return true;
-
-      if (
-        this.cell.x - eatFieldForward === target.x &&
-        this.cell.y + eatFieldForward === target.y
-      )
-        return true;
-
-      if (
-        this.cell.x === target.x &&
-        this.cell.y + eatFieldForward === target.y
-      )
-        return true;
-
-      if (
-        this.cell.x + eatFieldForward === target.x &&
-        this.cell.y === target.y
-      )
-        return true;
-
-      if (
-        this.cell.x - eatFieldForward === target.x &&
-        this.cell.y === target.y
-      )
-        return true;
-
-      if (
-        this.cell.x === target.x &&
-        this.cell.y - eatFieldForward === target.y
-      )
-        return true;
+        !this.cell.board.getCell(this.cell.x, areaFigureYBack).isEmpty() &&
+        this.cell.board.getCell(this.cell.x, areaFigureYBack).figure?.color !==
+          this.cell.figure?.color
+      ) {
+        if (
+          this.cell.x === target.x &&
+          this.cell.y - eatFieldForward === target.y
+        )
+          return true;
+      }
 
       return false;
     }

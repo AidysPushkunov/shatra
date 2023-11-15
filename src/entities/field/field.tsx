@@ -39,7 +39,7 @@ const Field: React.FC<FieldProps> = ({
           fill={
             selected
               ? fieldIntent.activeField
-              : cell.available && cell.figure
+              : cell.available && cell.figure?.color // for attack Figure field show red... Need to think about it
               ? fieldIntent.attackFigure
               : fieldIntent[intent]
           }
