@@ -28,6 +28,18 @@ export class Shatra extends Figure {
         return true;
 
       if (
+        this.cell.x + eatFieldForward === target.x &&
+        this.cell.y - eatFieldForward === target.y
+      )
+        return true;
+
+      if (
+        this.cell.x - eatFieldForward === target.x &&
+        this.cell.y + eatFieldForward === target.y
+      )
+        return true;
+
+      if (
         this.cell.x === target.x &&
         this.cell.y + eatFieldForward === target.y
       )

@@ -155,7 +155,10 @@ export class Board {
   }
 
   public addFigures() {
-    this.addShatra();
-    this.addBiy();
+    // this.addShatra();
+    // this.addBiy();
+
+    new Shatra(Colors.WHITE, this.getCell(6, 7));
+    new Shatra(Colors.BLACK, this.getCell(6, 6));
   }
 }
