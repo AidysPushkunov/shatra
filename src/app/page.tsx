@@ -17,7 +17,6 @@ export default function Home() {
 
   const [onFortress, setOnFortress] = React.useState([]);
 
-  
   const [blackPlayer, setBlackPlayer] = React.useState(
     new Player(Colors.BLACK)
   );
@@ -43,10 +42,10 @@ export default function Home() {
 
   return (
     <>
-      {<h3>Тургуза ӧйдӧ јӱрӱш: {currentPlayer?.color}</h3>}
+      {<h3>Move: {currentPlayer?.color}</h3>}
       <div>
-        <LostFigures title="Кара шатралар: " figures={board.lostBlackFigures} />
-        <LostFigures title="Ак шатралар: " figures={board.lostWhiteFigures} />
+        <LostFigures title="Black shatra: " figures={board.lostBlackFigures} />
+        <LostFigures title="White shatra: " figures={board.lostWhiteFigures} />
       </div>
       <Timer restart={restart} currentPlayer={currentPlayer} />
       <div className="flex justify-center my-14">
