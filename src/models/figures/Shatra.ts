@@ -14,6 +14,7 @@ export class Shatra extends Figure {
     let eatFieldForward = this.cell.figure?.color === Colors.WHITE ? 2 : -2;
 
     if (this.cell.canEat(target)) {
+      console.log()
       let areaFigureXForward =
         this.cell.x + 1 > 6
           ? this.cell.x

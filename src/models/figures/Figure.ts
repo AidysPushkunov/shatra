@@ -41,5 +41,6 @@ export class Figure {
     return true;
   }
 
+
   moveFigure(target: Cell) {}
 }

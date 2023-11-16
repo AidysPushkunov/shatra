@@ -34,7 +34,7 @@ export class Cell {
     return this.figure === null;
   }
 
-  canEat(target: Cell): Boolean {
+  canEat(target: Cell) {
     const areaFigureXForward = this.x - 1 < 0 ? this.x : this.x - 1;
     const areaFigureYForward = this.y - 1 < 0 ? this.y : this.y - 1;
     const areaFigureXBack = this.x + 1 > 6 ? this.x : this.x + 1;
@@ -49,7 +49,7 @@ export class Cell {
       if (
         this.isEnemy(this.board.getCell(areaFigureXForward, areaFigureYForward))
       ) {
-        return true;
+        return this.board.getCell(areaFigureXForward, areaFigureYForward);
       }
     }
 
@@ -60,7 +60,7 @@ export class Cell {
         this.figure?.color
     ) {
       if (this.isEnemy(this.board.getCell(areaFigureXBack, areaFigureYBack))) {
-        return true;
+        return this.board.getCell(areaFigureXBack, areaFigureYBack);
       }
     }
 
@@ -73,7 +73,7 @@ export class Cell {
       if (
         this.isEnemy(this.board.getCell(areaFigureXBack, areaFigureYForward))
       ) {
-        return true;
+        return this.board.getCell(areaFigureXBack, areaFigureYForward);
       }
     }
 
@@ -83,8 +83,10 @@ export class Cell {
       this.board.getCell(areaFigureXForward, areaFigureYBack).figure?.color !==
         this.figure?.color
     ) {
-      if (this.isEnemy(this.board.getCell(areaFigureXForward, areaFigureYBack))) {
-        return true;
+      if (
+        this.isEnemy(this.board.getCell(areaFigureXForward, areaFigureYBack))
+      ) {
+        return this.board.getCell(areaFigureXForward, areaFigureYBack);
       }
     }
 
@@ -95,7 +97,7 @@ export class Cell {
         this.figure?.color
     ) {
       if (this.isEnemy(this.board.getCell(areaFigureXForward, this.y))) {
-        return true;
+        return this.board.getCell(areaFigureXForward, this.y);
       }
     }
 
@@ -106,7 +108,7 @@ export class Cell {
         this.figure?.color
     ) {
       if (this.isEnemy(this.board.getCell(areaFigureXBack, this.y))) {
-        return true;
+        return this.board.getCell(areaFigureXBack, this.y);
       }
     }
 
@@ -117,7 +119,7 @@ export class Cell {
         this.figure?.color
     ) {
       if (this.isEnemy(this.board.getCell(this.x, areaFigureYBack))) {
-        return true;
+        return this.board.getCell(this.x, areaFigureYBack);
       }
     }
 
@@ -128,7 +130,7 @@ export class Cell {
         this.figure?.color
     ) {
       if (this.isEnemy(this.board.getCell(this.x, areaFigureYForward))) {
-        return true;
+        return this.board.getCell(this.x, areaFigureYForward);
       }
     }
 
@@ -221,6 +223,14 @@ export class Cell {
   moveFigure(target: Cell) {
     if (this.figure && this.figure?.canMove(target)) {
       this.figure?.moveFigure(target);
+
+      if (this.figure.cell.canEat(target)) {
+        let eatFigure = this.figure.cell.canEat(target);
+        this.addLostFigure(eatFigure.figure);
+        console.log((eatFigure.figure = null));
+        console.log("We eat!");
+      }
+
       if (target.figure) {
         this.addLostFigure(target.figure);
       }
