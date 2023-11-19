@@ -40,6 +40,11 @@ export class Cell {
     const areaFigureXBack = this.x + 1 > 6 ? this.x : this.x + 1;
     const areaFigureYBack = this.y + 1 > 13 ? this.y : this.y + 1;
 
+    const areaFigureXForwardEmpty = this.x - 2 < 0 ? this.x : this.x - 2;
+    const areaFigureYForwardEmpty = this.y - 2 < 0 ? this.y : this.y - 2;
+    const areaFigureXBackEmpty = this.x + 2 > 6 ? this.x : this.x + 2;
+    const areaFigureYBackEmpty = this.y + 2 > 13 ? this.y : this.y + 2;
+
     // left top diogonal
     if (
       !this.board.getCell(areaFigureXForward, areaFigureYForward).isEmpty() &&
@@ -47,7 +52,16 @@ export class Cell {
         ?.color !== this.figure?.color
     ) {
       if (
-        this.isEnemy(this.board.getCell(areaFigureXForward, areaFigureYForward))
+        this.isEnemy(
+          this.board.getCell(areaFigureXForward, areaFigureYForward)
+        ) &&
+        this.board
+          .getCell(areaFigureXForwardEmpty, areaFigureYForwardEmpty)
+          .isEmpty() &&
+        this.board.getCell(areaFigureXForwardEmpty, areaFigureYForwardEmpty)
+          .x !== this.x &&
+        this.board.getCell(areaFigureXForwardEmpty, areaFigureYForwardEmpty)
+          .y !== this.y
       ) {
         return this.board.getCell(areaFigureXForward, areaFigureYForward);
       }
@@ -59,7 +73,16 @@ export class Cell {
       this.board.getCell(areaFigureXBack, areaFigureYBack).figure?.color !==
         this.figure?.color
     ) {
-      if (this.isEnemy(this.board.getCell(areaFigureXBack, areaFigureYBack))) {
+      if (
+        this.isEnemy(this.board.getCell(areaFigureXBack, areaFigureYBack)) &&
+        this.board
+          .getCell(areaFigureXBackEmpty, areaFigureYBackEmpty)
+          .isEmpty() &&
+        this.board.getCell(areaFigureXBackEmpty, areaFigureYBackEmpty).x !==
+          this.x &&
+        this.board.getCell(areaFigureXBackEmpty, areaFigureYBackEmpty).y !==
+          this.y
+      ) {
         return this.board.getCell(areaFigureXBack, areaFigureYBack);
       }
     }
@@ -71,7 +94,14 @@ export class Cell {
         this.figure?.color
     ) {
       if (
-        this.isEnemy(this.board.getCell(areaFigureXBack, areaFigureYForward))
+        this.isEnemy(this.board.getCell(areaFigureXBack, areaFigureYForward)) &&
+        this.board
+          .getCell(areaFigureXBackEmpty, areaFigureYForwardEmpty)
+          .isEmpty() &&
+        this.board.getCell(areaFigureXBackEmpty, areaFigureYForwardEmpty).x !==
+          this.x &&
+        this.board.getCell(areaFigureXBackEmpty, areaFigureYForwardEmpty).y !==
+          this.y
       ) {
         return this.board.getCell(areaFigureXBack, areaFigureYForward);
       }
@@ -84,7 +114,14 @@ export class Cell {
         this.figure?.color
     ) {
       if (
-        this.isEnemy(this.board.getCell(areaFigureXForward, areaFigureYBack))
+        this.isEnemy(this.board.getCell(areaFigureXForward, areaFigureYBack)) &&
+        this.board
+          .getCell(areaFigureXForwardEmpty, areaFigureYBackEmpty)
+          .isEmpty() &&
+        this.board.getCell(areaFigureXForwardEmpty, areaFigureYBackEmpty).x !==
+          this.x &&
+        this.board.getCell(areaFigureXForwardEmpty, areaFigureYBackEmpty).y !==
+          this.y
       ) {
         return this.board.getCell(areaFigureXForward, areaFigureYBack);
       }
@@ -96,7 +133,11 @@ export class Cell {
       this.board.getCell(areaFigureXForward, this.y).figure?.color !==
         this.figure?.color
     ) {
-      if (this.isEnemy(this.board.getCell(areaFigureXForward, this.y))) {
+      if (
+        this.isEnemy(this.board.getCell(areaFigureXForward, this.y)) &&
+        this.board.getCell(areaFigureXForwardEmpty, this.y).isEmpty() &&
+        this.board.getCell(areaFigureXForwardEmpty, this.y).x !== this.x
+      ) {
         return this.board.getCell(areaFigureXForward, this.y);
       }
     }
@@ -107,7 +148,11 @@ export class Cell {
       this.board.getCell(areaFigureXBack, this.y).figure?.color !==
         this.figure?.color
     ) {
-      if (this.isEnemy(this.board.getCell(areaFigureXBack, this.y))) {
+      if (
+        this.isEnemy(this.board.getCell(areaFigureXBack, this.y)) &&
+        this.board.getCell(areaFigureXBackEmpty, this.y).isEmpty() &&
+        this.board.getCell(areaFigureXBackEmpty, this.y).x !== this.x
+      ) {
         return this.board.getCell(areaFigureXBack, this.y);
       }
     }
@@ -118,7 +163,11 @@ export class Cell {
       this.board.getCell(this.x, areaFigureYBack).figure?.color !==
         this.figure?.color
     ) {
-      if (this.isEnemy(this.board.getCell(this.x, areaFigureYBack))) {
+      if (
+        this.isEnemy(this.board.getCell(this.x, areaFigureYBack)) &&
+        this.board.getCell(this.x, areaFigureYBackEmpty).isEmpty() &&
+        this.board.getCell(this.x, areaFigureYBackEmpty).y !== this.y
+      ) {
         return this.board.getCell(this.x, areaFigureYBack);
       }
     }
@@ -129,7 +178,11 @@ export class Cell {
       this.board.getCell(this.x, areaFigureYForward).figure?.color !==
         this.figure?.color
     ) {
-      if (this.isEnemy(this.board.getCell(this.x, areaFigureYForward))) {
+      if (
+        this.isEnemy(this.board.getCell(this.x, areaFigureYForward)) &&
+        this.board.getCell(this.x, areaFigureYForwardEmpty).isEmpty() &&
+        this.board.getCell(this.x, areaFigureYForwardEmpty).y !== this.y
+      ) {
         return this.board.getCell(this.x, areaFigureYForward);
       }
     }
@@ -214,10 +267,12 @@ export class Cell {
     this.figure.cell = this;
   }
 
-  addLostFigure(figure: Figure) {
-    figure.color === Colors.BLACK
-      ? this.board.lostBlackFigures.push(figure)
-      : this.board.lostWhiteFigures.push(figure);
+  addLostFigure(figure: Figure | null) {
+    figure
+      ? figure.color === Colors.BLACK
+        ? this.board.lostBlackFigures.push(figure)
+        : this.board.lostWhiteFigures.push(figure)
+      : "";
   }
 
   moveFigure(target: Cell) {
