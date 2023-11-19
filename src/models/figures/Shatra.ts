@@ -14,7 +14,6 @@ export class Shatra extends Figure {
     let eatFieldForward = this.cell.figure?.color === Colors.WHITE ? 2 : -2;
 
     if (this.cell.canEat(target)) {
-      console.log()
       let areaFigureXForward =
         this.cell.x + 1 > 6
           ? this.cell.x
@@ -47,34 +46,8 @@ export class Shatra extends Figure {
             areaFigureXBack >= 0 && areaFigureXBack <= 6
               ? areaFigureXBack
               : this.cell.x,
-            areaFigureYBack
-          )
-          .isEmpty() &&
-        this.cell.board.getCell(
-          areaFigureXBack >= 0 && areaFigureXBack <= 6
-            ? areaFigureXBack
-            : this.cell.x,
-          areaFigureYForward >= 0 && areaFigureYForward <= 13
-            ? areaFigureYForward
-            : this.cell.y
-        ).figure?.color !== this.cell.figure?.color
-      ) {
-        if (
-          this.cell.x - eatFieldForward === target.x &&
-          this.cell.y - eatFieldForward === target.y
-        )
-          return true;
-      }
-
-      // bottom left diogonal
-      if (
-        !this.cell.board
-          .getCell(
-            areaFigureXBack >= 0 && areaFigureXBack <= 6
-              ? areaFigureXBack
-              : this.cell.x,
-            areaFigureYForward >= 0 && areaFigureYForward <= 13
-              ? areaFigureYForward
+            areaFigureYBack >= 0 && areaFigureYBack <= 13
+              ? areaFigureYBack
               : this.cell.y
           )
           .isEmpty() &&
@@ -82,14 +55,15 @@ export class Shatra extends Figure {
           areaFigureXBack >= 0 && areaFigureXBack <= 6
             ? areaFigureXBack
             : this.cell.x,
-          areaFigureYForward >= 0 && areaFigureYForward <= 13
-            ? areaFigureYForward
+          areaFigureYBack >= 0 && areaFigureYBack <= 13
+            ? areaFigureYBack
             : this.cell.y
         ).figure?.color !== this.cell.figure?.color
       ) {
         if (
           this.cell.x - eatFieldForward === target.x &&
-          this.cell.y + eatFieldForward === target.y
+          this.cell.y - eatFieldForward === target.y &&
+          this.cell.board.getCell(target.x, target.y).isEmpty()
         )
           return true;
       }
@@ -117,7 +91,37 @@ export class Shatra extends Figure {
       ) {
         if (
           this.cell.x + eatFieldForward === target.x &&
-          this.cell.y - eatFieldForward === target.y
+          this.cell.y - eatFieldForward === target.y &&
+          this.cell.board.getCell(target.x, target.y).isEmpty()
+        )
+          return true;
+      }
+
+      // bottom left diogonal
+      if (
+        !this.cell.board
+          .getCell(
+            areaFigureXBack >= 0 && areaFigureXBack <= 6
+              ? areaFigureXBack
+              : this.cell.x,
+            areaFigureYForward >= 0 && areaFigureYForward <= 13
+              ? areaFigureYForward
+              : this.cell.y
+          )
+          .isEmpty() &&
+        this.cell.board.getCell(
+          areaFigureXBack >= 0 && areaFigureXBack <= 6
+            ? areaFigureXBack
+            : this.cell.x,
+          areaFigureYForward >= 0 && areaFigureYForward <= 13
+            ? areaFigureYForward
+            : this.cell.y
+        ).figure?.color !== this.cell.figure?.color
+      ) {
+        if (
+          this.cell.x - eatFieldForward === target.x &&
+          this.cell.y + eatFieldForward === target.y &&
+          this.cell.board.getCell(target.x, target.y).isEmpty()
         )
           return true;
       }
@@ -145,7 +149,8 @@ export class Shatra extends Figure {
       ) {
         if (
           this.cell.x + eatFieldForward === target.x &&
-          this.cell.y + eatFieldForward === target.y
+          this.cell.y + eatFieldForward === target.y &&
+          this.cell.board.getCell(target.x, target.y).isEmpty()
         )
           return true;
       }
@@ -169,7 +174,8 @@ export class Shatra extends Figure {
       ) {
         if (
           this.cell.x === target.x &&
-          this.cell.y + eatFieldForward === target.y
+          this.cell.y + eatFieldForward === target.y &&
+          this.cell.board.getCell(target.x, target.y).isEmpty()
         )
           return true;
       }
@@ -194,7 +200,8 @@ export class Shatra extends Figure {
       ) {
         if (
           this.cell.x + eatFieldForward === target.x &&
-          this.cell.y === target.y
+          this.cell.y === target.y &&
+          this.cell.board.getCell(target.x, target.y).isEmpty()
         )
           return true;
       }
@@ -218,7 +225,8 @@ export class Shatra extends Figure {
       ) {
         if (
           this.cell.x - eatFieldForward === target.x &&
-          this.cell.y === target.y
+          this.cell.y === target.y &&
+          this.cell.board.getCell(target.x, target.y).isEmpty()
         )
           return true;
       }
@@ -243,7 +251,8 @@ export class Shatra extends Figure {
       ) {
         if (
           this.cell.x === target.x &&
-          this.cell.y - eatFieldForward === target.y
+          this.cell.y - eatFieldForward === target.y &&
+          this.cell.board.getCell(target.x, target.y).isEmpty()
         )
           return true;
       }

@@ -64,7 +64,7 @@ export class Cell {
       }
     }
 
-    //left top diogonal
+    //right top diogonal
     if (
       !this.board.getCell(areaFigureXBack, areaFigureYForward).isEmpty() &&
       this.board.getCell(areaFigureXBack, areaFigureYForward).figure?.color !==
@@ -238,8 +238,8 @@ export class Cell {
           target.x === this.figure.cell.x ? target.x : target.x - x,
           target.y === this.figure.cell.y ? target.y : target.y - y
         );
-
         this.addLostFigure(eatFigure.figure);
+        eatFigure.figure = null;
       }
 
       if (target.figure) {
