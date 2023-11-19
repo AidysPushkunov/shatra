@@ -223,12 +223,36 @@ export class Cell {
   moveFigure(target: Cell) {
     if (this.figure && this.figure?.canMove(target)) {
       this.figure?.moveFigure(target);
+      console.log("Hello, this is shatra location/ ", target);
+
+      // target - где оказался фигура
+      // this.cell - начальное положение фигуры
+      // eatFigure - фигура которую рубят
 
       if (this.figure.cell.canEat(target)) {
-        let eatFigure = this.figure.cell.canEat(target);
+        let x =
+          target.x - this.figure.cell.x < 0
+            ? target.x - this.figure.cell.x + 1
+            : target.x - this.figure.cell.x - 1;
+        let y =
+          target.y - this.figure.cell.y < 0
+            ? target.y - this.figure.cell.y + 1
+            : target.y - this.figure.cell.y - 1;
+
+        console.log("X le Y: ", x, y);
+
+        // let eatFigure = this.figure.cell.canEat(target);
+        let eatFigure = this.board.getCell(
+          target.x === this.figure.cell.x ? target.x : target.x - x,
+          target.y === this.figure.cell.y ? target.y : target.y - y
+        );
+
         this.addLostFigure(eatFigure.figure);
+        console.log("Hi my Telengit: ", eatFigure);
+
         console.log((eatFigure.figure = null));
-        console.log("We eat!");
+        console.log("EatFigure", eatFigure);
+        console.log("This", this.figure.cell);
       }
 
       if (target.figure) {
