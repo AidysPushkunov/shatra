@@ -11,33 +11,19 @@ export class Shatra extends Figure {
 
   canMove(target: Cell): boolean {
     if (!super.canMove(target)) return false;
-    let eatFieldForward = this.cell.figure?.color === Colors.WHITE ? 2 : -2;
+
+    let eatFieldForward = 2;
 
     if (this.cell.canEat(target)) {
       let areaFigureXForward =
-        this.cell.x + 1 > 6
-          ? this.cell.x
-          : this.cell.figure?.color === Colors.WHITE
-          ? this.cell.x + 1
-          : this.cell.x - 1;
+        this.cell.x + 1 > 6 ? this.cell.x : this.cell.x + 1;
+
       let areaFigureYForward =
-        this.cell.y + 1 > 13
-          ? this.cell.y
-          : this.cell.figure?.color === Colors.WHITE
-          ? this.cell.y + 1
-          : this.cell.y - 1;
-      let areaFigureXBack =
-        this.cell.x - 1 < 0
-          ? this.cell.x
-          : this.cell.figure?.color === Colors.WHITE
-          ? this.cell.x - 1
-          : this.cell.x + 1;
-      let areaFigureYBack =
-        this.cell.y - 1 < 0
-          ? this.cell.y
-          : this.cell.figure?.color === Colors.WHITE
-          ? this.cell.y - 1
-          : this.cell.y + 1;
+        this.cell.y + 1 > 13 ? this.cell.y : this.cell.y + 1;
+
+      let areaFigureXBack = this.cell.x - 1 < 0 ? this.cell.x : this.cell.x - 1;
+
+      let areaFigureYBack = this.cell.y - 1 < 0 ? this.cell.y : this.cell.y - 1;
 
       // left top diogonal
       if (
