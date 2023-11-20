@@ -18,6 +18,7 @@ export class Figure {
     | "blackBiy"
     | "whiteBaatyr"
     | "blackBaatyr"
+    | "fortress"
     | undefined;
   cell: Cell;
   name: FigureNames;
@@ -38,9 +39,12 @@ export class Figure {
       return false;
     }
 
+    if (target.color === Colors.FORTRESS) {
+      return false;
+    }
+
     return true;
   }
-
 
   moveFigure(target: Cell) {}
 }

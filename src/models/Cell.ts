@@ -59,6 +59,8 @@ export class Cell {
           .getCell(areaFigureXForwardEmpty, areaFigureYForwardEmpty)
           .isEmpty() &&
         this.board.getCell(areaFigureXForwardEmpty, areaFigureYForwardEmpty)
+          .color !== Colors.FORTRESS &&
+        this.board.getCell(areaFigureXForwardEmpty, areaFigureYForwardEmpty)
           .x !== this.x &&
         this.board.getCell(areaFigureXForwardEmpty, areaFigureYForwardEmpty)
           .y !== this.y
@@ -78,6 +80,8 @@ export class Cell {
         this.board
           .getCell(areaFigureXBackEmpty, areaFigureYBackEmpty)
           .isEmpty() &&
+        this.board.getCell(areaFigureXBackEmpty, areaFigureYBackEmpty).color !==
+          Colors.FORTRESS &&
         this.board.getCell(areaFigureXBackEmpty, areaFigureYBackEmpty).x !==
           this.x &&
         this.board.getCell(areaFigureXBackEmpty, areaFigureYBackEmpty).y !==
@@ -98,6 +102,8 @@ export class Cell {
         this.board
           .getCell(areaFigureXBackEmpty, areaFigureYForwardEmpty)
           .isEmpty() &&
+        this.board.getCell(areaFigureXBackEmpty, areaFigureYForwardEmpty)
+          .color !== Colors.FORTRESS &&
         this.board.getCell(areaFigureXBackEmpty, areaFigureYForwardEmpty).x !==
           this.x &&
         this.board.getCell(areaFigureXBackEmpty, areaFigureYForwardEmpty).y !==
@@ -118,6 +124,8 @@ export class Cell {
         this.board
           .getCell(areaFigureXForwardEmpty, areaFigureYBackEmpty)
           .isEmpty() &&
+        this.board.getCell(areaFigureXForwardEmpty, areaFigureYBackEmpty)
+          .color !== Colors.FORTRESS &&
         this.board.getCell(areaFigureXForwardEmpty, areaFigureYBackEmpty).x !==
           this.x &&
         this.board.getCell(areaFigureXForwardEmpty, areaFigureYBackEmpty).y !==
@@ -136,6 +144,8 @@ export class Cell {
       if (
         this.isEnemy(this.board.getCell(areaFigureXForward, this.y)) &&
         this.board.getCell(areaFigureXForwardEmpty, this.y).isEmpty() &&
+        this.board.getCell(areaFigureXForwardEmpty, this.y).color !==
+          Colors.FORTRESS &&
         this.board.getCell(areaFigureXForwardEmpty, this.y).x !== this.x
       ) {
         return this.board.getCell(areaFigureXForward, this.y);
@@ -151,6 +161,8 @@ export class Cell {
       if (
         this.isEnemy(this.board.getCell(areaFigureXBack, this.y)) &&
         this.board.getCell(areaFigureXBackEmpty, this.y).isEmpty() &&
+        this.board.getCell(areaFigureXBackEmpty, this.y).color !==
+          Colors.FORTRESS &&
         this.board.getCell(areaFigureXBackEmpty, this.y).x !== this.x
       ) {
         return this.board.getCell(areaFigureXBack, this.y);
@@ -166,6 +178,8 @@ export class Cell {
       if (
         this.isEnemy(this.board.getCell(this.x, areaFigureYBack)) &&
         this.board.getCell(this.x, areaFigureYBackEmpty).isEmpty() &&
+        this.board.getCell(this.x, areaFigureYBackEmpty).color !==
+          Colors.FORTRESS &&
         this.board.getCell(this.x, areaFigureYBackEmpty).y !== this.y
       ) {
         return this.board.getCell(this.x, areaFigureYBack);
@@ -181,6 +195,8 @@ export class Cell {
       if (
         this.isEnemy(this.board.getCell(this.x, areaFigureYForward)) &&
         this.board.getCell(this.x, areaFigureYForwardEmpty).isEmpty() &&
+        this.board.getCell(this.x, areaFigureYForwardEmpty).color !==
+          Colors.FORTRESS &&
         this.board.getCell(this.x, areaFigureYForwardEmpty).y !== this.y
       ) {
         return this.board.getCell(this.x, areaFigureYForward);
