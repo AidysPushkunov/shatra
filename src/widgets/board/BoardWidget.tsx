@@ -27,7 +27,19 @@ const BoardWidget: React.FC<BoardProps> = ({
       selectedCell.figure?.canMove(cell)
     ) {
       selectedCell.moveFigure(cell);
-      swapPlayer();
+
+      if (
+        cell.x - selectedCell.x === 1 ||
+        cell.y - selectedCell.y === 1 ||
+        cell.x - selectedCell.x === -1 ||
+        cell.y - selectedCell.y === -1
+      ) {
+        swapPlayer();
+      } else {
+        if (!cell.canEat(cell)) {
+          swapPlayer();
+        }
+      }
       setSelectedCell(null);
       updateBoard();
     } else {
