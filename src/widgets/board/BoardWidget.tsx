@@ -4,6 +4,7 @@ import { Board } from "@/models/Board";
 import { ShowFigure } from "@/features/showFigure";
 import { Cell } from "@/models/Cell";
 import { Player } from "@/models/Player";
+import { Direction } from "@/models/Direction";
 
 interface BoardProps {
   board: Board;
@@ -36,7 +37,16 @@ const BoardWidget: React.FC<BoardProps> = ({
       ) {
         swapPlayer();
       } else {
-        if (!cell.canEat(cell)) {
+        if (
+          !cell.canEat(cell, Direction.LEFT) &&
+          !cell.canEat(cell, Direction.RIGHT) &&
+          !cell.canEat(cell, Direction.TOP_LEFT) &&
+          !cell.canEat(cell, Direction.TOP_RIGHT) &&
+          !cell.canEat(cell, Direction.TOP) &&
+          !cell.canEat(cell, Direction.BOTTOM_LEFT) &&
+          !cell.canEat(cell, Direction.BOTTOM_RIGHT) &&
+          !cell.canEat(cell, Direction.BOTTOM)
+        ) {
           swapPlayer();
         }
       }

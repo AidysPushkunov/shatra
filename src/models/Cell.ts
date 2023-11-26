@@ -1,6 +1,7 @@
 import { Colors } from "./Colors";
 import { Figure } from "./figures/Figure";
 import { Board } from "./Board";
+import { Direction } from "./Direction";
 
 export class Cell {
   readonly x: number;
@@ -34,7 +35,7 @@ export class Cell {
     return this.figure === null;
   }
 
-  canEat(target: Cell) {
+  canEat(target: Cell, direction: Direction): Cell | undefined {
     const areaFigureXForward = this.x - 1 < 0 ? this.x : this.x - 1;
     const areaFigureYForward = this.y - 1 < 0 ? this.y : this.y - 1;
     const areaFigureXBack = this.x + 1 > 6 ? this.x : this.x + 1;
@@ -45,165 +46,184 @@ export class Cell {
     const areaFigureXBackEmpty = this.x + 2 > 6 ? this.x : this.x + 2;
     const areaFigureYBackEmpty = this.y + 2 > 13 ? this.y : this.y + 2;
 
-    // left top diogonal
-    if (
-      !this.board.getCell(areaFigureXForward, areaFigureYForward).isEmpty() &&
-      this.board.getCell(areaFigureXForward, areaFigureYForward).figure
-        ?.color !== this.figure?.color
-    ) {
+    if (direction === Direction.TOP_LEFT) {
       if (
-        this.isEnemy(
-          this.board.getCell(areaFigureXForward, areaFigureYForward)
-        ) &&
-        this.board
-          .getCell(areaFigureXForwardEmpty, areaFigureYForwardEmpty)
-          .isEmpty() &&
-        this.board.getCell(areaFigureXForwardEmpty, areaFigureYForwardEmpty)
-          .color !== Colors.FORTRESS &&
-        this.board.getCell(areaFigureXForwardEmpty, areaFigureYForwardEmpty)
-          .x !== this.x &&
-        this.board.getCell(areaFigureXForwardEmpty, areaFigureYForwardEmpty)
-          .y !== this.y
+        !this.board.getCell(areaFigureXForward, areaFigureYForward).isEmpty() &&
+        this.board.getCell(areaFigureXForward, areaFigureYForward).figure
+          ?.color !== this.figure?.color
       ) {
-        return this.board.getCell(areaFigureXForward, areaFigureYForward);
+        if (
+          this.isEnemy(
+            this.board.getCell(areaFigureXForward, areaFigureYForward)
+          ) &&
+          this.board
+            .getCell(areaFigureXForwardEmpty, areaFigureYForwardEmpty)
+            .isEmpty() &&
+          this.board.getCell(areaFigureXForwardEmpty, areaFigureYForwardEmpty)
+            .color !== Colors.FORTRESS &&
+          this.board.getCell(areaFigureXForwardEmpty, areaFigureYForwardEmpty)
+            .x !== this.x &&
+          this.board.getCell(areaFigureXForwardEmpty, areaFigureYForwardEmpty)
+            .y !== this.y
+        ) {
+          return this.board.getCell(
+            areaFigureXForwardEmpty,
+            areaFigureYForwardEmpty
+          );
+        }
       }
     }
 
-    // left bottom diogonal
-    if (
-      !this.board.getCell(areaFigureXBack, areaFigureYBack).isEmpty() &&
-      this.board.getCell(areaFigureXBack, areaFigureYBack).figure?.color !==
-        this.figure?.color
-    ) {
+    if (direction === Direction.TOP) {
       if (
-        this.isEnemy(this.board.getCell(areaFigureXBack, areaFigureYBack)) &&
-        this.board
-          .getCell(areaFigureXBackEmpty, areaFigureYBackEmpty)
-          .isEmpty() &&
-        this.board.getCell(areaFigureXBackEmpty, areaFigureYBackEmpty).color !==
-          Colors.FORTRESS &&
-        this.board.getCell(areaFigureXBackEmpty, areaFigureYBackEmpty).x !==
-          this.x &&
-        this.board.getCell(areaFigureXBackEmpty, areaFigureYBackEmpty).y !==
-          this.y
+        !this.board.getCell(this.x, areaFigureYForward).isEmpty() &&
+        this.board.getCell(this.x, areaFigureYForward).figure?.color !==
+          this.figure?.color
       ) {
-        return this.board.getCell(areaFigureXBack, areaFigureYBack);
+        if (
+          this.isEnemy(this.board.getCell(this.x, areaFigureYForward)) &&
+          this.board.getCell(this.x, areaFigureYForwardEmpty).isEmpty() &&
+          this.board.getCell(this.x, areaFigureYForwardEmpty).color !==
+            Colors.FORTRESS &&
+          this.board.getCell(this.x, areaFigureYForwardEmpty).y !== this.y
+        ) {
+          return this.board.getCell(this.x, areaFigureYForwardEmpty);
+        }
       }
     }
 
-    //right top diogonal
-    if (
-      !this.board.getCell(areaFigureXBack, areaFigureYForward).isEmpty() &&
-      this.board.getCell(areaFigureXBack, areaFigureYForward).figure?.color !==
-        this.figure?.color
-    ) {
+    if (direction === Direction.TOP_RIGHT) {
       if (
-        this.isEnemy(this.board.getCell(areaFigureXBack, areaFigureYForward)) &&
-        this.board
-          .getCell(areaFigureXBackEmpty, areaFigureYForwardEmpty)
-          .isEmpty() &&
-        this.board.getCell(areaFigureXBackEmpty, areaFigureYForwardEmpty)
-          .color !== Colors.FORTRESS &&
-        this.board.getCell(areaFigureXBackEmpty, areaFigureYForwardEmpty).x !==
-          this.x &&
-        this.board.getCell(areaFigureXBackEmpty, areaFigureYForwardEmpty).y !==
-          this.y
+        !this.board.getCell(areaFigureXBack, areaFigureYForward).isEmpty() &&
+        this.board.getCell(areaFigureXBack, areaFigureYForward).figure
+          ?.color !== this.figure?.color
       ) {
-        return this.board.getCell(areaFigureXBack, areaFigureYForward);
+        if (
+          this.isEnemy(
+            this.board.getCell(areaFigureXBack, areaFigureYForward)
+          ) &&
+          this.board
+            .getCell(areaFigureXBackEmpty, areaFigureYForwardEmpty)
+            .isEmpty() &&
+          this.board.getCell(areaFigureXBackEmpty, areaFigureYForwardEmpty)
+            .color !== Colors.FORTRESS &&
+          this.board.getCell(areaFigureXBackEmpty, areaFigureYForwardEmpty)
+            .x !== this.x &&
+          this.board.getCell(areaFigureXBackEmpty, areaFigureYForwardEmpty)
+            .y !== this.y
+        ) {
+          return this.board.getCell(
+            areaFigureXBackEmpty,
+            areaFigureYForwardEmpty
+          );
+        }
       }
     }
 
-    //right bottom diogonal
-    if (
-      !this.board.getCell(areaFigureXForward, areaFigureYBack).isEmpty() &&
-      this.board.getCell(areaFigureXForward, areaFigureYBack).figure?.color !==
-        this.figure?.color
-    ) {
+    if (direction === Direction.LEFT) {
       if (
-        this.isEnemy(this.board.getCell(areaFigureXForward, areaFigureYBack)) &&
-        this.board
-          .getCell(areaFigureXForwardEmpty, areaFigureYBackEmpty)
-          .isEmpty() &&
-        this.board.getCell(areaFigureXForwardEmpty, areaFigureYBackEmpty)
-          .color !== Colors.FORTRESS &&
-        this.board.getCell(areaFigureXForwardEmpty, areaFigureYBackEmpty).x !==
-          this.x &&
-        this.board.getCell(areaFigureXForwardEmpty, areaFigureYBackEmpty).y !==
-          this.y
+        !this.board.getCell(areaFigureXForward, this.y).isEmpty() &&
+        this.board.getCell(areaFigureXForward, this.y).figure?.color !==
+          this.figure?.color
       ) {
-        return this.board.getCell(areaFigureXForward, areaFigureYBack);
+        if (
+          this.isEnemy(this.board.getCell(areaFigureXForward, this.y)) &&
+          this.board.getCell(areaFigureXForwardEmpty, this.y).isEmpty() &&
+          this.board.getCell(areaFigureXForwardEmpty, this.y).color !==
+            Colors.FORTRESS &&
+          this.board.getCell(areaFigureXForwardEmpty, this.y).x !== this.x
+        ) {
+          return this.board.getCell(areaFigureXForwardEmpty, this.y);
+        }
       }
     }
 
-    // right
-    if (
-      !this.board.getCell(areaFigureXForward, this.y).isEmpty() &&
-      this.board.getCell(areaFigureXForward, this.y).figure?.color !==
-        this.figure?.color
-    ) {
+    if (direction === Direction.RIGHT) {
       if (
-        this.isEnemy(this.board.getCell(areaFigureXForward, this.y)) &&
-        this.board.getCell(areaFigureXForwardEmpty, this.y).isEmpty() &&
-        this.board.getCell(areaFigureXForwardEmpty, this.y).color !==
-          Colors.FORTRESS &&
-        this.board.getCell(areaFigureXForwardEmpty, this.y).x !== this.x
+        !this.board.getCell(areaFigureXBack, this.y).isEmpty() &&
+        this.board.getCell(areaFigureXBack, this.y).figure?.color !==
+          this.figure?.color
       ) {
-        return this.board.getCell(areaFigureXForward, this.y);
+        if (
+          this.isEnemy(this.board.getCell(areaFigureXBack, this.y)) &&
+          this.board.getCell(areaFigureXBackEmpty, this.y).isEmpty() &&
+          this.board.getCell(areaFigureXBackEmpty, this.y).color !==
+            Colors.FORTRESS &&
+          this.board.getCell(areaFigureXBackEmpty, this.y).x !== this.x
+        ) {
+          return this.board.getCell(areaFigureXBackEmpty, this.y);
+        }
       }
     }
 
-    // left
-    if (
-      !this.board.getCell(areaFigureXBack, this.y).isEmpty() &&
-      this.board.getCell(areaFigureXBack, this.y).figure?.color !==
-        this.figure?.color
-    ) {
+    if (direction === Direction.BOTTOM_LEFT) {
       if (
-        this.isEnemy(this.board.getCell(areaFigureXBack, this.y)) &&
-        this.board.getCell(areaFigureXBackEmpty, this.y).isEmpty() &&
-        this.board.getCell(areaFigureXBackEmpty, this.y).color !==
-          Colors.FORTRESS &&
-        this.board.getCell(areaFigureXBackEmpty, this.y).x !== this.x
+        !this.board.getCell(areaFigureXForward, areaFigureYBack).isEmpty() &&
+        this.board.getCell(areaFigureXForward, areaFigureYBack).figure
+          ?.color !== this.figure?.color
       ) {
-        return this.board.getCell(areaFigureXBack, this.y);
+        if (
+          this.isEnemy(
+            this.board.getCell(areaFigureXForward, areaFigureYBack)
+          ) &&
+          this.board
+            .getCell(areaFigureXForwardEmpty, areaFigureYBackEmpty)
+            .isEmpty() &&
+          this.board.getCell(areaFigureXForwardEmpty, areaFigureYBackEmpty)
+            .color !== Colors.FORTRESS &&
+          this.board.getCell(areaFigureXForwardEmpty, areaFigureYBackEmpty)
+            .x !== this.x &&
+          this.board.getCell(areaFigureXForwardEmpty, areaFigureYBackEmpty)
+            .y !== this.y
+        ) {
+          return this.board.getCell(
+            areaFigureXForwardEmpty,
+            areaFigureYBackEmpty
+          );
+        }
       }
     }
 
-    // bottom
-    if (
-      !this.board.getCell(this.x, areaFigureYBack).isEmpty() &&
-      this.board.getCell(this.x, areaFigureYBack).figure?.color !==
-        this.figure?.color
-    ) {
+    if (direction === Direction.BOTTOM) {
       if (
-        this.isEnemy(this.board.getCell(this.x, areaFigureYBack)) &&
-        this.board.getCell(this.x, areaFigureYBackEmpty).isEmpty() &&
-        this.board.getCell(this.x, areaFigureYBackEmpty).color !==
-          Colors.FORTRESS &&
-        this.board.getCell(this.x, areaFigureYBackEmpty).y !== this.y
+        !this.board.getCell(this.x, areaFigureYBack).isEmpty() &&
+        this.board.getCell(this.x, areaFigureYBack).figure?.color !==
+          this.figure?.color
       ) {
-        return this.board.getCell(this.x, areaFigureYBack);
+        if (
+          this.isEnemy(this.board.getCell(this.x, areaFigureYBack)) &&
+          this.board.getCell(this.x, areaFigureYBackEmpty).isEmpty() &&
+          this.board.getCell(this.x, areaFigureYBackEmpty).color !==
+            Colors.FORTRESS &&
+          this.board.getCell(this.x, areaFigureYBackEmpty).y !== this.y
+        ) {
+          return this.board.getCell(this.x, areaFigureYBackEmpty);
+        }
       }
     }
 
-    // top
-    if (
-      !this.board.getCell(this.x, areaFigureYForward).isEmpty() &&
-      this.board.getCell(this.x, areaFigureYForward).figure?.color !==
-        this.figure?.color
-    ) {
+    if (direction === Direction.BOTTOM_RIGHT) {
       if (
-        this.isEnemy(this.board.getCell(this.x, areaFigureYForward)) &&
-        this.board.getCell(this.x, areaFigureYForwardEmpty).isEmpty() &&
-        this.board.getCell(this.x, areaFigureYForwardEmpty).color !==
-          Colors.FORTRESS &&
-        this.board.getCell(this.x, areaFigureYForwardEmpty).y !== this.y
+        !this.board.getCell(areaFigureXBack, areaFigureYBack).isEmpty() &&
+        this.board.getCell(areaFigureXBack, areaFigureYBack).figure?.color !==
+          this.figure?.color
       ) {
-        return this.board.getCell(this.x, areaFigureYForward);
+        if (
+          this.isEnemy(this.board.getCell(areaFigureXBack, areaFigureYBack)) &&
+          this.board
+            .getCell(areaFigureXBackEmpty, areaFigureYBackEmpty)
+            .isEmpty() &&
+          this.board.getCell(areaFigureXBackEmpty, areaFigureYBackEmpty)
+            .color !== Colors.FORTRESS &&
+          this.board.getCell(areaFigureXBackEmpty, areaFigureYBackEmpty).x !==
+            this.x &&
+          this.board.getCell(areaFigureXBackEmpty, areaFigureYBackEmpty).y !==
+            this.y
+        ) {
+          return this.board.getCell(areaFigureXBackEmpty, areaFigureYBackEmpty);
+        }
       }
     }
-
-    return false;
   }
 
   isEnemy(target: Cell): boolean {
@@ -295,7 +315,16 @@ export class Cell {
     if (this.figure && this.figure?.canMove(target)) {
       this.figure?.moveFigure(target);
 
-      if (this.figure.cell.canEat(target)) {
+      if (
+        this.figure.cell.canEat(target, Direction.TOP_LEFT) ||
+        this.figure.cell.canEat(target, Direction.TOP_RIGHT) ||
+        this.figure.cell.canEat(target, Direction.TOP) ||
+        this.figure.cell.canEat(target, Direction.BOTTOM_LEFT) ||
+        this.figure.cell.canEat(target, Direction.BOTTOM_RIGHT) ||
+        this.figure.cell.canEat(target, Direction.BOTTOM) ||
+        this.figure.cell.canEat(target, Direction.LEFT) ||
+        this.figure.cell.canEat(target, Direction.RIGHT)
+      ) {
         let x =
           target.x - this.figure.cell.x < 0
             ? target.x - this.figure.cell.x + 1

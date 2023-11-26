@@ -30,7 +30,6 @@ export class Figure {
     this.cell.figure = this;
     this.logo = undefined;
     this.name = FigureNames.FIGURE;
-
     this.id = Math.random();
   }
 
@@ -42,6 +41,11 @@ export class Figure {
     if (target.color === Colors.FORTRESS) {
       return false;
     }
+
+    // let x: Boolean | Cell = target.canEat(target);
+    // console.log(x.figure);
+
+    // x.figure ? false : true;
 
     return true;
   }

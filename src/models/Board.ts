@@ -125,6 +125,16 @@ export class Board {
   //   console.log(cell.figure?.fortressAbility);
   // }
 
+  // canEatAbility() {
+  //   for (let x = 0; x <= 6; x++) {
+  //     for (let j = 0; j <= 13; j++) {
+  //       if (Boolean(this.getCell(x, j).canEat(this.getCell(x, j)))) {
+  //         return true;
+  //       }
+  //     }
+  //   }
+  // }
+
   private addShatra() {
     for (let i = 2; i <= 4; i++) {
       new Shatra(Colors.BLACK, this.getCell(i, 0));
@@ -158,18 +168,18 @@ export class Board {
     this.addShatra();
     this.addBiy();
 
-    // new Shatra(Colors.BLACK, this.getCell(3, 7));
-    // new Shatra(Colors.WHITE, this.getCell(3, 6));
-    // new Shatra(Colors.WHITE, this.getCell(3, 8));
+    // new Shatra(Colors.WHITE, this.getCell(3, 7));
+    // new Shatra(Colors.BLACK, this.getCell(3, 6));
+    // new Shatra(Colors.BLACK, this.getCell(3, 8));
 
-    // new Shatra(Colors.WHITE, this.getCell(2, 6));
-    // new Shatra(Colors.WHITE, this.getCell(2, 7));
-    // new Shatra(Colors.WHITE, this.getCell(2, 8));
+    // new Shatra(Colors.BLACK, this.getCell(2, 6));
+    // new Shatra(Colors.BLACK, this.getCell(2, 7));
+    // new Shatra(Colors.BLACK, this.getCell(2, 8));
 
-    // new Shatra(Colors.WHITE, this.getCell(4, 6));
-    // new Shatra(Colors.WHITE, this.getCell(4, 7));
-    // new Shatra(Colors.WHITE, this.getCell(4, 8));
+    // new Shatra(Colors.BLACK, this.getCell(4, 6));
+    // new Shatra(Colors.BLACK, this.getCell(4, 7));
+    // new Shatra(Colors.BLACK, this.getCell(4, 8));
 
-    // new Shatra(Colors.WHITE, this.getCell(4, 4));
+    // new Shatra(Colors.BLACK, this.getCell(4, 4));
   }
 }
