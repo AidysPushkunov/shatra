@@ -9,9 +9,19 @@ type ShowFieldProps = {
   clickField: (cell: Cell) => void;
 };
 
-const ShowFigure: React.FC<ShowFieldProps> = ({ intent, cell, selected, clickField }) => {
+const ShowFigure: React.FC<ShowFieldProps> = ({
+  intent,
+  cell,
+  selected,
+  clickField,
+}) => {
   return (
-    <Field intent={intent} selected={selected} clickField={clickField} cell={cell}>
+    <Field
+      intent={intent}
+      selected={selected}
+      clickField={clickField}
+      cell={cell}
+    >
       <FigureEntities intent={cell.figure?.logo} />
     </Field>
   );

@@ -4,6 +4,7 @@ import { Biy } from "./figures/Biy";
 import { Baatyr } from "./figures/Baatyr";
 import { Shatra } from "./figures/Shatra";
 import { Figure } from "./figures/Figure";
+import { Direction } from "./Direction";
 
 export class Board {
   cells: Cell[][] = [];
@@ -125,15 +126,49 @@ export class Board {
   //   console.log(cell.figure?.fortressAbility);
   // }
 
-  // canEatAbility() {
-  //   for (let x = 0; x <= 6; x++) {
-  //     for (let j = 0; j <= 13; j++) {
-  //       if (Boolean(this.getCell(x, j).canEat(this.getCell(x, j)))) {
-  //         return true;
-  //       }
-  //     }
-  //   }
-  // }
+  canEatAbility(target: Cell) {
+    for (let x = 0; x <= 6; x++) {
+      for (let j = 0; j <= 13; j++) {
+        if (
+          !this.getCell(x, j).isEmpty() &&
+          this.getCell(x, j).figure?.color === target.figure?.color
+        ) {
+          if (
+            Boolean(
+              this.getCell(x, j).canEat(this.getCell(x, j), Direction.TOP) ||
+                this.getCell(x, j).canEat(this.getCell(x, j), Direction.LEFT) ||
+                this.getCell(x, j).canEat(
+                  this.getCell(x, j),
+                  Direction.RIGHT
+                ) ||
+                this.getCell(x, j).canEat(
+                  this.getCell(x, j),
+                  Direction.BOTTOM
+                ) ||
+                this.getCell(x, j).canEat(
+                  this.getCell(x, j),
+                  Direction.TOP_LEFT
+                ) ||
+                this.getCell(x, j).canEat(
+                  this.getCell(x, j),
+                  Direction.TOP_RIGHT
+                ) ||
+                this.getCell(x, j).canEat(
+                  this.getCell(x, j),
+                  Direction.BOTTOM_LEFT
+                ) ||
+                this.getCell(x, j).canEat(
+                  this.getCell(x, j),
+                  Direction.BOTTOM_RIGHT
+                )
+            )
+          ) {
+            return true;
+          }
+        }
+      }
+    }
+  }
 
   private addShatra() {
     for (let i = 2; i <= 4; i++) {
@@ -170,7 +205,7 @@ export class Board {
 
     // new Shatra(Colors.WHITE, this.getCell(3, 7));
     // new Shatra(Colors.BLACK, this.getCell(3, 6));
-    // new Shatra(Colors.BLACK, this.getCell(3, 8));
+    // new Shatra(Colors.BLACK, this.getCell(3, 7));
 
     // new Shatra(Colors.BLACK, this.getCell(2, 6));
     // new Shatra(Colors.BLACK, this.getCell(2, 7));
