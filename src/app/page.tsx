@@ -44,8 +44,8 @@ export default function Home() {
     <>
       {<h3>Move: {currentPlayer?.color}</h3>}
       <div>
-        <LostFigures title="Black shatra: " figures={board.lostBlackFigures} />
-        <LostFigures title="White shatra: " figures={board.lostWhiteFigures} />
+        {/* <LostFigures title="Black shatra: " figures={board.lostBlackFigures} />
+        <LostFigures title="White shatra: " figures={board.lostWhiteFigures} /> */}
       </div>
       <Timer restart={restart} currentPlayer={currentPlayer} />
       <div className="flex justify-center my-14">
