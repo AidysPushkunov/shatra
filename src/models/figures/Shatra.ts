@@ -72,40 +72,43 @@ export class Shatra extends Figure {
       //   return true;
       // }
     } else {
-      if (
-        (target.y === this.cell.y + direction &&
-          target.x === this.cell.x + 1) ||
-        (target.y === this.cell.y + direction &&
-          target.x === this.cell.x - 1) ||
-        (target.y === this.cell.y && target.x === this.cell.x - 1) ||
-        (target.y === this.cell.y && target.x === this.cell.x + 1) ||
-        (target.y === this.cell.y + direction && target.x === this.cell.x) ||
-        (((target.y === this.cell.y - direction && target.x === this.cell.x) ||
-          (target.y === this.cell.y - direction &&
+      if (!this.cell.board.canEatAbilityWithBiy(this.cell)) {
+        if (
+          (target.y === this.cell.y + direction &&
+            target.x === this.cell.x + 1) ||
+          (target.y === this.cell.y + direction &&
             target.x === this.cell.x - 1) ||
-          (target.y === this.cell.y - direction &&
-            target.x === this.cell.x + 1)) &&
-          this.cell.isEnemy(target))
-      ) {
-        return true;
-      }
-
-      if (this.cell.isFortressAbility(this.cell)) {
-        if (this.cell.y >= 10) {
-          for (let i = 7; i <= 9; i++) {
-            for (let j = 0; j <= 6; j++) {
-              if (target.x === j && target.y === i) return true;
-            }
-          }
-        } else {
-          for (let i = 4; i <= 6; i++) {
-            for (let j = 0; j <= 6; j++) {
-              if (target.x === j && target.y === i) return true;
-            }
-          }
+          (target.y === this.cell.y && target.x === this.cell.x - 1) ||
+          (target.y === this.cell.y && target.x === this.cell.x + 1) ||
+          (target.y === this.cell.y + direction && target.x === this.cell.x) ||
+          (((target.y === this.cell.y - direction &&
+            target.x === this.cell.x) ||
+            (target.y === this.cell.y - direction &&
+              target.x === this.cell.x - 1) ||
+            (target.y === this.cell.y - direction &&
+              target.x === this.cell.x + 1)) &&
+            this.cell.isEnemy(target))
+        ) {
+          return true;
         }
 
-        return false;
+        if (this.cell.isFortressAbility(this.cell)) {
+          if (this.cell.y >= 10) {
+            for (let i = 7; i <= 9; i++) {
+              for (let j = 0; j <= 6; j++) {
+                if (target.x === j && target.y === i) return true;
+              }
+            }
+          } else {
+            for (let i = 4; i <= 6; i++) {
+              for (let j = 0; j <= 6; j++) {
+                if (target.x === j && target.y === i) return true;
+              }
+            }
+          }
+
+          return false;
+        }
       }
     }
 
