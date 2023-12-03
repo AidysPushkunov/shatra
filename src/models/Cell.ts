@@ -197,6 +197,7 @@ export class Cell {
             Colors.FORTRESS &&
           this.board.getCell(this.x, areaFigureYBackEmpty).y !== this.y
         ) {
+          // Логика чтобы шатра не вошла в свою крепость
           return this.board.getCell(this.x, areaFigureYBackEmpty);
         }
       }
