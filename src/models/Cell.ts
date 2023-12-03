@@ -2,6 +2,7 @@ import { Colors } from "./Colors";
 import { Figure } from "./figures/Figure";
 import { Board } from "./Board";
 import { Direction } from "./Direction";
+import { Baatyr } from "./figures/Baatyr";
 
 export class Cell {
   readonly x: number;
@@ -287,7 +288,6 @@ export class Cell {
 
   isFortressAbility(target: Cell): Boolean {
     if (target.infortress) {
-      console.log("This fortress enemy? ", target.x, target.y);
       if (target.y >= 10) {
         return true;
       }
@@ -304,6 +304,11 @@ export class Cell {
     this.figure.cell = this;
   }
 
+  setBaatyr(figure: Figure) {
+    this.figure = figure;
+    this.figure.cell = this;
+  }
+
   addLostFigure(figure: Figure | null) {
     figure
       ? figure.color === Colors.BLACK
@@ -315,6 +320,13 @@ export class Cell {
   moveFigure(target: Cell) {
     if (this.figure && this.figure?.canMove(target)) {
       this.figure?.moveFigure(target);
+      if (
+        this.figure?.color === Colors.WHITE ? target.y === 0 : target.y === 13
+      ) {
+        this.setBaatyr(
+          new Baatyr(this.figure.color, this.board.getCell(target.x, target.y))
+        );
+      }
 
       if (
         this.figure.cell.canEat(target, Direction.TOP_LEFT) ||

@@ -15,6 +15,10 @@ export class Shatra extends Figure {
   canMove(target: Cell): boolean {
     if (!super.canMove(target)) return false;
 
+    if (this.cell.y === 0) {
+      console.log("Your shatra finaly to bocome Baatyr");
+    }
+
     const direction = this.cell.figure?.color === Colors.BLACK ? 1 : -1;
 
     if (this.cell.figure?.color === Colors.WHITE) {
@@ -145,7 +149,6 @@ export class Shatra extends Figure {
         }
       }
     }
-
     return false;
   }
 }
