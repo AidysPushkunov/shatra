@@ -14,10 +14,6 @@ export class Biy extends Figure {
     if (!super.canMove(target)) return false;
 
     const direction = this.cell.figure?.color === Colors.BLACK ? 1 : -1;
-    console.log(
-      "This is that what we need: ",
-      this.cell.board.canEatAbility(this.cell)
-    );
 
     if (
       this.cell.board.canEatAbilityWithBiy(this.cell) &&

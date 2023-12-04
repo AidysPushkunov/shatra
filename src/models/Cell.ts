@@ -236,7 +236,7 @@ export class Cell {
     return false;
   }
 
-  isEmptyVertical(target: Cell): boolean {
+  isEmptyVertical(target: Cell) {
     if (this.x !== target.x) {
       return false;
     }
@@ -248,12 +248,14 @@ export class Cell {
       if (!this.board.getCell(this.x, y).isEmpty()) {
         return false;
       }
+
+      if (this.board.getCell(this.x, y).color === "fortress") return;
     }
 
     return true;
   }
 
-  isEmptyHorizontal(target: Cell): boolean {
+  isEmptyHorizontal(target: Cell) {
     if (this.y !== target.y) {
       return false;
     }
@@ -265,11 +267,13 @@ export class Cell {
       if (!this.board.getCell(x, this.y).isEmpty()) {
         return false;
       }
+
+      if (this.board.getCell(x, this.y).color === "fortress") return;
     }
     return true;
   }
 
-  isEmptyDiogonal(target: Cell): boolean {
+  isEmptyDiogonal(target: Cell) {
     const absX = Math.abs(target.x - this.x);
     const absY = Math.abs(target.y - this.y);
 
@@ -281,6 +285,12 @@ export class Cell {
     for (let i = 1; i < absY; i++) {
       if (!this.board.getCell(this.x + dx * i, this.y + dy * i).isEmpty())
         return false;
+
+      if (
+        this.board.getCell(this.x + dx * i, this.y + dy * i).color ===
+        "fortress"
+      )
+        return;
     }
 
     return true;

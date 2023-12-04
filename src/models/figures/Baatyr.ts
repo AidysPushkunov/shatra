@@ -82,8 +82,24 @@ export class Baatyr extends Figure {
         return true;
       }
 
-      if (this.cell.isFortressAbility(target)) {
-        return true;
+      if (this.cell.isFortressAbility(this.cell)) {
+        if (this.cell.y <= 3) {
+          for (let i = 4; i <= 6; i++) {
+            for (let j = 0; j <= 6; j++) {
+              if (target.x === j && target.y === i) return true;
+            }
+          }
+        }
+
+        if (this.cell.y >= 10) {
+          for (let i = 7; i <= 9; i++) {
+            for (let j = 0; j <= 6; j++) {
+              if (target.x === j && target.y === i) return true;
+            }
+          }
+        }
+
+        return false;
       }
     }
 

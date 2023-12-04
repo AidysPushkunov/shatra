@@ -243,22 +243,22 @@ export class Board {
     new Biy(Colors.WHITE, this.getCell(3, 10));
   }
 
-  private addBaatyr() {
-    this.addBaatyr();
-  }
+  // private addBaatyr() {
+  //   this.addBaatyr();
+  // }
 
   public addFigures() {
-    // this.addShatra();
-    // this.addBiy();
+    this.addShatra();
+    this.addBiy();
     // new Baatyr(Colors.WHITE, this.getCell(3, 7));
     // new Baatyr(Colors.BLACK, this.getCell(3, 10));
     // new Baatyr(Colors.BLACK, this.getCell(3, 5));
-    new Shatra(Colors.WHITE, this.getCell(3, 1));
-    new Shatra(Colors.BLACK, this.getCell(3, 12));
-
-    new Shatra(Colors.WHITE, this.getCell(1, 7));
-    new Shatra(Colors.BLACK, this.getCell(2, 5));
-    new Shatra(Colors.WHITE, this.getCell(6, 7));
-    new Shatra(Colors.BLACK, this.getCell(4, 5));
+    // new Shatra(Colors.WHITE, this.getCell(3, 1));
+    // new Baatyr(Colors.WHITE, this.getCell(3, 7));
+    // new Baatyr(Colors.BLACK, this.getCell(3, 9));
+    // new Shatra(Colors.WHITE, this.getCell(1, 7));
+    // new Shatra(Colors.BLACK, this.getCell(2, 5));
+    // new Shatra(Colors.WHITE, this.getCell(6, 7));
+    // new Shatra(Colors.BLACK, this.getCell(4, 5));
   }
 }

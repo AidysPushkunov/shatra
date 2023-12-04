@@ -45,14 +45,12 @@ const Field: React.FC<FieldProps> = ({
           }
           shadowBlur={10}
         />
-        {intent === "fortress" ? (
-          <></>
-        ) : (
-          cell.available &&
-          !cell.figure && (
-            <Circle x={37.5} y={37.5} radius={10} fill={fieldIntent.active} />
-          )
-        )}
+        {intent === "fortress"
+          ? null
+          : cell.available &&
+            !cell.figure && (
+              <Circle x={37.5} y={37.5} radius={10} fill={fieldIntent.active} />
+            )}
         {children}
       </Layer>
     </Stage>
