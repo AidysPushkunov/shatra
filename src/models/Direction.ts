@@ -7,4 +7,8 @@ export enum Direction {
   TOP_LEFT = "topLeft",
   BOTTOM_RIGHT = "bottomRight",
   BOTTOM_LEFT = "bottomLeft",
+
+  VERTICAL = "vertical",
+  HORIZONTAL = "horizontal",
+  DIOGONAL = "diogonal",
 }

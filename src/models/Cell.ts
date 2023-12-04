@@ -228,6 +228,58 @@ export class Cell {
     }
   }
 
+  canEatBaatyr(target: Cell, direction: Direction): Cell | undefined {
+    // vertical enemy
+
+    if (direction === Direction.VERTICAL) {
+      const minY = Math.min(this.y, target.y);
+      const maxY = Math.max(this.y, target.y);
+
+      for (let y = minY + 1; y < maxY; y++) {
+        if (
+          this.board.getCell(this.x, y).figure?.color === this.figure?.color
+        ) {
+          return this.board.getCell(this.x, y);
+        }
+      }
+    }
+
+    // horizontal enemy
+
+    if (direction === Direction.HORIZONTAL) {
+      const minX = Math.min(this.x, target.x);
+      const maxX = Math.max(this.x, target.x);
+
+      for (let x = minX + 1; x < maxX; x++) {
+        if (
+          this.board.getCell(x, this.y).figure?.color === this.figure?.color
+        ) {
+          return this.board.getCell(x, this.y);
+        }
+      }
+    }
+
+    // diogonal enemy
+
+    if (direction === Direction.DIOGONAL) {
+      const absX = Math.abs(target.x - this.x);
+      const absY = Math.abs(target.y - this.y);
+
+      if (absY !== absX) return;
+
+      const dy = this.y < target.y ? 1 : -1;
+      const dx = this.x < target.x ? 1 : -1;
+
+      for (let i = 1; i < absY; i++) {
+        if (
+          this.board.getCell(this.x + dx * i, this.y + dy * i).figure?.color ===
+          this.figure?.color
+        )
+          return this.board.getCell(this.x + dx * i, this.y + dy * i);
+      }
+    }
+  }
+
   isEnemy(target: Cell): boolean {
     if (Boolean(target.figure)) {
       return this.figure?.color !== target.figure?.color;
@@ -245,7 +297,7 @@ export class Cell {
     const max = Math.max(this.y, target.y);
 
     for (let y = min + 1; y < max; y++) {
-      if (!this.board.getCell(this.x, y).isEmpty()) {
+      if (this.board.getCell(this.x, y).figure?.color === this.figure?.color) {
         return false;
       }
 
@@ -264,7 +316,7 @@ export class Cell {
     const max = Math.max(this.x, target.x);
 
     for (let x = min + 1; x < max; x++) {
-      if (!this.board.getCell(x, this.y).isEmpty()) {
+      if (this.board.getCell(x, this.y).figure?.color === this.figure?.color) {
         return false;
       }
 
@@ -283,7 +335,10 @@ export class Cell {
     const dx = this.x < target.x ? 1 : -1;
 
     for (let i = 1; i < absY; i++) {
-      if (!this.board.getCell(this.x + dx * i, this.y + dy * i).isEmpty())
+      if (
+        this.board.getCell(this.x + dx * i, this.y + dy * i).figure?.color ===
+        this.figure?.color
+      )
         return false;
 
       if (

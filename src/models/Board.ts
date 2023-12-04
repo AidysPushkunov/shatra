@@ -218,6 +218,39 @@ export class Board {
     }
   }
 
+  canEatAbilityBaatyr(target: Cell) {
+    for (let x = 0; x <= 6; x++) {
+      for (let j = 0; j <= 13; j++) {
+        if (
+          !this.getCell(x, j).isEmpty() &&
+          this.getCell(x, j).figure?.color === target.figure?.color &&
+          this.getCell(x, j).figure?.logo !== "blackBiy" &&
+          this.getCell(x, j).figure?.logo !== "whiteBiy"
+        ) {
+          if (
+            Boolean(
+              this.getCell(x, j).canEatBaatyr(
+                this.getCell(x, j),
+                Direction.VERTICAL
+              ) ||
+                this.getCell(x, j).canEatBaatyr(
+                  this.getCell(x, j),
+                  Direction.HORIZONTAL
+                ) ||
+                this.getCell(x, j).canEatBaatyr(
+                  this.getCell(x, j),
+                  Direction.DIOGONAL
+                )
+            )
+          ) {
+            console.log("Hello");
+            return true;
+          }
+        }
+      }
+    }
+  }
+
   private addShatra() {
     for (let i = 2; i <= 4; i++) {
       new Shatra(Colors.BLACK, this.getCell(i, 0));
@@ -251,9 +284,16 @@ export class Board {
     this.addShatra();
     this.addBiy();
     // new Baatyr(Colors.WHITE, this.getCell(3, 7));
-    // new Baatyr(Colors.BLACK, this.getCell(3, 10));
+    // new Baatyr(Colors.WHITE, this.getCell(3, 10));
     // new Baatyr(Colors.BLACK, this.getCell(3, 5));
-    // new Shatra(Colors.WHITE, this.getCell(3, 1));
+    // new Baatyr(Colors.BLACK, this.getCell(3, 10));
+    // new Baatyr(Colors.WHITE, this.getCell(3, 7));
+    // new Shatra(Colors.BLACK, this.getCell(2, 7));
+    // new Shatra(Colors.BLACK, this.getCell(5, 7));
+    // new Shatra(Colors.BLACK, this.getCell(3, 5));
+    // new Shatra(Colors.BLACK, this.getCell(1, 9));
+    // new Shatra(Colors.BLACK, this.getCell(3, 5));
+    // new Shatra(Colors.BLACK, this.getCell(3, 9));
     // new Baatyr(Colors.WHITE, this.getCell(3, 7));
     // new Baatyr(Colors.BLACK, this.getCell(3, 9));
     // new Shatra(Colors.WHITE, this.getCell(1, 7));

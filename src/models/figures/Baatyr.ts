@@ -15,62 +15,27 @@ export class Baatyr extends Figure {
 
     const direction = this.cell.figure?.color === Colors.BLACK ? 1 : -1;
 
-    if (this.cell.board.canEatAbility(this.cell)) {
+    if (this.cell.board.canEatAbilityBaatyr(this.cell)) {
       if (
-        this.cell.canEat(target, Direction.TOP_LEFT)?.x === target.x &&
-        this.cell.canEat(target, Direction.TOP_LEFT)?.y === target.y
-      )
+        this.cell.canEatBaatyr(target, Direction.VERTICAL)?.x === target.x &&
+        this.cell.canEatBaatyr(target, Direction.VERTICAL)?.y === target.y
+      ) {
         return true;
+      }
 
       if (
-        this.cell.canEat(target, Direction.TOP)?.x === target.x &&
-        this.cell.canEat(target, Direction.TOP)?.y === target.y
-      )
+        this.cell.canEatBaatyr(target, Direction.HORIZONTAL)?.x === target.x &&
+        this.cell.canEatBaatyr(target, Direction.HORIZONTAL)?.y === target.y
+      ) {
         return true;
+      }
 
       if (
-        this.cell.canEat(target, Direction.TOP_RIGHT)?.x === target.x &&
-        this.cell.canEat(target, Direction.TOP_RIGHT)?.y === target.y
-      )
+        this.cell.canEatBaatyr(target, Direction.DIOGONAL)?.x === target.x &&
+        this.cell.canEatBaatyr(target, Direction.DIOGONAL)?.y === target.y
+      ) {
         return true;
-
-      if (
-        this.cell.canEat(target, Direction.LEFT)?.x === target.x &&
-        this.cell.canEat(target, Direction.LEFT)?.y === target.y
-      )
-        return true;
-
-      if (
-        this.cell.canEat(target, Direction.RIGHT)?.x === target.x &&
-        this.cell.canEat(target, Direction.RIGHT)?.y === target.y
-      )
-        return true;
-
-      if (
-        this.cell.canEat(target, Direction.BOTTOM_LEFT)?.x === target.x &&
-        this.cell.canEat(target, Direction.BOTTOM_LEFT)?.y === target.y
-      )
-        return true;
-
-      if (
-        this.cell.canEat(target, Direction.BOTTOM)?.x === target.x &&
-        this.cell.canEat(target, Direction.BOTTOM)?.y === target.y
-      )
-        return true;
-
-      if (
-        this.cell.canEat(target, Direction.BOTTOM_RIGHT)?.x === target.x &&
-        this.cell.canEat(target, Direction.BOTTOM_RIGHT)?.y === target.y
-      )
-        return true;
-
-      // if (
-      //   target.y === this.cell.y + direction &&
-      //   target.x === this.cell.x &&
-      //   this.cell.board.getCell(target.x, target.y).isEmpty()
-      // ) {
-      //   return true;
-      // }
+      }
     } else {
       if (this.cell.isEmptyVertical(target)) {
         return true;
