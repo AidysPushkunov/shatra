@@ -237,8 +237,33 @@ export class Cell {
           this.board.getCell(this.x, y).figure?.color !== this.figure?.color &&
           this.board.getCell(this.x, y).figure !== null
         ) {
-          console.log("Helper: ", this.board.getCell(this.x, y));
           return this.board.getCell(this.x, y);
+        }
+      }
+    }
+
+    if (direction === Direction.LEFT) {
+      const min = Math.min(this.x, target.x);
+
+      for (let x = this.x; x > min; x--) {
+        if (
+          this.board.getCell(x, this.y).figure?.color !== this.figure?.color &&
+          this.board.getCell(x, this.y).figure !== null
+        ) {
+          return this.board.getCell(x, this.y);
+        }
+      }
+    }
+
+    if (direction === Direction.RIGHT) {
+      const max = Math.max(this.x, target.x);
+
+      for (let x = this.x; x < max; x++) {
+        if (
+          this.board.getCell(x, this.y).figure?.color !== this.figure?.color &&
+          this.board.getCell(x, this.y).figure !== null
+        ) {
+          return this.board.getCell(x, this.y);
         }
       }
     }
@@ -251,41 +276,12 @@ export class Cell {
           this.board.getCell(this.x, y).figure?.color !== this.figure?.color &&
           this.board.getCell(this.x, y).figure !== null
         ) {
-          console.log("Helper: ", this.board.getCell(this.x, y));
           return this.board.getCell(this.x, y);
         }
       }
     }
 
-    // vertical enemy
 
-    // if (direction === Direction.VERTICAL) {
-    //   const minY = Math.min(this.y, target.y);
-    //   const maxY = Math.max(this.y, target.y);
-
-    //   for (let y = minY + 1; y < maxY; y++) {
-    //     if (
-    //       this.board.getCell(this.x, y).figure?.color !== this.figure?.color
-    //     ) {
-    //       return this.board.getCell(this.x, y);
-    //     }
-    //   }
-    // }
-
-    // horizontal enemy
-
-    // if (direction === Direction.HORIZONTAL) {
-    //   const minX = Math.min(this.x, target.x);
-    //   const maxX = Math.max(this.x, target.x);
-
-    //   for (let x = minX + 1; x < maxX; x++) {
-    //     if (
-    //       this.board.getCell(x, this.y).figure?.color !== this.figure?.color
-    //     ) {
-    //       return this.board.getCell(x, this.y);
-    //     }
-    //   }
-    // }
 
     // diogonal enemy
 
@@ -450,9 +446,19 @@ export class Cell {
 
       if (
         this.figure.cell.canEatBaatyr(target, Direction.TOP) ||
+        this.figure.cell.canEatBaatyr(target, Direction.LEFT) ||
+        this.figure.cell.canEatBaatyr(target, Direction.RIGHT) ||
         this.figure.cell.canEatBaatyr(target, Direction.BOTTOM)
       ) {
         let eatFigureTop = this.figure.cell.canEatBaatyr(target, Direction.TOP);
+        let eatFigureLeft = this.figure.cell.canEatBaatyr(
+          target,
+          Direction.LEFT
+        );
+        let eatFigureRight = this.figure.cell.canEatBaatyr(
+          target,
+          Direction.RIGHT
+        );
         let eatFigureBottom = this.figure.cell.canEatBaatyr(
           target,
           Direction.BOTTOM
@@ -461,6 +467,16 @@ export class Cell {
         if (eatFigureTop !== undefined) {
           this.addLostFigure(eatFigureTop.figure);
           eatFigureTop.figure = null;
+        }
+
+        if (eatFigureLeft !== undefined) {
+          this.addLostFigure(eatFigureLeft.figure);
+          eatFigureLeft.figure = null;
+        }
+
+        if (eatFigureRight !== undefined) {
+          this.addLostFigure(eatFigureRight.figure);
+          eatFigureRight.figure = null;
         }
 
         if (eatFigureBottom !== undefined) {

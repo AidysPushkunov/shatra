@@ -172,6 +172,58 @@ export class Board {
     }
   }
 
+  canEatAbilityBaatyr(target: Cell) {
+    for (let x = 0; x <= 6; x++) {
+      for (let j = 0; j <= 13; j++) {
+        if (
+          !this.getCell(x, j).isEmpty() &&
+          this.getCell(x, j).figure?.color === target.figure?.color &&
+          this.getCell(x, j).figure?.logo !== "blackBiy" &&
+          this.getCell(x, j).figure?.logo !== "whiteBiy"
+        ) {
+          if (
+            Boolean(
+              this.getCell(x, j).canEatBaatyr(
+                this.getCell(x, j),
+                Direction.TOP
+              ) ||
+                this.getCell(x, j).canEatBaatyr(
+                  this.getCell(x, j),
+                  Direction.LEFT
+                ) ||
+                this.getCell(x, j).canEatBaatyr(
+                  this.getCell(x, j),
+                  Direction.RIGHT
+                ) ||
+                this.getCell(x, j).canEatBaatyr(
+                  this.getCell(x, j),
+                  Direction.BOTTOM
+                ) ||
+                this.getCell(x, j).canEatBaatyr(
+                  this.getCell(x, j),
+                  Direction.TOP_LEFT
+                ) ||
+                this.getCell(x, j).canEatBaatyr(
+                  this.getCell(x, j),
+                  Direction.TOP_RIGHT
+                ) ||
+                this.getCell(x, j).canEatBaatyr(
+                  this.getCell(x, j),
+                  Direction.BOTTOM_LEFT
+                ) ||
+                this.getCell(x, j).canEatBaatyr(
+                  this.getCell(x, j),
+                  Direction.BOTTOM_RIGHT
+                )
+            )
+          ) {
+            return true;
+          }
+        }
+      }
+    }
+  }
+
   canEatAbilityWithBiy(target: Cell) {
     for (let x = 0; x <= 6; x++) {
       for (let j = 0; j <= 13; j++) {
@@ -251,10 +303,13 @@ export class Board {
     // this.addShatra();
     // this.addBiy();
 
-    new Baatyr(Colors.BLACK, this.getCell(4, 7));
-    new Baatyr(Colors.BLACK, this.getCell(3, 10));
-    new Baatyr(Colors.WHITE, this.getCell(3, 5));
-    new Shatra(Colors.WHITE, this.getCell(5, 5));
+    new Baatyr(Colors.BLACK, this.getCell(3, 3));
+    new Baatyr(Colors.WHITE, this.getCell(3, 7));
+
+    new Shatra(Colors.BLACK, this.getCell(1, 7));
+
+    new Baatyr(Colors.BLACK, this.getCell(5, 7));
+    new Shatra(Colors.BLACK, this.getCell(3, 10));
 
     // new Baatyr(Colors.BLACK, this.getCell(3, 3));
 

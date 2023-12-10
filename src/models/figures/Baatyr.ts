@@ -22,56 +22,37 @@ export class Baatyr extends Figure {
 
     console.log("Perfect you are billioner", canEatBaatyrEffectBottom);
 
-    if (canEatBaatyrEffectBottom || canEatBaatyrEffectTop) {
+    if (true) {
       const canEatBaatyrTop = this.cell.canEatBaatyr(target, Direction.TOP);
       const canEatBaatyrBottom = this.cell.canEatBaatyr(
         target,
         Direction.BOTTOM
       );
-
-      // console.log("canEatBaatyrTop", canEatBaatyrTop);
-      // console.log("target", this.cell);
+      const canEatBaatyrLeft = this.cell.canEatBaatyr(target, Direction.LEFT);
+      const canEatBaatyrRight = this.cell.canEatBaatyr(target, Direction.RIGHT);
 
       if (canEatBaatyrTop) {
-        const min = Math.min(target.y);
-        // разобратся почему так происходит
         for (let i = canEatBaatyrTop.y; i >= 0; i--) {
-          // console.log(
-          //   "This is strange code: ",
-          //   this.cell.board.getCell(this.cell.x, i).color !== Colors.FORTRESS
-          // );
+          if (canEatBaatyrTop.x === target.x && i === target.y) return true;
+        }
+      }
 
-          // if (this.cell.board.getCell(target.x, i))
-          if (
-            canEatBaatyrTop.x === target.x &&
-            canEatBaatyrTop.y - i === target.y
-          )
-            // if (
-            //   this.cell.board.getCell(canEatBaatyrTop.x, i).color !==
-            //   Colors.FORTRESS
-            // ) {
-            //   return false;
-            // }
-            return true;
+      if (canEatBaatyrLeft) {
+        for (let i = canEatBaatyrLeft.x; i >= 0; i--) {
+          if (i === target.x && canEatBaatyrLeft.y === target.y) return true;
+        }
+      }
+
+      if (canEatBaatyrRight) {
+        for (let i = canEatBaatyrRight.x; i <= 6; i++) {
+          if (i === target.x && canEatBaatyrRight.y === target.y) return true;
         }
       }
 
       if (canEatBaatyrBottom) {
         for (let i = canEatBaatyrBottom.y; i <= 13; i++) {
-          // console.log("This is strange code: ", canEatBaatyrBottom.y);
-
-          // if (this.cell.board.getCell(target.x, i))
-          if (
-            canEatBaatyrBottom.x === target.x &&
-            canEatBaatyrBottom.y + 1 === target.y
-          )
-            // if (
-            //   this.cell.board.getCell(canEatBaatyrTop.x, i).color !==
-            //   Colors.FORTRESS
-            // ) {
-            //   return false;
-            // }
-            return true;
+          console.log("Can eat baatyr bottom: ", canEatBaatyrBottom);
+          if (canEatBaatyrBottom.x === target.x && i === target.y) return true;
         }
       }
     } else {
