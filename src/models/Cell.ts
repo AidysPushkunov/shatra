@@ -229,55 +229,83 @@ export class Cell {
   }
 
   canEatBaatyr(target: Cell, direction: Direction): Cell | undefined {
-    // vertical enemy
+    if (direction === Direction.TOP) {
+      const min = Math.min(this.y, target.y);
 
-    if (direction === Direction.VERTICAL) {
-      const minY = Math.min(this.y, target.y);
-      const maxY = Math.max(this.y, target.y);
-
-      for (let y = minY + 1; y < maxY; y++) {
+      for (let y = this.y; y > min; y--) {
         if (
-          this.board.getCell(this.x, y).figure?.color === this.figure?.color
+          this.board.getCell(this.x, y).figure?.color !== this.figure?.color &&
+          this.board.getCell(this.x, y).figure !== null
         ) {
+          console.log("Helper: ", this.board.getCell(this.x, y));
           return this.board.getCell(this.x, y);
         }
       }
     }
 
-    // horizontal enemy
+    if (direction === Direction.BOTTOM) {
+      const max = Math.max(this.y, target.y);
 
-    if (direction === Direction.HORIZONTAL) {
-      const minX = Math.min(this.x, target.x);
-      const maxX = Math.max(this.x, target.x);
-
-      for (let x = minX + 1; x < maxX; x++) {
+      for (let y = this.y; y < max; y++) {
         if (
-          this.board.getCell(x, this.y).figure?.color === this.figure?.color
+          this.board.getCell(this.x, y).figure?.color !== this.figure?.color &&
+          this.board.getCell(this.x, y).figure !== null
         ) {
-          return this.board.getCell(x, this.y);
+          console.log("Helper: ", this.board.getCell(this.x, y));
+          return this.board.getCell(this.x, y);
         }
       }
     }
 
+    // vertical enemy
+
+    // if (direction === Direction.VERTICAL) {
+    //   const minY = Math.min(this.y, target.y);
+    //   const maxY = Math.max(this.y, target.y);
+
+    //   for (let y = minY + 1; y < maxY; y++) {
+    //     if (
+    //       this.board.getCell(this.x, y).figure?.color !== this.figure?.color
+    //     ) {
+    //       return this.board.getCell(this.x, y);
+    //     }
+    //   }
+    // }
+
+    // horizontal enemy
+
+    // if (direction === Direction.HORIZONTAL) {
+    //   const minX = Math.min(this.x, target.x);
+    //   const maxX = Math.max(this.x, target.x);
+
+    //   for (let x = minX + 1; x < maxX; x++) {
+    //     if (
+    //       this.board.getCell(x, this.y).figure?.color !== this.figure?.color
+    //     ) {
+    //       return this.board.getCell(x, this.y);
+    //     }
+    //   }
+    // }
+
     // diogonal enemy
 
-    if (direction === Direction.DIOGONAL) {
-      const absX = Math.abs(target.x - this.x);
-      const absY = Math.abs(target.y - this.y);
+    // if (direction === Direction.DIOGONAL) {
+    //   const absX = Math.abs(target.x - this.x);
+    //   const absY = Math.abs(target.y - this.y);
 
-      if (absY !== absX) return;
+    //   if (absY !== absX) return;
 
-      const dy = this.y < target.y ? 1 : -1;
-      const dx = this.x < target.x ? 1 : -1;
+    //   const dy = this.y < target.y ? 1 : -1;
+    //   const dx = this.x < target.x ? 1 : -1;
 
-      for (let i = 1; i < absY; i++) {
-        if (
-          this.board.getCell(this.x + dx * i, this.y + dy * i).figure?.color ===
-          this.figure?.color
-        )
-          return this.board.getCell(this.x + dx * i, this.y + dy * i);
-      }
-    }
+    //   for (let i = 1; i < absY; i++) {
+    //     if (
+    //       this.board.getCell(this.x + dx * i, this.y + dy * i).figure?.color !==
+    //       this.figure?.color
+    //     )
+    //       return this.board.getCell(this.x + dx * i, this.y + dy * i);
+    //   }
+    // }
   }
 
   isEnemy(target: Cell): boolean {
@@ -418,6 +446,27 @@ export class Cell {
         );
         this.addLostFigure(eatFigure.figure);
         eatFigure.figure = null;
+      }
+
+      if (
+        this.figure.cell.canEatBaatyr(target, Direction.TOP) ||
+        this.figure.cell.canEatBaatyr(target, Direction.BOTTOM)
+      ) {
+        let eatFigureTop = this.figure.cell.canEatBaatyr(target, Direction.TOP);
+        let eatFigureBottom = this.figure.cell.canEatBaatyr(
+          target,
+          Direction.BOTTOM
+        );
+
+        if (eatFigureTop !== undefined) {
+          this.addLostFigure(eatFigureTop.figure);
+          eatFigureTop.figure = null;
+        }
+
+        if (eatFigureBottom !== undefined) {
+          this.addLostFigure(eatFigureBottom.figure);
+          eatFigureBottom.figure = null;
+        }
       }
 
       if (target.figure) {
