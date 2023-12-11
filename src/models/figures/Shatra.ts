@@ -15,15 +15,20 @@ export class Shatra extends Figure {
   canMove(target: Cell): boolean {
     if (!super.canMove(target)) return false;
 
-    if (this.cell.y === 0) {
-      console.log("Your shatra finaly to bocome Baatyr");
-    }
+    // if (this.cell.y === 0) {
+
+    // }
 
     const direction = this.cell.figure?.color === Colors.BLACK ? 1 : -1;
 
     if (this.cell.figure?.color === Colors.WHITE) {
     }
 
+    console.log(
+      "This is what do you find: ",
+      this.cell.board.canEatAbility(this.cell)
+    );
+    
     if (this.cell.board.canEatAbility(this.cell)) {
       if (
         this.cell.canEat(target, Direction.TOP_LEFT)?.x === target.x &&

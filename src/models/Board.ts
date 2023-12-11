@@ -283,9 +283,9 @@ export class Board {
 
     for (let i = 0; i < 7; i++) {
       new Shatra(Colors.BLACK, this.getCell(i, 4));
-      new Shatra(Colors.BLACK, this.getCell(i, 5));
+      new Baatyr(Colors.BLACK, this.getCell(i, 5));
 
-      new Shatra(Colors.WHITE, this.getCell(i, 8));
+      new Baatyr(Colors.WHITE, this.getCell(i, 8));
       new Shatra(Colors.WHITE, this.getCell(i, 9));
     }
   }
@@ -302,17 +302,15 @@ export class Board {
   public addFigures() {
     // this.addShatra();
     // this.addBiy();
-
-    new Baatyr(Colors.BLACK, this.getCell(3, 3));
-    new Baatyr(Colors.WHITE, this.getCell(3, 7));
-
+    new Baatyr(Colors.BLACK, this.getCell(2, 5));
+    new Baatyr(Colors.WHITE, this.getCell(2, 8));
     new Shatra(Colors.BLACK, this.getCell(1, 7));
-
     new Baatyr(Colors.BLACK, this.getCell(5, 7));
     new Shatra(Colors.BLACK, this.getCell(3, 10));
+    new Shatra(Colors.BLACK, this.getCell(1, 5));
+    new Shatra(Colors.BLACK, this.getCell(5, 5));
 
     // new Baatyr(Colors.BLACK, this.getCell(3, 3));
-
     // new Baatyr(Colors.BLACK, this.getCell(3, 10));
     // new Baatyr(Colors.WHITE, this.getCell(3, 7));
     // new Shatra(Colors.BLACK, this.getCell(2, 7));

@@ -13,17 +13,25 @@ export class Baatyr extends Figure {
   canMove(target: Cell): boolean {
     if (!super.canMove(target)) return false;
 
-    const direction = this.cell.figure?.color === Colors.BLACK ? 1 : -1;
-    const canEatBaatyrEffectTop = this.cell.canEatBaatyr(target, Direction.TOP);
-    const canEatBaatyrEffectBottom = this.cell.canEatBaatyr(
-      target,
-      Direction.BOTTOM
-    );
-
-    console.log("Perfect you are billioner", canEatBaatyrEffectBottom);
-
-    if (true) {
+    if (this.cell.board.canEatAbilityBaatyr(this.cell)) {
       const canEatBaatyrTop = this.cell.canEatBaatyr(target, Direction.TOP);
+      const canEatBaatyrTopLeft = this.cell.canEatBaatyr(
+        target,
+        Direction.TOP_LEFT
+      );
+      const canEatBaatyrBottomLeft = this.cell.canEatBaatyr(
+        target,
+        Direction.BOTTOM_LEFT
+      );
+
+      const canEatBaatyrBottomRight = this.cell.canEatBaatyr(
+        target,
+        Direction.BOTTOM_RIGHT
+      );
+      const canEatBaatyrTopRight = this.cell.canEatBaatyr(
+        target,
+        Direction.TOP_RIGHT
+      );
       const canEatBaatyrBottom = this.cell.canEatBaatyr(
         target,
         Direction.BOTTOM
@@ -33,26 +41,101 @@ export class Baatyr extends Figure {
 
       if (canEatBaatyrTop) {
         for (let i = canEatBaatyrTop.y; i >= 0; i--) {
-          if (canEatBaatyrTop.x === target.x && i === target.y) return true;
+          if (canEatBaatyrTop.x === target.x && i === target.y) {
+            return true;
+          }
+        }
+      }
+
+      if (canEatBaatyrTopLeft) {
+        let x = canEatBaatyrTopLeft.x;
+        let y = canEatBaatyrTopLeft.y;
+
+        while (x >= 0 && y >= 0) {
+          if (x === target.x && y === target.y) {
+            if (this.cell.board.getCell(x, y).figure?.logo !== "fortress")
+              return true;
+          }
+          x--;
+          y--;
+        }
+      }
+
+      if (canEatBaatyrBottomLeft) {
+        let x = canEatBaatyrBottomLeft.x;
+        let y = canEatBaatyrBottomLeft.y;
+
+        while (x >= 0 && y <= 13) {
+          if (x === target.x && y === target.y) {
+            if (this.cell.board.getCell(x, y).figure?.logo !== "fortress")
+              return true;
+          }
+          x--;
+          y++;
+        }
+      }
+
+      if (canEatBaatyrBottomRight) {
+        let x = canEatBaatyrBottomRight.x;
+        let y = canEatBaatyrBottomRight.y;
+
+        while (x <= 6 && y <= 13) {
+          if (x === target.x && y === target.y) {
+            if (this.cell.board.getCell(x, y).figure?.logo !== "fortress")
+              return true;
+          }
+          x++;
+          y++;
+        }
+      }
+
+      if (canEatBaatyrTopRight) {
+        let x = canEatBaatyrTopRight.x;
+        let y = canEatBaatyrTopRight.y;
+
+        while (x <= 6 && y >= 0) {
+          if (x === target.x && y === target.y) {
+            if (this.cell.board.getCell(x, y).figure?.logo !== "fortress")
+              return true;
+          }
+          x++;
+          y--;
         }
       }
 
       if (canEatBaatyrLeft) {
         for (let i = canEatBaatyrLeft.x; i >= 0; i--) {
-          if (i === target.x && canEatBaatyrLeft.y === target.y) return true;
+          if (i === target.x && canEatBaatyrLeft.y === target.y) {
+            if (
+              this.cell.board.getCell(i, canEatBaatyrLeft.y).figure?.logo !==
+              "fortress"
+            )
+              return true;
+          }
         }
       }
 
       if (canEatBaatyrRight) {
         for (let i = canEatBaatyrRight.x; i <= 6; i++) {
-          if (i === target.x && canEatBaatyrRight.y === target.y) return true;
+          if (i === target.x && canEatBaatyrRight.y === target.y) {
+            if (
+              this.cell.board.getCell(i, canEatBaatyrRight.y).figure?.logo !==
+              "fortress"
+            )
+              return true;
+          }
         }
       }
 
       if (canEatBaatyrBottom) {
         for (let i = canEatBaatyrBottom.y; i <= 13; i++) {
-          console.log("Can eat baatyr bottom: ", canEatBaatyrBottom);
-          if (canEatBaatyrBottom.x === target.x && i === target.y) return true;
+          if (canEatBaatyrBottom.x === target.x && i === target.y) {
+            if (
+              this.cell.board.getCell(canEatBaatyrBottom.x, i).figure?.logo !==
+              "fortress"
+            )
+              return true;
+          }
         }
       }
     } else {

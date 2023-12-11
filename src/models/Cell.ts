@@ -230,9 +230,7 @@ export class Cell {
 
   canEatBaatyr(target: Cell, direction: Direction): Cell | undefined {
     if (direction === Direction.TOP) {
-      const min = Math.min(this.y, target.y);
-
-      for (let y = this.y; y > min; y--) {
+      for (let y = this.y; y >= 0; y--) {
         if (
           this.board.getCell(this.x, y).figure?.color !== this.figure?.color &&
           this.board.getCell(this.x, y).figure !== null
@@ -242,10 +240,76 @@ export class Cell {
       }
     }
 
-    if (direction === Direction.LEFT) {
-      const min = Math.min(this.x, target.x);
+    if (direction === Direction.TOP_LEFT) {
+      let x = this.x;
+      let y = this.y;
 
-      for (let x = this.x; x > min; x--) {
+      while (x >= 0 && y >= 0) {
+        if (
+          this.board.getCell(x, y).figure?.color !== this.figure?.color &&
+          this.board.getCell(x, y).figure !== null
+        ) {
+          return this.board.getCell(x, y);
+        }
+
+        x--;
+        y--;
+      }
+    }
+
+    if (direction === Direction.BOTTOM_LEFT) {
+      let x = this.x;
+      let y = this.y;
+
+      while (x >= 0 && y <= 13) {
+        if (
+          this.board.getCell(x, y).figure?.color !== this.figure?.color &&
+          this.board.getCell(x, y).figure !== null
+        ) {
+          return this.board.getCell(x, y);
+        }
+
+        x--;
+        y++;
+      }
+    }
+
+    if (direction === Direction.BOTTOM_RIGHT) {
+      let x = this.x;
+      let y = this.y;
+
+      while (x <= 6 && y <= 13) {
+        if (
+          this.board.getCell(x, y).figure?.color !== this.figure?.color &&
+          this.board.getCell(x, y).figure !== null
+        ) {
+          return this.board.getCell(x, y);
+        }
+
+        x++;
+        y++;
+      }
+    }
+
+    if (direction === Direction.TOP_RIGHT) {
+      let x = this.x;
+      let y = this.y;
+
+      while (x <= 6 && y >= 0) {
+        if (
+          this.board.getCell(x, y).figure?.color !== this.figure?.color &&
+          this.board.getCell(x, y).figure !== null
+        ) {
+          return this.board.getCell(x, y);
+        }
+
+        x++;
+        y--;
+      }
+    }
+
+    if (direction === Direction.LEFT) {
+      for (let x = this.x; x >= 0; x--) {
         if (
           this.board.getCell(x, this.y).figure?.color !== this.figure?.color &&
           this.board.getCell(x, this.y).figure !== null
@@ -256,9 +320,7 @@ export class Cell {
     }
 
     if (direction === Direction.RIGHT) {
-      const max = Math.max(this.x, target.x);
-
-      for (let x = this.x; x < max; x++) {
+      for (let x = this.x; x <= 6; x++) {
         if (
           this.board.getCell(x, this.y).figure?.color !== this.figure?.color &&
           this.board.getCell(x, this.y).figure !== null
@@ -269,9 +331,7 @@ export class Cell {
     }
 
     if (direction === Direction.BOTTOM) {
-      const max = Math.max(this.y, target.y);
-
-      for (let y = this.y; y < max; y++) {
+      for (let y = this.y; y <= 13; y++) {
         if (
           this.board.getCell(this.x, y).figure?.color !== this.figure?.color &&
           this.board.getCell(this.x, y).figure !== null
@@ -280,28 +340,6 @@ export class Cell {
         }
       }
     }
-
-
-
-    // diogonal enemy
-
-    // if (direction === Direction.DIOGONAL) {
-    //   const absX = Math.abs(target.x - this.x);
-    //   const absY = Math.abs(target.y - this.y);
-
-    //   if (absY !== absX) return;
-
-    //   const dy = this.y < target.y ? 1 : -1;
-    //   const dx = this.x < target.x ? 1 : -1;
-
-    //   for (let i = 1; i < absY; i++) {
-    //     if (
-    //       this.board.getCell(this.x + dx * i, this.y + dy * i).figure?.color !==
-    //       this.figure?.color
-    //     )
-    //       return this.board.getCell(this.x + dx * i, this.y + dy * i);
-    //   }
-    // }
   }
 
   isEnemy(target: Cell): boolean {
@@ -445,43 +483,121 @@ export class Cell {
       }
 
       if (
-        this.figure.cell.canEatBaatyr(target, Direction.TOP) ||
-        this.figure.cell.canEatBaatyr(target, Direction.LEFT) ||
-        this.figure.cell.canEatBaatyr(target, Direction.RIGHT) ||
-        this.figure.cell.canEatBaatyr(target, Direction.BOTTOM)
+        this.figure.logo === "blackBaatyr" ||
+        this.figure.logo === "whiteBaatyr"
       ) {
-        let eatFigureTop = this.figure.cell.canEatBaatyr(target, Direction.TOP);
-        let eatFigureLeft = this.figure.cell.canEatBaatyr(
-          target,
-          Direction.LEFT
-        );
-        let eatFigureRight = this.figure.cell.canEatBaatyr(
-          target,
-          Direction.RIGHT
-        );
-        let eatFigureBottom = this.figure.cell.canEatBaatyr(
-          target,
-          Direction.BOTTOM
-        );
+        if (
+          this.figure.cell.canEatBaatyr(target, Direction.TOP) ||
+          this.figure.cell.canEatBaatyr(target, Direction.TOP_LEFT) ||
+          this.figure.cell.canEatBaatyr(target, Direction.TOP_RIGHT) ||
+          this.figure.cell.canEatBaatyr(target, Direction.LEFT) ||
+          this.figure.cell.canEatBaatyr(target, Direction.RIGHT) ||
+          this.figure.cell.canEatBaatyr(target, Direction.BOTTOM)
+        ) {
+          let eatFigureTop = this.figure.cell.canEatBaatyr(
+            target,
+            Direction.TOP
+          );
+          let eatFigureTopLeft = this.figure.cell.canEatBaatyr(
+            target,
+            Direction.TOP_LEFT
+          );
 
-        if (eatFigureTop !== undefined) {
-          this.addLostFigure(eatFigureTop.figure);
-          eatFigureTop.figure = null;
-        }
+          let eatFigureBottomLeft = this.figure.cell.canEatBaatyr(
+            target,
+            Direction.BOTTOM_LEFT
+          );
 
-        if (eatFigureLeft !== undefined) {
-          this.addLostFigure(eatFigureLeft.figure);
-          eatFigureLeft.figure = null;
-        }
+          let eatFigureBottomRight = this.figure.cell.canEatBaatyr(
+            target,
+            Direction.BOTTOM_RIGHT
+          );
 
-        if (eatFigureRight !== undefined) {
-          this.addLostFigure(eatFigureRight.figure);
-          eatFigureRight.figure = null;
-        }
+          let eatFigureTopRight = this.figure.cell.canEatBaatyr(
+            target,
+            Direction.TOP_RIGHT
+          );
 
-        if (eatFigureBottom !== undefined) {
-          this.addLostFigure(eatFigureBottom.figure);
-          eatFigureBottom.figure = null;
+          let eatFigureLeft = this.figure.cell.canEatBaatyr(
+            target,
+            Direction.LEFT
+          );
+          let eatFigureRight = this.figure.cell.canEatBaatyr(
+            target,
+            Direction.RIGHT
+          );
+          let eatFigureBottom = this.figure.cell.canEatBaatyr(
+            target,
+            Direction.BOTTOM
+          );
+
+          if (
+            eatFigureTopLeft !== undefined &&
+            Number(target.y) < Number(eatFigureTopLeft.figure?.cell.y) &&
+            Number(target.x) < Number(eatFigureTopLeft.figure?.cell.x)
+          ) {
+            this.addLostFigure(eatFigureTopLeft.figure);
+            eatFigureTopLeft.figure = null;
+          }
+
+          if (
+            eatFigureBottomLeft !== undefined &&
+            Number(target.y) > Number(eatFigureBottomLeft.figure?.cell.y) &&
+            Number(target.x) < Number(eatFigureBottomLeft.figure?.cell.x)
+          ) {
+            this.addLostFigure(eatFigureBottomLeft.figure);
+            eatFigureBottomLeft.figure = null;
+          }
+
+          if (
+            eatFigureBottomRight !== undefined &&
+            Number(target.y) > Number(eatFigureBottomRight.figure?.cell.y) &&
+            Number(target.x) > Number(eatFigureBottomRight.figure?.cell.x)
+          ) {
+            this.addLostFigure(eatFigureBottomRight.figure);
+            eatFigureBottomRight.figure = null;
+          }
+
+          if (
+            eatFigureTopRight !== undefined &&
+            Number(target.y) < Number(eatFigureTopRight.figure?.cell.y) &&
+            Number(target.x) > Number(eatFigureTopRight.figure?.cell.x)
+          ) {
+            this.addLostFigure(eatFigureTopRight.figure);
+            eatFigureTopRight.figure = null;
+          }
+
+          if (
+            eatFigureTop !== undefined &&
+            Number(target.x) === Number(eatFigureTop.figure?.cell.x)
+          ) {
+            this.addLostFigure(eatFigureTop.figure);
+            eatFigureTop.figure = null;
+          }
+
+          if (
+            eatFigureLeft !== undefined &&
+            Number(target.y) === Number(eatFigureLeft.figure?.cell.y)
+          ) {
+            this.addLostFigure(eatFigureLeft.figure);
+            eatFigureLeft.figure = null;
+          }
+
+          if (
+            eatFigureRight !== undefined &&
+            Number(target.y) === Number(eatFigureRight.figure?.cell.y)
+          ) {
+            this.addLostFigure(eatFigureRight.figure);
+            eatFigureRight.figure = null;
+          }
+
+          if (
+            eatFigureBottom !== undefined &&
+            Number(target.x) === Number(eatFigureBottom.figure?.cell.x)
+          ) {
+            this.addLostFigure(eatFigureBottom.figure);
+            eatFigureBottom.figure = null;
+          }
         }
       }
 

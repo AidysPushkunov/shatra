@@ -43,7 +43,7 @@ export class Figure {
     }
 
     // let x: Boolean | Cell = target.canEat(target);
-    // console.log(x.figure);
+
 
     // x.figure ? false : true;
 
