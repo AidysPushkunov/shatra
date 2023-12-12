@@ -24,11 +24,8 @@ export class Shatra extends Figure {
     if (this.cell.figure?.color === Colors.WHITE) {
     }
 
-    console.log(
-      "This is what do you find: ",
-      this.cell.board.canEatAbility(this.cell)
-    );
-    
+    console.log("This is what do you find: ", this.cell.infortress);
+
     if (this.cell.board.canEatAbility(this.cell)) {
       if (
         this.cell.canEat(target, Direction.TOP_LEFT)?.x === target.x &&
