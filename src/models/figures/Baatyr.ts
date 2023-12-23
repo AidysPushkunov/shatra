@@ -105,6 +105,13 @@ export class Baatyr extends Figure {
             collisionFortress = true;
           }
 
+          //   canEatBaatyrBottomLeft.x - 1 < 0
+          //   ? canEatBaatyrBottomLeft.x
+          //   : canEatBaatyrBottomLeft.x - 1,
+          // canEatBaatyrBottomLeft.y + 1 > 13
+          //   ? canEatBaatyrBottomLeft.y
+          //   : canEatBaatyrBottomLeft.y + 1
+
           if (
             this.cell.board.getCell(
               canEatBaatyrBottomLeft.x - 1,

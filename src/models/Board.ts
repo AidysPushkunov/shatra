@@ -303,15 +303,15 @@ export class Board {
     // this.addShatra();
     // this.addBiy();
 
-    new Baatyr(Colors.WHITE, this.getCell(2, 5));
-    // new Baatyr(Colors.BLACK, this.getCell(2, 6));
+    new Shatra(Colors.WHITE, this.getCell(2, 4));
+    new Shatra(Colors.WHITE, this.getCell(3, 4));
+    new Biy(Colors.WHITE, this.getCell(0, 9));
 
-    new Baatyr(Colors.BLACK, this.getCell(2, 9));
-    new Shatra(Colors.WHITE, this.getCell(1, 7));
-    new Baatyr(Colors.WHITE, this.getCell(5, 7));
-    new Shatra(Colors.WHITE, this.getCell(1, 5));
-    new Shatra(Colors.WHITE, this.getCell(5, 5));
+    new Shatra(Colors.BLACK, this.getCell(2, 9));
+    new Shatra(Colors.BLACK, this.getCell(3, 9));
+    new Biy(Colors.BLACK, this.getCell(0, 4));
 
+    // new Shatra(Colors.WHITE, this.getCell(5, 5));
     // new Baatyr(Colors.BLACK, this.getCell(3, 3));
     // new Baatyr(Colors.BLACK, this.getCell(3, 10));
     // new Baatyr(Colors.WHITE, this.getCell(3, 7));
