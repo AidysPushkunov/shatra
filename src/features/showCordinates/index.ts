@@ -1,0 +1,1 @@
+export { ShowCordinates } from "./showCordinates";

@@ -273,6 +273,8 @@ export class Cell {
       let x = this.x;
       let y = this.y;
 
+
+
       while (x >= 0 && y <= 13) {
         if (
           this.board.getCell(x, y).figure?.color !== this.figure?.color &&
