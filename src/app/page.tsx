@@ -50,7 +50,7 @@ export default function Home() {
       </div>
       <Timer restart={restart} currentPlayer={currentPlayer} />
 
-      <div className="flex justify-center my-14">
+      <div className="flex justify-center">
         <div>
           <ShowCordinates numbers={true} />
         </div>
@@ -61,7 +61,7 @@ export default function Home() {
           swapPlayer={swapPlayer}
         />
       </div>
-      <div className="flex justify-center my-14">
+      <div className="flex justify-center">
         <ShowCordinates numbers={false} />
       </div>
     </>
