@@ -16,12 +16,12 @@ const ShowCordinates: React.FC<ShowCordinatesPropsType> = ({ numbers }) => {
     <div className={numbers ? "text-2xl" : "text-2xl flex"}>
       {numbers
         ? cordinatesNumber.map((e) => (
-            <div className="">
+            <div className="" key={e}>
               <Coordinates coordinat={e.toString()} />
             </div>
           ))
         : cordinatesAlphabet.map((e) => (
-            <div className="">
+            <div className="" key={e}>
               <Coordinates coordinat={e} />
             </div>
           ))}

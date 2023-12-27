@@ -1,6 +1,6 @@
 import React from "react";
 
-type notationElementType = {
+type notationElementType = { 
   coordinat: string;
 };
 

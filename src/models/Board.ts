@@ -292,7 +292,12 @@ export class Board {
   }
 
   public addFigures() {
-    this.addShatra();
-    this.addBiy();
+    // this.addShatra();
+    // this.addBiy();
+    new Biy(Colors.BLACK, this.getCell(3, 3));
+    new Biy(Colors.WHITE, this.getCell(3, 10));
+
+    new Baatyr(Colors.BLACK, this.getCell(3, 4));
+    new Baatyr(Colors.WHITE, this.getCell(3, 9));
   }
 }
