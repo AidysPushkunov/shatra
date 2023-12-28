@@ -231,12 +231,15 @@ export class Cell {
   canEatBaatyr(target: Cell, direction: Direction): Cell | undefined {
     if (direction === Direction.TOP) {
       for (let y = this.y; y >= 0; y--) {
-
         if (
           this.board.getCell(this.x, y).figure?.color !== this.figure?.color &&
           this.board.getCell(this.x, y).figure !== null
         ) {
-          if (this.board.getCell(this.x, y - 1).color === "fortress") return undefined;
+          if (
+            this.board.getCell(this.x, y - 1 < 0 ? y : y - 1).color ===
+            "fortress"
+          )
+            return undefined;
 
           return this.board.getCell(this.x, y);
         }
@@ -252,10 +255,13 @@ export class Cell {
           this.board.getCell(x, y).figure?.color !== this.figure?.color &&
           this.board.getCell(x, y).figure !== null
         ) {
-          if (this.board.getCell(x - 1, y - 1).color === "fortress") return undefined;
+          if (
+            this.board.getCell(x - 1 < 0 ? x : x - 1, y - 1 < 0 ? y : y - 1)
+              .color === "fortress"
+          )
+            return undefined;
 
           return this.board.getCell(x, y);
-
         }
 
         x--;
@@ -267,13 +273,18 @@ export class Cell {
       let x = this.x;
       let y = this.y;
 
-      while (x >= 0 && y <= 13) {
 
+
+      while (x >= 0 && y <= 13) {
         if (
           this.board.getCell(x, y).figure?.color !== this.figure?.color &&
           this.board.getCell(x, y).figure !== null
         ) {
-          if (this.board.getCell(x - 1, y + 1).color === "fortress") return undefined;
+          if (
+            this.board.getCell(x - 1 < 0 ? x : x - 1, y + 1 > 13 ? y : y + 1)
+              .color === "fortress"
+          )
+            return undefined;
 
           return this.board.getCell(x, y);
         }
@@ -288,12 +299,15 @@ export class Cell {
       let y = this.y;
 
       while (x <= 6 && y <= 13) {
- 
         if (
           this.board.getCell(x, y).figure?.color !== this.figure?.color &&
           this.board.getCell(x, y).figure !== null
         ) {
-          if (this.board.getCell(x + 1, y + 1).color === "fortress") return undefined;
+          if (
+            this.board.getCell(x + 1 > 6 ? x : x + 1, y + 1 > 13 ? y : y + 1)
+              .color === "fortress"
+          )
+            return undefined;
 
           return this.board.getCell(x, y);
         }
@@ -312,7 +326,11 @@ export class Cell {
           this.board.getCell(x, y).figure?.color !== this.figure?.color &&
           this.board.getCell(x, y).figure !== null
         ) {
-          if (this.board.getCell(x + 1, y - 1).color === "fortress") return undefined;
+          if (
+            this.board.getCell(x + 1 > 6 ? x : x + 1, y - 1 < 0 ? y : y - 1)
+              .color === "fortress"
+          )
+            return undefined;
 
           return this.board.getCell(x, y);
         }
@@ -324,12 +342,15 @@ export class Cell {
 
     if (direction === Direction.LEFT) {
       for (let x = this.x; x >= 0; x--) {
-
         if (
           this.board.getCell(x, this.y).figure?.color !== this.figure?.color &&
           this.board.getCell(x, this.y).figure !== null
         ) {
-          if (this.board.getCell(x - 1, this.y).color === "fortress") return undefined;
+          if (
+            this.board.getCell(x - 1 < 0 ? x : x - 1, this.y).color ===
+            "fortress"
+          )
+            return undefined;
 
           return this.board.getCell(x, this.y);
         }
@@ -338,12 +359,15 @@ export class Cell {
 
     if (direction === Direction.RIGHT) {
       for (let x = this.x; x <= 6; x++) {
-
         if (
           this.board.getCell(x, this.y).figure?.color !== this.figure?.color &&
           this.board.getCell(x, this.y).figure !== null
         ) {
-          if (this.board.getCell(x + 1, this.y).color === "fortress") return undefined;
+          if (
+            this.board.getCell(x + 1 > 6 ? x : x + 1, this.y).color ===
+            "fortress"
+          )
+            return undefined;
 
           return this.board.getCell(x, this.y);
         }
@@ -356,7 +380,10 @@ export class Cell {
           this.board.getCell(this.x, y).figure?.color !== this.figure?.color &&
           this.board.getCell(this.x, y).figure !== null
         ) {
-          if (this.board.getCell(this.x, y + 1).color === "fortress")
+          if (
+            this.board.getCell(this.x, y + 1 > 13 ? y : y + 1).color ===
+            "fortress"
+          )
             return undefined;
 
           return this.board.getCell(this.x, y);

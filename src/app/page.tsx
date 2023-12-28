@@ -8,6 +8,7 @@ import { Player } from "@/models/Player";
 import { Colors } from "@/models/Colors";
 import { LostFigures } from "@/widgets/lostFigures";
 import { Timer } from "@/widgets/timer";
+import { ShowCordinates } from "@/features/showCordinates";
 
 export default function Home() {
   const [board, setBoard] = React.useState(new Board());
@@ -48,13 +49,20 @@ export default function Home() {
         <LostFigures title="White shatra: " figures={board.lostWhiteFigures} /> */}
       </div>
       <Timer restart={restart} currentPlayer={currentPlayer} />
-      <div className="flex justify-center my-14">
+
+      <div className="flex justify-center">
+        <div>
+          <ShowCordinates numbers={true} />
+        </div>
         <BoardWidget
           board={board}
           setBoard={setBoard}
           currentPlayer={currentPlayer}
           swapPlayer={swapPlayer}
         />
+      </div>
+      <div className="flex justify-center">
+        <ShowCordinates numbers={false} />
       </div>
     </>
   );

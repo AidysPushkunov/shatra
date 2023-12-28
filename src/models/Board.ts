@@ -122,10 +122,6 @@ export class Board {
     return this.cells[y][x];
   }
 
-  // public getFortressAbility(cell: Cell) {
-  //   console.log(cell.figure?.fortressAbility);
-  // }
-
   canEatAbility(target: Cell) {
     for (let x = 0; x <= 6; x++) {
       for (let j = 0; j <= 13; j++) {
@@ -295,37 +291,8 @@ export class Board {
     new Biy(Colors.WHITE, this.getCell(3, 10));
   }
 
-  // private addBaatyr() {
-  //   this.addBaatyr();
-  // }
-
   public addFigures() {
-    // this.addShatra();
-    // this.addBiy();
-
-    new Baatyr(Colors.WHITE, this.getCell(2, 5));
-    // new Baatyr(Colors.BLACK, this.getCell(2, 6));
-
-    new Baatyr(Colors.BLACK, this.getCell(2, 9));
-    new Shatra(Colors.WHITE, this.getCell(1, 7));
-    new Baatyr(Colors.WHITE, this.getCell(5, 7));
-    new Shatra(Colors.WHITE, this.getCell(1, 5));
-    new Shatra(Colors.WHITE, this.getCell(5, 5));
-
-    // new Baatyr(Colors.BLACK, this.getCell(3, 3));
-    // new Baatyr(Colors.BLACK, this.getCell(3, 10));
-    // new Baatyr(Colors.WHITE, this.getCell(3, 7));
-    // new Shatra(Colors.BLACK, this.getCell(2, 7));
-    // new Shatra(Colors.BLACK, this.getCell(5, 7));
-    // new Shatra(Colors.BLACK, this.getCell(3, 5));
-    // new Shatra(Colors.BLACK, this.getCell(1, 9));
-    // new Shatra(Colors.BLACK, this.getCell(3, 5));
-    // new Shatra(Colors.BLACK, this.getCell(3, 9));
-    // new Baatyr(Colors.WHITE, this.getCell(3, 7));
-    // new Baatyr(Colors.BLACK, this.getCell(3, 9));
-    // new Shatra(Colors.WHITE, this.getCell(1, 7));
-    // new Shatra(Colors.BLACK, this.getCell(2, 5));
-    // new Shatra(Colors.WHITE, this.getCell(6, 7));
-    // new Shatra(Colors.BLACK, this.getCell(4, 5));
+    this.addShatra();
+    this.addBiy();
   }
 }
