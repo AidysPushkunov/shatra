@@ -354,8 +354,15 @@ export class Cell {
           if (
             this.board.getCell(x - 1 < 0 ? x : x - 1, this.y).color ===
             "fortress"
-          )
+          ) {
             return undefined;
+          }
+
+          if (
+            this.board.getCell(x - 1 < 0 ? x : x - 1, this.y).figure !== null
+          ) {
+            return undefined;
+          }
 
           return this.board.getCell(x, this.y);
         }
@@ -371,8 +378,15 @@ export class Cell {
           if (
             this.board.getCell(x + 1 > 6 ? x : x + 1, this.y).color ===
             "fortress"
-          )
+          ) {
             return undefined;
+          }
+
+          if (
+            this.board.getCell(x + 1 < 6 ? x : x + 1, this.y).figure !== null
+          ) {
+            return undefined;
+          }
 
           return this.board.getCell(x, this.y);
         }
@@ -441,6 +455,13 @@ export class Cell {
 
     for (let x = min + 1; x < max; x++) {
       if (this.board.getCell(x, this.y).figure?.color === this.figure?.color) {
+        return false;
+      }
+
+      if (
+        this.board.getCell(x, this.y).figure !== null &&
+        this.board.getCell(x + 1 < 6 ? x : x + 1, this.y).figure !== null
+      ) {
         return false;
       }
 
