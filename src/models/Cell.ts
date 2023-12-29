@@ -238,8 +238,15 @@ export class Cell {
           if (
             this.board.getCell(this.x, y - 1 < 0 ? y : y - 1).color ===
             "fortress"
-          )
+          ) {
             return undefined;
+          }
+
+          if (
+            this.board.getCell(this.x, y - 1 < 0 ? y : y - 1).figure !== null
+          ) {
+            return undefined;
+          }
 
           return this.board.getCell(this.x, y);
         }
@@ -272,8 +279,6 @@ export class Cell {
     if (direction === Direction.BOTTOM_LEFT) {
       let x = this.x;
       let y = this.y;
-
-
 
       while (x >= 0 && y <= 13) {
         if (
@@ -410,6 +415,13 @@ export class Cell {
 
     for (let y = min + 1; y < max; y++) {
       if (this.board.getCell(this.x, y).figure?.color === this.figure?.color) {
+        return false;
+      }
+
+      if (
+        this.board.getCell(this.x, y).figure !== null &&
+        this.board.getCell(this.x, y + 1).figure !== null
+      ) {
         return false;
       }
 
