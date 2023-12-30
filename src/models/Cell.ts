@@ -265,8 +265,16 @@ export class Cell {
           if (
             this.board.getCell(x - 1 < 0 ? x : x - 1, y - 1 < 0 ? y : y - 1)
               .color === "fortress"
-          )
+          ) {
             return undefined;
+          }
+
+          if (
+            this.board.getCell(x - 1 < 0 ? x : x - 1, y - 1 < 0 ? y : y - 1)
+              .figure !== null
+          ) {
+            return undefined;
+          }
 
           return this.board.getCell(x, y);
         }
@@ -288,8 +296,16 @@ export class Cell {
           if (
             this.board.getCell(x - 1 < 0 ? x : x - 1, y + 1 > 13 ? y : y + 1)
               .color === "fortress"
-          )
+          ) {
             return undefined;
+          }
+
+          if (
+            this.board.getCell(x - 1 < 0 ? x : x - 1, y + 1 > 13 ? y : y + 1)
+              .figure !== null
+          ) {
+            return undefined;
+          }
 
           return this.board.getCell(x, y);
         }
@@ -311,8 +327,16 @@ export class Cell {
           if (
             this.board.getCell(x + 1 > 6 ? x : x + 1, y + 1 > 13 ? y : y + 1)
               .color === "fortress"
-          )
+          ) {
             return undefined;
+          }
+
+          if (
+            this.board.getCell(x + 1 > 6 ? x : x + 1, y + 1 > 13 ? y : y + 1)
+              .figure !== null
+          ) {
+            return undefined;
+          }
 
           return this.board.getCell(x, y);
         }
@@ -334,8 +358,16 @@ export class Cell {
           if (
             this.board.getCell(x + 1 > 6 ? x : x + 1, y - 1 < 0 ? y : y - 1)
               .color === "fortress"
-          )
+          ) {
             return undefined;
+          }
+
+          if (
+            this.board.getCell(x + 1 > 6 ? x : x + 1, y - 1 < 0 ? y : y - 1)
+              .figure !== null
+          ) {
+            return undefined;
+          }
 
           return this.board.getCell(x, y);
         }
@@ -483,14 +515,24 @@ export class Cell {
       if (
         this.board.getCell(this.x + dx * i, this.y + dy * i).figure?.color ===
         this.figure?.color
-      )
+      ) {
         return false;
+      }
+
+      if (
+        this.board.getCell(this.x + dx * i, this.y + dy * i).figure !== null &&
+        this.board.getCell(this.x + dx * i + dx, this.y + dy * i + dy)
+          .figure !== null
+      ) {
+        return false;
+      }
 
       if (
         this.board.getCell(this.x + dx * i, this.y + dy * i).color ===
         "fortress"
-      )
+      ) {
         return;
+      }
     }
 
     return true;
