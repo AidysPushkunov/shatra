@@ -97,6 +97,9 @@ export class Baatyr extends Figure {
           // if (this.cell.board.getCell(x, y).color === "fortress") {
           //   return false;
           // }
+
+          // .figure can undefined and it is we took mistake
+
           if (
             this.cell.board.getCell(
               canEatBaatyrBottomLeft.x - 1,

@@ -434,8 +434,15 @@ export class Cell {
           if (
             this.board.getCell(this.x, y + 1 > 13 ? y : y + 1).color ===
             "fortress"
-          )
+          ) {
             return undefined;
+          }
+
+          if (
+            this.board.getCell(this.x, y + 1 > 13 ? y : y + 1).figure !== null
+          ) {
+            return undefined;
+          }
 
           return this.board.getCell(this.x, y);
         }
