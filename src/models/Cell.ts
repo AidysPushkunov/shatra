@@ -415,7 +415,7 @@ export class Cell {
           }
 
           if (
-            this.board.getCell(x + 1 < 6 ? x : x + 1, this.y).figure !== null
+            this.board.getCell(x + 1 >= 6 ? x : x + 1, this.y).figure !== null
           ) {
             return undefined;
           }
@@ -508,6 +508,8 @@ export class Cell {
     }
     return true;
   }
+
+  // В диоганади проблемы с dx и dy
 
   isEmptyDiogonal(target: Cell) {
     const absX = Math.abs(target.x - this.x);

@@ -46,14 +46,22 @@ export class Baatyr extends Figure {
           if (collisionFortress) continue;
 
           if (
-            this.cell.board.getCell(canEatBaatyrTop.x, canEatBaatyrTop.y - 1)
-              .color === "fortress"
+            this.cell.board.getCell(
+              canEatBaatyrTop.x,
+              canEatBaatyrTop.y - 1 > 0
+                ? canEatBaatyrTop.y - 1
+                : canEatBaatyrTop.y
+            ).color === "fortress"
           )
             collisionFortress = true;
 
           if (
-            this.cell.board.getCell(canEatBaatyrTop.x, canEatBaatyrTop.y - 1)
-              .color !== "fortress"
+            this.cell.board.getCell(
+              canEatBaatyrTop.x,
+              canEatBaatyrTop.y - 1 > 0
+                ? canEatBaatyrTop.y - 1
+                : canEatBaatyrTop.y
+            ).color !== "fortress"
           ) {
             if (canEatBaatyrTop.x === target.x && i === target.y) {
               return true;
@@ -67,17 +75,22 @@ export class Baatyr extends Figure {
         let y = canEatBaatyrTopLeft.y;
 
         while (x >= 0 && y >= 0) {
-          // if (this.cell.board.getCell(x, y).color === "fortress") {
-          //   return false;
-          // }
           if (
             this.cell.board.getCell(
-              canEatBaatyrTopLeft.x - 1,
-              canEatBaatyrTopLeft.y - 1
+              canEatBaatyrTopLeft.x - 1 > 0
+                ? canEatBaatyrTopLeft.x - 1
+                : canEatBaatyrTopLeft.x,
+              canEatBaatyrTopLeft.y - 1 > 0
+                ? canEatBaatyrTopLeft.y - 1
+                : canEatBaatyrTopLeft.y
             ).figure === null &&
             this.cell.board.getCell(
-              canEatBaatyrTopLeft.x - 1,
-              canEatBaatyrTopLeft.y - 1
+              canEatBaatyrTopLeft.x - 1 > 0
+                ? canEatBaatyrTopLeft.x - 1
+                : canEatBaatyrTopLeft.x,
+              canEatBaatyrTopLeft.y - 1 > 0
+                ? canEatBaatyrTopLeft.y - 1
+                : canEatBaatyrTopLeft.y
             ).color !== "fortress"
           ) {
             if (x === target.x && y === target.y) {
@@ -94,24 +107,25 @@ export class Baatyr extends Figure {
         let y = canEatBaatyrBottomLeft.y;
 
         while (x >= 0 && y <= 13) {
-          // if (this.cell.board.getCell(x, y).color === "fortress") {
-          //   return false;
-          // }
-
-          // .figure can undefined and it is we took mistake
-
           if (
             this.cell.board.getCell(
-              canEatBaatyrBottomLeft.x - 1,
-              canEatBaatyrBottomLeft.y + 1
+              canEatBaatyrBottomLeft.x - 1 > 0
+                ? canEatBaatyrBottomLeft.x - 1
+                : canEatBaatyrBottomLeft.x,
+              canEatBaatyrBottomLeft.y + 1 < 13
+                ? canEatBaatyrBottomLeft.y + 1
+                : canEatBaatyrBottomLeft.y
             ).figure === null &&
             this.cell.board.getCell(
-              canEatBaatyrBottomLeft.x - 1,
-              canEatBaatyrBottomLeft.y + 1
+              canEatBaatyrBottomLeft.x - 1 > 0
+                ? canEatBaatyrBottomLeft.x - 1
+                : canEatBaatyrBottomLeft.x,
+              canEatBaatyrBottomLeft.y + 1 < 13
+                ? canEatBaatyrBottomLeft.y + 1
+                : canEatBaatyrBottomLeft.y
             ).color !== "fortress"
           )
             if (x === target.x && y === target.y) {
-              // if (this.cell.board.getCell(x, y).figure?.logo !== "fortress")
               return true;
             }
           x--;
@@ -124,21 +138,25 @@ export class Baatyr extends Figure {
         let y = canEatBaatyrBottomRight.y;
 
         while (x <= 6 && y <= 13) {
-          // if (this.cell.board.getCell(x, y).color === "fortress") {
-          //   return false;
-          // }
           if (
             this.cell.board.getCell(
-              canEatBaatyrBottomRight.x + 1,
-              canEatBaatyrBottomRight.y + 1
+              canEatBaatyrBottomRight.x + 1 < 6
+                ? canEatBaatyrBottomRight.x + 1
+                : canEatBaatyrBottomRight.x,
+              canEatBaatyrBottomRight.y + 1 < 13
+                ? canEatBaatyrBottomRight.y + 1
+                : canEatBaatyrBottomRight.y
             ).figure === null &&
             this.cell.board.getCell(
-              canEatBaatyrBottomRight.x + 1,
-              canEatBaatyrBottomRight.y + 1
+              canEatBaatyrBottomRight.x + 1 < 6
+                ? canEatBaatyrBottomRight.x + 1
+                : canEatBaatyrBottomRight.x,
+              canEatBaatyrBottomRight.y + 1 < 13
+                ? canEatBaatyrBottomRight.y + 1
+                : canEatBaatyrBottomRight.y
             ).color !== "fortress"
           )
             if (x === target.x && y === target.y) {
-              // if (this.cell.board.getCell(x, y).figure?.logo !== "fortress")
               return true;
             }
           x++;
@@ -151,21 +169,26 @@ export class Baatyr extends Figure {
         let y = canEatBaatyrTopRight.y;
 
         while (x <= 6 && y >= 0) {
-          // if (this.cell.board.getCell(x, y).color === "fortress") {
-          //   return false;
-          // }
+       
           if (
             this.cell.board.getCell(
-              canEatBaatyrTopRight.x + 1,
-              canEatBaatyrTopRight.y - 1
+              canEatBaatyrTopRight.x + 1 < 6
+                ? canEatBaatyrTopRight.x + 1
+                : canEatBaatyrTopRight.x,
+              canEatBaatyrTopRight.y - 1 > 0
+                ? canEatBaatyrTopRight.y - 1
+                : canEatBaatyrTopRight.y
             ).figure === null &&
             this.cell.board.getCell(
-              canEatBaatyrTopRight.x + 1,
-              canEatBaatyrTopRight.y - 1
+              canEatBaatyrTopRight.x + 1 < 6
+                ? canEatBaatyrTopRight.x + 1
+                : canEatBaatyrTopRight.x,
+              canEatBaatyrTopRight.y - 1 > 0
+                ? canEatBaatyrTopRight.y - 1
+                : canEatBaatyrTopRight.y
             ).color !== "fortress"
           )
             if (x === target.x && y === target.y) {
-              // if (this.cell.board.getCell(x, y).figure?.logo !== "fortress")
               return true;
             }
           x++;
@@ -175,23 +198,24 @@ export class Baatyr extends Figure {
 
       if (canEatBaatyrLeft) {
         for (let i = canEatBaatyrLeft.x; i >= 0; i--) {
-          // if (
-          //   this.cell.board.getCell(i, canEatBaatyrLeft.y).color === "fortress"
-          // ) {
-          //   return false;
-          // }
+       
 
           if (
-            this.cell.board.getCell(canEatBaatyrLeft.x - 1, canEatBaatyrLeft.y)
-              .figure === null &&
-            this.cell.board.getCell(canEatBaatyrLeft.x - 1, canEatBaatyrLeft.y)
-              .color !== "fortress"
+            this.cell.board.getCell(
+              canEatBaatyrLeft.x - 1 > 0
+                ? canEatBaatyrLeft.x - 1
+                : canEatBaatyrLeft.x,
+              canEatBaatyrLeft.y
+            ).figure === null &&
+            this.cell.board.getCell(
+              canEatBaatyrLeft.x - 1 > 0
+                ? canEatBaatyrLeft.x - 1
+                : canEatBaatyrLeft.x,
+              canEatBaatyrLeft.y
+            ).color !== "fortress"
           )
             if (i === target.x && canEatBaatyrLeft.y === target.y) {
-              // if (
-              //   this.cell.board.getCell(i, canEatBaatyrLeft.y).figure?.logo !==
-              //   "fortress"
-              // )
+
               return true;
             }
         }
@@ -199,27 +223,23 @@ export class Baatyr extends Figure {
 
       if (canEatBaatyrRight) {
         for (let i = canEatBaatyrRight.x; i <= 6; i++) {
-          // if (
-          //   this.cell.board.getCell(i, canEatBaatyrRight.y).color === "fortress"
-          // ) {
-          //   return false;
-          // }
 
           if (
             this.cell.board.getCell(
-              canEatBaatyrRight.x + 1,
+              canEatBaatyrRight.x + 1 < 6
+                ? canEatBaatyrRight.x + 1
+                : canEatBaatyrRight.x,
               canEatBaatyrRight.y
             ).figure === null &&
             this.cell.board.getCell(
-              canEatBaatyrRight.x + 1,
+              canEatBaatyrRight.x + 1 < 6
+                ? canEatBaatyrRight.x + 1
+                : canEatBaatyrRight.x,
               canEatBaatyrRight.y
             ).color !== "fortress"
           )
             if (i === target.x && canEatBaatyrRight.y === target.y) {
-              // if (
-              //   this.cell.board.getCell(i, canEatBaatyrRight.y).figure?.logo !==
-              //   "fortress"
-              // )
+     
               return true;
             }
         }
@@ -227,27 +247,23 @@ export class Baatyr extends Figure {
 
       if (canEatBaatyrBottom) {
         for (let i = canEatBaatyrBottom.y; i <= 13; i++) {
-          // if (
-          //   this.cell.board.getCell(canEatBaatyrBottom.x, i).color ===
-          //   "fortress"
-          // ) {
-          //   return false;
-          // }
+
           if (
             this.cell.board.getCell(
               canEatBaatyrBottom.x,
-              canEatBaatyrBottom.y + 1
+              canEatBaatyrBottom.y + 1 < 13
+                ? canEatBaatyrBottom.y + 1
+                : canEatBaatyrBottom.y
             ).figure === null &&
             this.cell.board.getCell(
               canEatBaatyrBottom.x,
-              canEatBaatyrBottom.y + 1
+              canEatBaatyrBottom.y + 1 < 13
+                ? canEatBaatyrBottom.y + 1
+                : canEatBaatyrBottom.y
             ).color !== "fortress"
           )
             if (canEatBaatyrBottom.x === target.x && i === target.y) {
-              // if (
-              //   this.cell.board.getCell(canEatBaatyrBottom.x, i).figure?.logo !==
-              //   "fortress"
-              // )
+     
               return true;
             }
         }
