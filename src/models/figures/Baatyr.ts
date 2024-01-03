@@ -169,7 +169,6 @@ export class Baatyr extends Figure {
         let y = canEatBaatyrTopRight.y;
 
         while (x <= 6 && y >= 0) {
-       
           if (
             this.cell.board.getCell(
               canEatBaatyrTopRight.x + 1 < 6
@@ -198,8 +197,6 @@ export class Baatyr extends Figure {
 
       if (canEatBaatyrLeft) {
         for (let i = canEatBaatyrLeft.x; i >= 0; i--) {
-       
-
           if (
             this.cell.board.getCell(
               canEatBaatyrLeft.x - 1 > 0
@@ -215,7 +212,6 @@ export class Baatyr extends Figure {
             ).color !== "fortress"
           )
             if (i === target.x && canEatBaatyrLeft.y === target.y) {
-
               return true;
             }
         }
@@ -223,7 +219,6 @@ export class Baatyr extends Figure {
 
       if (canEatBaatyrRight) {
         for (let i = canEatBaatyrRight.x; i <= 6; i++) {
-
           if (
             this.cell.board.getCell(
               canEatBaatyrRight.x + 1 < 6
@@ -239,7 +234,6 @@ export class Baatyr extends Figure {
             ).color !== "fortress"
           )
             if (i === target.x && canEatBaatyrRight.y === target.y) {
-     
               return true;
             }
         }
@@ -247,7 +241,6 @@ export class Baatyr extends Figure {
 
       if (canEatBaatyrBottom) {
         for (let i = canEatBaatyrBottom.y; i <= 13; i++) {
-
           if (
             this.cell.board.getCell(
               canEatBaatyrBottom.x,
@@ -263,7 +256,6 @@ export class Baatyr extends Figure {
             ).color !== "fortress"
           )
             if (canEatBaatyrBottom.x === target.x && i === target.y) {
-     
               return true;
             }
         }

@@ -235,6 +235,10 @@ export class Cell {
           this.board.getCell(this.x, y).figure?.color !== this.figure?.color &&
           this.board.getCell(this.x, y).figure !== null
         ) {
+          if (y + 1 > 13 || y - 1 < 0) {
+            return undefined;
+          }
+
           if (
             this.board.getCell(this.x, y - 1 < 0 ? y : y - 1).color ===
             "fortress"
@@ -262,6 +266,10 @@ export class Cell {
           this.board.getCell(x, y).figure?.color !== this.figure?.color &&
           this.board.getCell(x, y).figure !== null
         ) {
+          if (x + 1 > 6 || x - 1 < 0 || y + 1 > 13 || y - 1 < 0) {
+            return undefined;
+          }
+
           if (
             this.board.getCell(x - 1 < 0 ? x : x - 1, y - 1 < 0 ? y : y - 1)
               .color === "fortress"
@@ -293,6 +301,10 @@ export class Cell {
           this.board.getCell(x, y).figure?.color !== this.figure?.color &&
           this.board.getCell(x, y).figure !== null
         ) {
+          if (x + 1 > 6 || x - 1 < 0 || y + 1 > 13 || y - 1 < 0) {
+            return undefined;
+          }
+
           if (
             this.board.getCell(x - 1 < 0 ? x : x - 1, y + 1 > 13 ? y : y + 1)
               .color === "fortress"
@@ -324,6 +336,10 @@ export class Cell {
           this.board.getCell(x, y).figure?.color !== this.figure?.color &&
           this.board.getCell(x, y).figure !== null
         ) {
+          if (x + 1 > 6 || x - 1 < 0 || y + 1 > 13 || y - 1 < 0) {
+            return undefined;
+          }
+
           if (
             this.board.getCell(x + 1 > 6 ? x : x + 1, y + 1 > 13 ? y : y + 1)
               .color === "fortress"
@@ -355,6 +371,10 @@ export class Cell {
           this.board.getCell(x, y).figure?.color !== this.figure?.color &&
           this.board.getCell(x, y).figure !== null
         ) {
+          if (x + 1 > 6 || x - 1 < 0 || y + 1 > 13 || y - 1 < 0) {
+            return undefined;
+          }
+
           if (
             this.board.getCell(x + 1 > 6 ? x : x + 1, y - 1 < 0 ? y : y - 1)
               .color === "fortress"
@@ -431,6 +451,10 @@ export class Cell {
           this.board.getCell(this.x, y).figure?.color !== this.figure?.color &&
           this.board.getCell(this.x, y).figure !== null
         ) {
+          if (y + 1 > 13 || y - 1 < 0) {
+            return undefined;
+          }
+
           if (
             this.board.getCell(this.x, y + 1 > 13 ? y : y + 1).color ===
             "fortress"
@@ -527,6 +551,8 @@ export class Cell {
       ) {
         return false;
       }
+
+      console.log("This is coordinate: ", this.x + dx * i, this.y + dy * i);
 
       if (
         this.board.getCell(this.x + dx * i, this.y + dy * i).figure !== null &&
