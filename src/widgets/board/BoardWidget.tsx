@@ -5,8 +5,6 @@ import { ShowFigure } from "@/features/showFigure";
 import { Cell } from "@/models/Cell";
 import { Player } from "@/models/Player";
 import { Direction } from "@/models/Direction";
-import { Coordinates } from "@/entities/coordinates";
-import { ShowCordinates } from "@/features/showCordinates";
 
 interface BoardProps {
   board: Board;
@@ -75,7 +73,6 @@ const BoardWidget: React.FC<BoardProps> = ({
 
   return (
     <>
-
       <div className="flex flex-wrap w-[525px]">
         {board.cells.map((row, index) => (
           <React.Fragment key={index}>

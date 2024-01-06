@@ -43,26 +43,29 @@ export default function Home() {
 
   return (
     <>
-      {<h3>Move: {currentPlayer?.color}</h3>}
       <div>
         {/* <LostFigures title="Black shatra: " figures={board.lostBlackFigures} />
         <LostFigures title="White shatra: " figures={board.lostWhiteFigures} /> */}
       </div>
-      <Timer restart={restart} currentPlayer={currentPlayer} />
-
-      <div className="flex justify-center">
-        <div>
-          <ShowCordinates numbers={true} />
+      {/* <Timer restart={restart} currentPlayer={currentPlayer} /> */}
+      <div className="flex justify-center mt-10">
+        <div className="flex flex-col">
+          <div className="flex justify-center">
+            <div>
+              <ShowCordinates numbers={true} />
+            </div>
+            <BoardWidget
+              board={board}
+              setBoard={setBoard}
+              currentPlayer={currentPlayer}
+              swapPlayer={swapPlayer}
+            />
+          </div>
+          <div className="flex justify-center">
+            <ShowCordinates numbers={false} />
+          </div>
         </div>
-        <BoardWidget
-          board={board}
-          setBoard={setBoard}
-          currentPlayer={currentPlayer}
-          swapPlayer={swapPlayer}
-        />
-      </div>
-      <div className="flex justify-center">
-        <ShowCordinates numbers={false} />
+        <Timer restart={restart} currentPlayer={currentPlayer} />
       </div>
     </>
   );

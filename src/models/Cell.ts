@@ -552,8 +552,6 @@ export class Cell {
         return false;
       }
 
-      console.log("This is coordinate: ", this.x + dx * i, this.y + dy * i);
-
       if (
         this.board.getCell(this.x + dx * i, this.y + dy * i).figure !== null &&
         this.board.getCell(this.x + dx * i + dx, this.y + dy * i + dy)
