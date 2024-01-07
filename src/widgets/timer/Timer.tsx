@@ -11,6 +11,16 @@ const Timer: React.FC<TimerProps> = ({ currentPlayer, restart }) => {
   const [blackTime, setBlackTime] = React.useState(300);
   const [whiteTime, setWhiteTime] = React.useState(300);
 
+  // поработать над временем
+
+  // let hoursBlackTime = blackTime >= 3600 ? blackTime / 3600 : 0;
+  let minutesBlackTime = blackTime >= 60 ? blackTime / 60 : 0;
+  let secondsBlackTime = blackTime - Math.trunc(blackTime / 60) * 60;
+
+  // let hoursWhiteTime = whiteTime >= 3600 ? whiteTime / 3600 : 0;
+  let minutesWhiteTime = whiteTime >= 60 ? whiteTime / 60 : 0;
+  let secondsWhiteTime = whiteTime - Math.trunc(whiteTime / 60) * 60;
+
   const timer = React.useRef<null | ReturnType<typeof setInterval>>(null);
 
   React.useEffect(() => {
@@ -57,7 +67,16 @@ const Timer: React.FC<TimerProps> = ({ currentPlayer, restart }) => {
             )}
             <span className="relative inline-flex rounded-full h-4 w-4 bg-red-500"></span>
           </span>
-          <div className="ml-3">00:00:{blackTime}</div>
+          <div className="ml-3">
+            {/* {hoursBlackTime < 10
+              ? `0${Math.trunc(hoursBlackTime)}`
+              : Math.trunc(hoursBlackTime)}
+            : */}
+            {minutesBlackTime < 10
+              ? `0${Math.trunc(minutesBlackTime)}`
+              : Math.trunc(minutesBlackTime)}
+            :{secondsBlackTime < 10 ? `0${secondsBlackTime}` : secondsBlackTime}
+          </div>
         </div>
       </div>
 
@@ -76,7 +95,16 @@ const Timer: React.FC<TimerProps> = ({ currentPlayer, restart }) => {
             )}
             <span className="relative inline-flex rounded-full h-4 w-4 bg-red-500"></span>
           </span>
-          <div className="ml-3">00:00:{whiteTime}</div>
+          <div className="ml-3">
+            {/* {hoursWhiteTime < 10
+              ? `0${Math.trunc(hoursWhiteTime)}`
+              : Math.trunc(hoursWhiteTime)}
+            : */}
+            {minutesWhiteTime < 10
+              ? `0${Math.trunc(minutesWhiteTime)}`
+              : Math.trunc(minutesWhiteTime)}
+            :{secondsWhiteTime < 10 ? `0${secondsWhiteTime}` : secondsWhiteTime}
+          </div>
         </div>
       </div>
     </div>
