@@ -2,7 +2,7 @@
 
 import { Cell } from "@/models/Cell";
 import React from "react";
-import { Stage, Layer, Rect, Circle } from "react-konva";
+import { Stage, Layer, Rect, Circle, Group } from "react-konva";
 
 const fieldIntent = {
   black: "#b7c0d8",
@@ -16,6 +16,8 @@ const fieldIntent = {
 };
 
 type FieldProps = {
+  index: number;
+  indexRow: number;
   intent: "black" | "white" | "active" | "fortress";
   cell: Cell;
   children: React.ReactNode;
@@ -24,6 +26,8 @@ type FieldProps = {
 };
 
 const Field: React.FC<FieldProps> = ({
+  index,
+  indexRow,
   intent,
   cell,
   children,
@@ -31,31 +35,36 @@ const Field: React.FC<FieldProps> = ({
   clickField,
 }) => {
   return (
-    <Stage width={75} height={75}>
-      <Layer onClick={() => clickField(cell)}>
-        <Rect
-          x={0}
-          y={0}
-          width={75}
-          height={75}
-          fill={
-            selected
-              ? fieldIntent.activeField
-              : cell.available && cell.figure?.color // for attack Figure field show red... Need to think about it
-              ? fieldIntent.attackFigure
-              : fieldIntent[intent]
-          }
-          shadowBlur={10}
-        />
-        {intent === "fortress"
-          ? null
-          : cell.available &&
-            !cell.figure && (
-              <Circle x={37.5} y={37.5} radius={10} fill={fieldIntent.active} />
-            )}
-        {children}
-      </Layer>
-    </Stage>
+    // <Stage width={75} height={75}>
+    // <Layer onClick={() => clickField(cell)}>
+    <Group
+      x={indexRow * 75}
+      y={index * 75}
+      width={75}
+      height={75}
+      onClick={() => clickField(cell)}
+    >
+      <Rect
+        x={0}
+        y={0}
+        width={75}
+        height={75}
+        fill={
+          selected
+            ? fieldIntent.activeField
+            : cell.available && cell.figure?.color // for attack Figure field show red... Need to think about it
+            ? fieldIntent.attackFigure
+            : fieldIntent[intent]
+        }
+      />
+      {intent === "fortress"
+        ? null
+        : cell.available &&
+          !cell.figure && (
+            <Circle x={37.5} y={37.5} radius={10} fill={fieldIntent.active} />
+          )}
+      {children}
+    </Group>
   );
 };
 

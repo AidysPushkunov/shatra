@@ -1,8 +1,11 @@
 import { Field } from "@/entities/field";
 import { Cell } from "@/models/Cell";
 import { FigureEntities } from "@/entities/figure";
+import { Stage } from "react-konva";
 
 type ShowFieldProps = {
+  index: number;
+  indexRow: number;
   intent: "black" | "white" | "active" | "fortress";
   cell: Cell;
   selected: boolean;
@@ -10,6 +13,8 @@ type ShowFieldProps = {
 };
 
 const ShowFigure: React.FC<ShowFieldProps> = ({
+  index,
+  indexRow,
   intent,
   cell,
   selected,
@@ -17,6 +22,8 @@ const ShowFigure: React.FC<ShowFieldProps> = ({
 }) => {
   return (
     <Field
+      index={index}
+      indexRow={indexRow}
       intent={intent}
       selected={selected}
       clickField={clickField}

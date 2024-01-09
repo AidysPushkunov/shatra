@@ -10,6 +10,8 @@ import { LostFigures } from "@/widgets/lostFigures";
 import { Timer } from "@/widgets/timer";
 import { ShowCordinates } from "@/features/showCordinates";
 
+import { Stage } from "react-konva";
+
 export default function Home() {
   const [board, setBoard] = React.useState(new Board());
   const [whitePlayer, setWhitePlayer] = React.useState(
@@ -54,12 +56,18 @@ export default function Home() {
             <div>
               <ShowCordinates numbers={true} />
             </div>
-            <BoardWidget
-              board={board}
-              setBoard={setBoard}
-              currentPlayer={currentPlayer}
-              swapPlayer={swapPlayer}
-            />
+            {/* <Stage
+              width={525}
+              height={1050}
+              className="flex flex-wrap w-[525px] bg-white"
+            > */}
+              <BoardWidget
+                board={board}
+                setBoard={setBoard}
+                currentPlayer={currentPlayer}
+                swapPlayer={swapPlayer}
+              />
+            {/* </Stage> */}
           </div>
           <div className="flex justify-center">
             <ShowCordinates numbers={false} />
