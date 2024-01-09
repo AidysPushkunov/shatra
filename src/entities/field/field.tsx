@@ -25,6 +25,23 @@ type FieldProps = {
   clickField: (cell: Cell) => void;
 };
 
+const changePositionFigure = (figure: any) => {
+  // use Konva methods to animate a shape
+  figure.to({
+    x: 124,
+    y: 223,
+    scaleX: 1.5,
+    scaleY: 1.5,
+    onFinish: () => {
+      figure.to({
+        scaleX: 1,
+        scaleY: 1,
+      });
+    },
+    duration: 2.5,
+  });
+};
+
 const Field: React.FC<FieldProps> = ({
   index,
   indexRow,
@@ -34,6 +51,14 @@ const Field: React.FC<FieldProps> = ({
   selected,
   clickField,
 }) => {
+  const fieldRef = React.useRef(null);
+
+  const handleFigureClick = () => {
+    // another way to access Konva nodes is to just use event object
+    const field: any = fieldRef.current;
+    changePositionFigure(field);
+  };
+
   return (
     // <Stage width={75} height={75}>
     // <Layer onClick={() => clickField(cell)}>
@@ -56,6 +81,9 @@ const Field: React.FC<FieldProps> = ({
             ? fieldIntent.attackFigure
             : fieldIntent[intent]
         }
+        ref={fieldRef}
+        onClick={handleFigureClick}
+        onTap={handleFigureClick}
       />
       {intent === "fortress"
         ? null

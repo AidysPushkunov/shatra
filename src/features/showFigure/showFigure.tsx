@@ -22,6 +22,7 @@ const ShowFigure: React.FC<ShowFieldProps> = ({
 }) => {
   return (
     <Field
+      key={cell.id}
       index={index}
       indexRow={indexRow}
       intent={intent}

@@ -22,17 +22,17 @@ function svgToURL(s: any) {
 const changePositionFigure = (figure: any) => {
   // use Konva methods to animate a shape
   figure.to({
-    // x: 124,
-    // y: 223,
-    // scaleX: 1.5,
-    // scaleY: 1.5,
-    // onFinish: () => {
-    //   figure.to({
-    //     scaleX: 1,
-    //     scaleY: 1,
-    //   });
-    // },
-    // duration: 2.5,
+    x: 124,
+    y: 223,
+    scaleX: 1.5,
+    scaleY: 1.5,
+    onFinish: () => {
+      figure.to({
+        scaleX: 1,
+        scaleY: 1,
+      });
+    },
+    duration: 2.5,
   });
 };
 
@@ -64,9 +64,13 @@ const FigureEntities: React.FC<FigureProps> = ({ intent }) => {
   const url = svgToURL(currentFigure);
   const [image] = useImage(url);
 
+  const handleDragStart = (el: any) => {
+    el.target.moveToTop();
+  };
+
   const handleFigureClick = () => {
     // another way to access Konva nodes is to just use event object
-    const figure = figureRef.current;
+    const figure: any = figureRef.current;
     changePositionFigure(figure);
   };
 
@@ -81,11 +85,8 @@ const FigureEntities: React.FC<FigureProps> = ({ intent }) => {
           height={55}
           alt="whiteShatra"
           ref={figureRef}
-          // onClick={handleFigureClick}
-          // onTap={handleFigureClick}
-          draggable
-          onDragEnd={handleFigureClick}
-          onDragStart={handleFigureClick}
+          onClick={handleFigureClick}
+          onTap={handleFigureClick}
         />
       ) : intent === "blackShatra" ? (
         <Image
@@ -96,9 +97,8 @@ const FigureEntities: React.FC<FigureProps> = ({ intent }) => {
           height={55}
           alt="whiteShatra"
           ref={figureRef}
-          draggable
-          onDragEnd={handleFigureClick}
-          onDragStart={handleFigureClick}
+          onClick={handleFigureClick}
+          onTap={handleFigureClick}
         />
       ) : intent === "whiteBiy" ? (
         <Image
@@ -109,9 +109,8 @@ const FigureEntities: React.FC<FigureProps> = ({ intent }) => {
           height={55}
           alt="whiteBiy"
           ref={figureRef}
-          draggable
-          onDragEnd={handleFigureClick}
-          onDragStart={handleFigureClick}
+          onClick={handleFigureClick}
+          onTap={handleFigureClick}
         />
       ) : intent === "blackBiy" ? (
         <Image
@@ -122,9 +121,8 @@ const FigureEntities: React.FC<FigureProps> = ({ intent }) => {
           height={55}
           alt="blackBiy"
           ref={figureRef}
-          draggable
-          onDragEnd={handleFigureClick}
-          onDragStart={handleFigureClick}
+          onClick={handleFigureClick}
+          onTap={handleFigureClick}
         />
       ) : intent === "whiteBaatyr" ? (
         <Image
@@ -135,9 +133,6 @@ const FigureEntities: React.FC<FigureProps> = ({ intent }) => {
           height={55}
           alt="whiteBaatyr"
           ref={figureRef}
-          draggable
-          onDragEnd={handleFigureClick}
-          onDragStart={handleFigureClick}
           onClick={handleFigureClick}
           onTap={handleFigureClick}
         />
@@ -150,9 +145,8 @@ const FigureEntities: React.FC<FigureProps> = ({ intent }) => {
           height={55}
           alt="blackBaatyr"
           ref={figureRef}
-          draggable
-          onDragEnd={handleFigureClick}
-          onDragStart={handleFigureClick}
+          onClick={handleFigureClick}
+          onTap={handleFigureClick}
         />
       ) : (
         <></>

@@ -84,12 +84,12 @@ const BoardWidget: React.FC<BoardProps> = ({
               {row.map((cell, indexRow) => (
                 <>
                   <ShowFigure
+                    key={cell.id}
                     index={index}
                     indexRow={indexRow}
                     clickField={clickField}
                     intent={cell.color}
                     cell={cell}
-                    key={cell.id}
                     selected={
                       cell.x === selectedCell?.x && cell.y === selectedCell?.y
                     }
