@@ -10,6 +10,8 @@ import { LostFigures } from "@/widgets/lostFigures";
 import { Timer } from "@/widgets/timer";
 import { ShowCordinates } from "@/features/showCordinates";
 
+import { Stage } from "react-konva";
+
 export default function Home() {
   const [board, setBoard] = React.useState(new Board());
   const [whitePlayer, setWhitePlayer] = React.useState(
@@ -43,26 +45,35 @@ export default function Home() {
 
   return (
     <>
-      {<h3>Move: {currentPlayer?.color}</h3>}
       <div>
         {/* <LostFigures title="Black shatra: " figures={board.lostBlackFigures} />
         <LostFigures title="White shatra: " figures={board.lostWhiteFigures} /> */}
       </div>
-      <Timer restart={restart} currentPlayer={currentPlayer} />
-
-      <div className="flex justify-center">
-        <div>
-          <ShowCordinates numbers={true} />
+      {/* <Timer restart={restart} currentPlayer={currentPlayer} /> */}
+      <div className="flex justify-center mt-10">
+        <div className="flex flex-col">
+          <div className="flex justify-center">
+            <div>
+              <ShowCordinates numbers={true} />
+            </div>
+            {/* <Stage
+              width={525}
+              height={1050}
+              className="flex flex-wrap w-[525px] bg-white"
+            > */}
+              <BoardWidget
+                board={board}
+                setBoard={setBoard}
+                currentPlayer={currentPlayer}
+                swapPlayer={swapPlayer}
+              />
+            {/* </Stage> */}
+          </div>
+          <div className="flex justify-center">
+            <ShowCordinates numbers={false} />
+          </div>
         </div>
-        <BoardWidget
-          board={board}
-          setBoard={setBoard}
-          currentPlayer={currentPlayer}
-          swapPlayer={swapPlayer}
-        />
-      </div>
-      <div className="flex justify-center">
-        <ShowCordinates numbers={false} />
+        <Timer restart={restart} currentPlayer={currentPlayer} />
       </div>
     </>
   );

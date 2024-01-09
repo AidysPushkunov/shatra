@@ -11,6 +11,16 @@ const Timer: React.FC<TimerProps> = ({ currentPlayer, restart }) => {
   const [blackTime, setBlackTime] = React.useState(300);
   const [whiteTime, setWhiteTime] = React.useState(300);
 
+  // поработать над временем
+
+  // let hoursBlackTime = blackTime >= 3600 ? blackTime / 3600 : 0;
+  let minutesBlackTime = blackTime >= 60 ? blackTime / 60 : 0;
+  let secondsBlackTime = blackTime - Math.trunc(blackTime / 60) * 60;
+
+  // let hoursWhiteTime = whiteTime >= 3600 ? whiteTime / 3600 : 0;
+  let minutesWhiteTime = whiteTime >= 60 ? whiteTime / 60 : 0;
+  let secondsWhiteTime = whiteTime - Math.trunc(whiteTime / 60) * 60;
+
   const timer = React.useRef<null | ReturnType<typeof setInterval>>(null);
 
   React.useEffect(() => {
@@ -45,12 +55,58 @@ const Timer: React.FC<TimerProps> = ({ currentPlayer, restart }) => {
   };
 
   return (
-    <div>
+    <div className="flex flex-col justify-between ml-20 w-[200px] text-2xl">
+      <div>
+        <div className="font-semibold">Surname N.</div>
+        <div className="flex items-center">
+          <span className="relative flex h-4 w-4">
+            {currentPlayer?.color === Colors.BLACK ? (
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+            ) : (
+              <></>
+            )}
+            <span className="relative inline-flex rounded-full h-4 w-4 bg-red-500"></span>
+          </span>
+          <div className="ml-3">
+            {/* {hoursBlackTime < 10
+              ? `0${Math.trunc(hoursBlackTime)}`
+              : Math.trunc(hoursBlackTime)}
+            : */}
+            {minutesBlackTime < 10
+              ? `0${Math.trunc(minutesBlackTime)}`
+              : Math.trunc(minutesBlackTime)}
+            :{secondsBlackTime < 10 ? `0${secondsBlackTime}` : secondsBlackTime}
+          </div>
+        </div>
+      </div>
+
       <div>
         <button onClick={handleRestart}>Restart game</button>
       </div>
-      <h2>Black time: {blackTime}</h2>
-      <h2>White time: {whiteTime}</h2>
+
+      <div className="mb-20">
+        <div className="font-semibold">Amyrov A.</div>
+        <div className="flex items-center">
+          <span className="relative flex h-4 w-4">
+            {currentPlayer?.color === Colors.WHITE ? (
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+            ) : (
+              <></>
+            )}
+            <span className="relative inline-flex rounded-full h-4 w-4 bg-red-500"></span>
+          </span>
+          <div className="ml-3">
+            {/* {hoursWhiteTime < 10
+              ? `0${Math.trunc(hoursWhiteTime)}`
+              : Math.trunc(hoursWhiteTime)}
+            : */}
+            {minutesWhiteTime < 10
+              ? `0${Math.trunc(minutesWhiteTime)}`
+              : Math.trunc(minutesWhiteTime)}
+            :{secondsWhiteTime < 10 ? `0${secondsWhiteTime}` : secondsWhiteTime}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

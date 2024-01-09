@@ -5,8 +5,9 @@ import { ShowFigure } from "@/features/showFigure";
 import { Cell } from "@/models/Cell";
 import { Player } from "@/models/Player";
 import { Direction } from "@/models/Direction";
-import { Coordinates } from "@/entities/coordinates";
-import { ShowCordinates } from "@/features/showCordinates";
+
+import { Stage, Layer, Rect } from "react-konva";
+import { Colors } from "@/models/Colors";
 
 interface BoardProps {
   board: Board;
@@ -75,24 +76,32 @@ const BoardWidget: React.FC<BoardProps> = ({
 
   return (
     <>
-
-      <div className="flex flex-wrap w-[525px]">
-        {board.cells.map((row, index) => (
-          <React.Fragment key={index}>
-            {row.map((cell) => (
-              <ShowFigure
-                clickField={clickField}
-                intent={cell.color}
-                cell={cell}
-                key={cell.id}
-                selected={
-                  cell.x === selectedCell?.x && cell.y === selectedCell?.y
-                }
-              />
-            ))}
-          </React.Fragment>
-        ))}
-      </div>
+      {/* <div className="flex flex-wrap w-[525px]"> */}
+      <Stage width={525} height={1050} className="flex flex-wrap w-[525px]">
+        <Layer>
+          {board.cells.map((row, index) => (
+            <React.Fragment key={index}>
+              {row.map((cell, indexRow) => (
+                <>
+                  <ShowFigure
+                    key={cell.id}
+                    index={index}
+                    indexRow={indexRow}
+                    clickField={clickField}
+                    intent={cell.color}
+                    cell={cell}
+                    selected={
+                      cell.x === selectedCell?.x && cell.y === selectedCell?.y
+                    }
+                  />
+                </>
+              ))}
+            </React.Fragment>
+          ))}
+        </Layer>
+      </Stage>
+      {/* </div> */}
+      {/* </Stage> */}
     </>
   );
 };
