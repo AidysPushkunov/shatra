@@ -25,22 +25,22 @@ type FieldProps = {
   clickField: (cell: Cell) => void;
 };
 
-const changePositionFigure = (figure: any) => {
+// const changePositionFigure = (figure: any) => {
   // use Konva methods to animate a shape
-  figure.to({
-    x: 124,
-    y: 223,
-    scaleX: 1.5,
-    scaleY: 1.5,
-    onFinish: () => {
-      figure.to({
-        scaleX: 1,
-        scaleY: 1,
-      });
-    },
-    duration: 2.5,
-  });
-};
+//   figure.to({
+//     x: 124,
+//     y: 223,
+//     scaleX: 1.5,
+//     scaleY: 1.5,
+//     onFinish: () => {
+//       figure.to({
+//         scaleX: 1,
+//         scaleY: 1,
+//       });
+//     },
+//     duration: 2.5,
+//   });
+// };
 
 const Field: React.FC<FieldProps> = ({
   index,
@@ -56,7 +56,7 @@ const Field: React.FC<FieldProps> = ({
   const handleFigureClick = () => {
     // another way to access Konva nodes is to just use event object
     const field: any = fieldRef.current;
-    changePositionFigure(field);
+    // changePositionFigure(field);
   };
 
   return (
@@ -68,6 +68,14 @@ const Field: React.FC<FieldProps> = ({
       width={75}
       height={75}
       onClick={() => clickField(cell)}
+      // draggable
+      // onDragStart={(event) => {
+      //   console.log(event.target);
+      //   handleDragStart(event, state);
+      // }}
+      // onDragEnd={(event) => {
+      //   onDragEnd(event.target);
+      // }}
     >
       <Rect
         x={0}

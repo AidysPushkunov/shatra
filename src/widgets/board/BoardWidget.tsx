@@ -23,6 +23,11 @@ const BoardWidget: React.FC<BoardProps> = ({
   swapPlayer,
 }) => {
   const [selectedCell, setSelectedCell] = React.useState<Cell | null>(null);
+  const [state, setState] = React.useState<any[]>([]);
+
+  React.useEffect(() => {
+    setState(() => generateConvasElements());
+  }, [board]);
 
   function clickField(cell: Cell) {
     if (
@@ -74,31 +79,39 @@ const BoardWidget: React.FC<BoardProps> = ({
     setBoard(newBoard);
   }
 
+  function generateConvasElements() {
+    const arrayCanvasElements: any = board.cells.map((row, index) =>
+      row.map((cell, indexRow) => (
+        <ShowFigure
+          // state={state}
+          arrayCanvasElements={board.cells}
+          handleDragStart={handleDragStart}
+          key={cell.id}
+          index={index}
+          indexRow={indexRow}
+          clickField={clickField}
+          intent={cell.color}
+          cell={cell}
+          selected={cell.x === selectedCell?.x && cell.y === selectedCell?.y}
+        />
+      ))
+    );
+
+    return arrayCanvasElements.flat();
+  }
+
+  // Попробывать обрабатывать ячейку а не фигуру так как ячейка родительский элемент фигуры если ячейка рендерится первым то и дочерние элементы
+  // будут выше остальных
+
+  const handleDragStart = (e: any, state: any) => {
+    e.target.parent.moveToTop();
+  };
+
   return (
     <>
       {/* <div className="flex flex-wrap w-[525px]"> */}
       <Stage width={525} height={1050} className="flex flex-wrap w-[525px]">
-        <Layer>
-          {board.cells.map((row, index) => (
-            <React.Fragment key={index}>
-              {row.map((cell, indexRow) => (
-                <>
-                  <ShowFigure
-                    key={cell.id}
-                    index={index}
-                    indexRow={indexRow}
-                    clickField={clickField}
-                    intent={cell.color}
-                    cell={cell}
-                    selected={
-                      cell.x === selectedCell?.x && cell.y === selectedCell?.y
-                    }
-                  />
-                </>
-              ))}
-            </React.Fragment>
-          ))}
-        </Layer>
+        <Layer>{state}</Layer>
       </Stage>
       {/* </div> */}
       {/* </Stage> */}
