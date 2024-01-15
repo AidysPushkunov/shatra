@@ -2,7 +2,7 @@
 
 import { Cell } from "@/models/Cell";
 import React from "react";
-import { Stage, Layer, Rect, Circle, Group } from "react-konva";
+import { Rect, Circle, Group } from "react-konva";
 
 const fieldIntent = {
   black: "#b7c0d8",
@@ -22,25 +22,23 @@ type FieldProps = {
   cell: Cell;
   children: React.ReactNode;
   selected: boolean;
-  clickField: (cell: Cell) => void;
+  clickField: (cell: Cell, figureRef: any, event: any) => void;
 };
 
-// const changePositionFigure = (figure: any) => {
+const changePositionFigure = (figure: any, x: any, y: any) => {
   // use Konva methods to animate a shape
-//   figure.to({
-//     x: 124,
-//     y: 223,
-//     scaleX: 1.5,
-//     scaleY: 1.5,
-//     onFinish: () => {
-//       figure.to({
-//         scaleX: 1,
-//         scaleY: 1,
-//       });
-//     },
-//     duration: 2.5,
-//   });
-// };
+  figure.to({
+    x: x,
+    y: y,
+    onFinish: () => {
+      figure.to({
+        scaleX: 1,
+        scaleY: 1,
+      });
+    },
+    duration: 0.2,
+  });
+};
 
 const Field: React.FC<FieldProps> = ({
   index,
@@ -51,31 +49,30 @@ const Field: React.FC<FieldProps> = ({
   selected,
   clickField,
 }) => {
-  const fieldRef = React.useRef(null);
+  const figureRef = React.useRef(null);
 
-  const handleFigureClick = () => {
-    // another way to access Konva nodes is to just use event object
-    const field: any = fieldRef.current;
-    // changePositionFigure(field);
+  const handleFigureClick = (e: any) => {
+    console.log("Figure ref", e);
+    if (e.target === Image) {
+      console.log("success!!!");
+    }
+
+    // const figure: any = e.target;
+    // changePositionFigure(figure, e.evt.x, e.evt.y);
   };
 
   return (
-    // <Stage width={75} height={75}>
-    // <Layer onClick={() => clickField(cell)}>
     <Group
       x={indexRow * 75}
       y={index * 75}
       width={75}
       height={75}
-      onClick={() => clickField(cell)}
-      // draggable
-      // onDragStart={(event) => {
-      //   console.log(event.target);
-      //   handleDragStart(event, state);
-      // }}
-      // onDragEnd={(event) => {
-      //   onDragEnd(event.target);
-      // }}
+      ref={figureRef}
+      onClick={(event) => {
+        // console.log("x: ", event, " y: ", event.evt.y);
+        // event?.target?.parent?.moveToTop();
+        clickField(cell, figureRef, event);
+      }}
     >
       <Rect
         x={0}
@@ -89,9 +86,6 @@ const Field: React.FC<FieldProps> = ({
             ? fieldIntent.attackFigure
             : fieldIntent[intent]
         }
-        ref={fieldRef}
-        onClick={handleFigureClick}
-        onTap={handleFigureClick}
       />
       {intent === "fortress"
         ? null

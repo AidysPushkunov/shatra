@@ -1,26 +1,17 @@
 import { Field } from "@/entities/field";
 import { Cell } from "@/models/Cell";
 import { FigureEntities } from "@/entities/figure";
-import { Stage } from "react-konva";
 
 type ShowFieldProps = {
-  // state: any;
-  arrayCanvasElements: any;
-  handleDragStart: any;
-  // onDragEnd: any;
   index: number;
   indexRow: number;
   intent: "black" | "white" | "active" | "fortress";
   cell: Cell;
   selected: boolean;
-  clickField: (cell: Cell) => void;
+  clickField: (cell: Cell, figureRef: any, event: any) => void;
 };
 
 const ShowFigure: React.FC<ShowFieldProps> = ({
-  // state,
-  arrayCanvasElements,
-  handleDragStart,
-  // onDragEnd,
   index,
   indexRow,
   intent,
@@ -30,9 +21,6 @@ const ShowFigure: React.FC<ShowFieldProps> = ({
 }) => {
   return (
     <Field
-      // state={state}
-      // handleDragStart={handleDragStart}
-      // onDragEnd={onDragEnd}
       key={cell.id}
       index={index}
       indexRow={indexRow}
@@ -41,13 +29,7 @@ const ShowFigure: React.FC<ShowFieldProps> = ({
       clickField={clickField}
       cell={cell}
     >
-      <FigureEntities
-        // state={state}
-        arrayCanvasElements={arrayCanvasElements}
-        intent={cell.figure?.logo}
-        handleDragStart={handleDragStart}
-        // onDragEnd={onDragEnd}
-      />
+      <FigureEntities intent={cell.figure?.logo} />
     </Field>
   );
 };
