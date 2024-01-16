@@ -612,7 +612,6 @@ export class Cell {
           new Baatyr(this.figure.color, this.board.getCell(target.x, target.y))
         );
       }
-
       if (
         this.figure.cell.canEat(target, Direction.TOP_LEFT) ||
         this.figure.cell.canEat(target, Direction.TOP_RIGHT) ||
@@ -631,7 +630,6 @@ export class Cell {
           target.y - this.figure.cell.y < 0
             ? target.y - this.figure.cell.y + 1
             : target.y - this.figure.cell.y - 1;
-
         let eatFigure = this.board.getCell(
           target.x === this.figure.cell.x ? target.x : target.x - x,
           target.y === this.figure.cell.y ? target.y : target.y - y
@@ -639,7 +637,6 @@ export class Cell {
         this.addLostFigure(eatFigure.figure);
         eatFigure.figure = null;
       }
-
       if (
         this.figure.logo === "blackBaatyr" ||
         this.figure.logo === "whiteBaatyr"
@@ -660,22 +657,18 @@ export class Cell {
             target,
             Direction.TOP_LEFT
           );
-
           let eatFigureBottomLeft = this.figure.cell.canEatBaatyr(
             target,
             Direction.BOTTOM_LEFT
           );
-
           let eatFigureBottomRight = this.figure.cell.canEatBaatyr(
             target,
             Direction.BOTTOM_RIGHT
           );
-
           let eatFigureTopRight = this.figure.cell.canEatBaatyr(
             target,
             Direction.TOP_RIGHT
           );
-
           let eatFigureLeft = this.figure.cell.canEatBaatyr(
             target,
             Direction.LEFT
@@ -688,7 +681,6 @@ export class Cell {
             target,
             Direction.BOTTOM
           );
-
           if (
             eatFigureTopLeft !== undefined &&
             Number(target.y) < Number(eatFigureTopLeft.figure?.cell.y) &&
@@ -697,7 +689,6 @@ export class Cell {
             this.addLostFigure(eatFigureTopLeft.figure);
             eatFigureTopLeft.figure = null;
           }
-
           if (
             eatFigureBottomLeft !== undefined &&
             Number(target.y) > Number(eatFigureBottomLeft.figure?.cell.y) &&
@@ -706,7 +697,6 @@ export class Cell {
             this.addLostFigure(eatFigureBottomLeft.figure);
             eatFigureBottomLeft.figure = null;
           }
-
           if (
             eatFigureBottomRight !== undefined &&
             Number(target.y) > Number(eatFigureBottomRight.figure?.cell.y) &&
@@ -715,7 +705,6 @@ export class Cell {
             this.addLostFigure(eatFigureBottomRight.figure);
             eatFigureBottomRight.figure = null;
           }
-
           if (
             eatFigureTopRight !== undefined &&
             Number(target.y) < Number(eatFigureTopRight.figure?.cell.y) &&
@@ -724,7 +713,6 @@ export class Cell {
             this.addLostFigure(eatFigureTopRight.figure);
             eatFigureTopRight.figure = null;
           }
-
           if (
             eatFigureTop !== undefined &&
             Number(target.x) === Number(eatFigureTop.figure?.cell.x)
@@ -732,7 +720,6 @@ export class Cell {
             this.addLostFigure(eatFigureTop.figure);
             eatFigureTop.figure = null;
           }
-
           if (
             eatFigureLeft !== undefined &&
             Number(target.y) === Number(eatFigureLeft.figure?.cell.y)
@@ -740,7 +727,6 @@ export class Cell {
             this.addLostFigure(eatFigureLeft.figure);
             eatFigureLeft.figure = null;
           }
-
           if (
             eatFigureRight !== undefined &&
             Number(target.y) === Number(eatFigureRight.figure?.cell.y)
@@ -748,7 +734,6 @@ export class Cell {
             this.addLostFigure(eatFigureRight.figure);
             eatFigureRight.figure = null;
           }
-
           if (
             eatFigureBottom !== undefined &&
             Number(target.x) === Number(eatFigureBottom.figure?.cell.x)
@@ -758,7 +743,6 @@ export class Cell {
           }
         }
       }
-
       if (target.figure) {
         this.addLostFigure(target.figure);
       }

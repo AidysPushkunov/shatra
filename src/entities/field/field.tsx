@@ -2,7 +2,7 @@
 
 import { Cell } from "@/models/Cell";
 import React from "react";
-import { Stage, Layer, Rect, Circle, Group } from "react-konva";
+import { Rect, Circle, Group } from "react-konva";
 
 const fieldIntent = {
   black: "#b7c0d8",
@@ -22,25 +22,8 @@ type FieldProps = {
   cell: Cell;
   children: React.ReactNode;
   selected: boolean;
-  clickField: (cell: Cell) => void;
+  clickField: (cell: Cell, event: any) => void;
 };
-
-// const changePositionFigure = (figure: any) => {
-  // use Konva methods to animate a shape
-//   figure.to({
-//     x: 124,
-//     y: 223,
-//     scaleX: 1.5,
-//     scaleY: 1.5,
-//     onFinish: () => {
-//       figure.to({
-//         scaleX: 1,
-//         scaleY: 1,
-//       });
-//     },
-//     duration: 2.5,
-//   });
-// };
 
 const Field: React.FC<FieldProps> = ({
   index,
@@ -51,31 +34,21 @@ const Field: React.FC<FieldProps> = ({
   selected,
   clickField,
 }) => {
-  const fieldRef = React.useRef(null);
-
-  const handleFigureClick = () => {
-    // another way to access Konva nodes is to just use event object
-    const field: any = fieldRef.current;
-    // changePositionFigure(field);
-  };
+  const figureRef = React.useRef(null);
 
   return (
-    // <Stage width={75} height={75}>
-    // <Layer onClick={() => clickField(cell)}>
     <Group
       x={indexRow * 75}
       y={index * 75}
       width={75}
       height={75}
-      onClick={() => clickField(cell)}
-      // draggable
-      // onDragStart={(event) => {
-      //   console.log(event.target);
-      //   handleDragStart(event, state);
-      // }}
-      // onDragEnd={(event) => {
-      //   onDragEnd(event.target);
-      // }}
+      ref={figureRef}
+      onClick={(event) => {
+        clickField(cell, event);
+      }}
+      onTap={(event) => {
+        clickField(cell, event);
+      }}
     >
       <Rect
         x={0}
@@ -89,9 +62,6 @@ const Field: React.FC<FieldProps> = ({
             ? fieldIntent.attackFigure
             : fieldIntent[intent]
         }
-        ref={fieldRef}
-        onClick={handleFigureClick}
-        onTap={handleFigureClick}
       />
       {intent === "fortress"
         ? null

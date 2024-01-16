@@ -6,8 +6,7 @@ import { Cell } from "@/models/Cell";
 import { Player } from "@/models/Player";
 import { Direction } from "@/models/Direction";
 
-import { Stage, Layer, Rect } from "react-konva";
-import { Colors } from "@/models/Colors";
+import { Stage, Layer } from "react-konva";
 
 interface BoardProps {
   board: Board;
@@ -24,18 +23,65 @@ const BoardWidget: React.FC<BoardProps> = ({
 }) => {
   const [selectedCell, setSelectedCell] = React.useState<Cell | null>(null);
   const [state, setState] = React.useState<any[]>([]);
+  const [animatedFigure, setAnimateFigure] = React.useState<any>();
+  const [selectedCellItems, setSelectedCellItems] = React.useState<any>();
+  const [oldCellCoordinate, setOldCellCordinate] = React.useState<any>();
 
   React.useEffect(() => {
     setState(() => generateConvasElements());
   }, [board]);
 
-  function clickField(cell: Cell) {
+  React.useEffect(() => {
+    if (selectedCellItems) {
+      const moveFigureTimer = setTimeout(() => {
+        selectedCellItems?.selectedCell.moveFigure(selectedCellItems?.cell);
+        updateBoard();
+      }, 300);
+
+      return () => clearTimeout(moveFigureTimer);
+    }
+  }, [selectedCellItems]);
+
+  function updateBoard() {
+    const newBoard = board.getCopyBoard();
+    setBoard(newBoard);
+  }
+
+  function animatedChangePositionFigure(
+    figure: any,
+    e: any,
+    sequence: boolean
+  ) {
+    if (!sequence) {
+      e.target.parent.moveToTop();
+      setAnimateFigure(e.target.parent.children[1]);
+      setOldCellCordinate(figure);
+    } else {
+      if (animatedFigure) {
+        animatedFigure.to({
+          x:
+            (figure.x - oldCellCoordinate.x) * 75 == 0
+              ? (figure.x - oldCellCoordinate.x) * 75 + 10
+              : (figure.x - oldCellCoordinate.x) * 75 + 10,
+          y:
+            (figure.y - oldCellCoordinate.y) * 75 == 0
+              ? (figure.y - oldCellCoordinate.y) * 75 + 10
+              : (figure.y - oldCellCoordinate.y) * 75 + 10,
+          duration: 0.3,
+        });
+        setAnimateFigure(null);
+      }
+    }
+  }
+
+  function clickField(cell: Cell, event: any) {
     if (
       selectedCell &&
       selectedCell !== cell &&
       selectedCell.figure?.canMove(cell)
     ) {
-      selectedCell.moveFigure(cell);
+      setSelectedCellItems({ selectedCell, cell });
+      animatedChangePositionFigure(cell, event, true);
 
       if (
         cell.x - selectedCell.x === 1 ||
@@ -61,7 +107,10 @@ const BoardWidget: React.FC<BoardProps> = ({
       setSelectedCell(null);
       updateBoard();
     } else {
-      if (cell.figure?.color === currentPlayer?.color) setSelectedCell(cell);
+      if (cell.figure?.color === currentPlayer?.color) {
+        setSelectedCell(cell);
+        animatedChangePositionFigure(cell, event, false);
+      }
     }
   }
 
@@ -74,18 +123,10 @@ const BoardWidget: React.FC<BoardProps> = ({
     updateBoard();
   }
 
-  function updateBoard() {
-    const newBoard = board.getCopyBoard();
-    setBoard(newBoard);
-  }
-
   function generateConvasElements() {
     const arrayCanvasElements: any = board.cells.map((row, index) =>
       row.map((cell, indexRow) => (
         <ShowFigure
-          // state={state}
-          arrayCanvasElements={board.cells}
-          handleDragStart={handleDragStart}
           key={cell.id}
           index={index}
           indexRow={indexRow}
@@ -100,21 +141,11 @@ const BoardWidget: React.FC<BoardProps> = ({
     return arrayCanvasElements.flat();
   }
 
-  // Попробывать обрабатывать ячейку а не фигуру так как ячейка родительский элемент фигуры если ячейка рендерится первым то и дочерние элементы
-  // будут выше остальных
-
-  const handleDragStart = (e: any, state: any) => {
-    e.target.parent.moveToTop();
-  };
-
   return (
     <>
-      {/* <div className="flex flex-wrap w-[525px]"> */}
       <Stage width={525} height={1050} className="flex flex-wrap w-[525px]">
         <Layer>{state}</Layer>
       </Stage>
-      {/* </div> */}
-      {/* </Stage> */}
     </>
   );
 };
