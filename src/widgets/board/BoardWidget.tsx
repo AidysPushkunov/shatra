@@ -38,10 +38,10 @@ const BoardWidget: React.FC<BoardProps> = ({
   React.useEffect(() => {
     if (selectedCellItems) {
       const moveFigureTimer = setTimeout(() => {
-        console.log(selectedCellItems);
+        // console.log(selectedCellItems);
         selectedCellItems?.selectedCell.moveFigure(selectedCellItems?.cell);
         updateBoard();
-      }, 350);
+      }, 400);
 
       return () => clearTimeout(moveFigureTimer);
     }
@@ -60,28 +60,18 @@ const BoardWidget: React.FC<BoardProps> = ({
     e: any,
     sequence: boolean
   ) {
-    // e.target.moveToTop();
-    console.log(e);
+    // console.log(e);
     if (!sequence) {
       e.target.parent.moveToTop();
-      console.log("Опана", figure);
-      setAnimateFigure(e.target);
+      setAnimateFigure(e.target.parent.children[1]);
+      console.log("Опана", animatedFigure);
 
       setFirstClick(true);
       setOldCellCordinate(figure);
-      console.log(oldCellCoordinate);
     } else {
       if (animatedFigure) {
         setNewCellCordinate(figure);
-        console.log("Oхохо: ", figure);
 
-        console.log("Oхохо: ", newCellCoordinate);
-        // console.log(
-        //   "x: ",
-        //   newCellCoordinate.x - oldCellCoordinate.x,
-        //   "y: ",
-        //   newCellCoordinate.y - oldCellCoordinate.y
-        // );
         animatedFigure.to({
           x:
             (figure.x - oldCellCoordinate.x) * 75 == 0
@@ -91,9 +81,7 @@ const BoardWidget: React.FC<BoardProps> = ({
             (figure.y - oldCellCoordinate.y) * 75 == 0
               ? (figure.y - oldCellCoordinate.y) * 75 + 10
               : (figure.y - oldCellCoordinate.y) * 75 + 10,
-          // x: 10,
-          // y: -65,
-          duration: 0.3,
+          duration: 0.35,
         });
         setFirstClick(false);
         setAnimateFigure(null);
@@ -102,18 +90,17 @@ const BoardWidget: React.FC<BoardProps> = ({
   }
 
   function clickField(cell: Cell, figureRef: any, event: any) {
-    animatedChangePositionFigure(cell, event, firstClick);
+    // animatedChangePositionFigure(cell, event, firstClick);
+
     if (
       selectedCell &&
       selectedCell !== cell &&
       selectedCell.figure?.canMove(cell)
     ) {
-      // let timeoutRef = React.useRef(null);
-
-      // selectedCell.moveFigure(cell);
+      console.log("selectedCell", selectedCell);
       setSelectedCellItems({ selectedCell, cell });
-
       animatedChangePositionFigure(cell, event, firstClick);
+
       if (
         cell.x - selectedCell.x === 1 ||
         cell.y - selectedCell.y === 1 ||
@@ -136,9 +123,15 @@ const BoardWidget: React.FC<BoardProps> = ({
         }
       }
       setSelectedCell(null);
+      // setAnimateFigure(null);
       updateBoard();
     } else {
-      if (cell.figure?.color === currentPlayer?.color) setSelectedCell(cell);
+      if (cell.figure?.color === currentPlayer?.color) {
+        setSelectedCell(cell);
+        setFirstClick(false);
+        !selectedCell?.figure &&
+          animatedChangePositionFigure(cell, event, firstClick);
+      }
     }
   }
 
