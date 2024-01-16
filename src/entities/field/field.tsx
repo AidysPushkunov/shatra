@@ -22,22 +22,7 @@ type FieldProps = {
   cell: Cell;
   children: React.ReactNode;
   selected: boolean;
-  clickField: (cell: Cell, figureRef: any, event: any) => void;
-};
-
-const changePositionFigure = (figure: any, x: any, y: any) => {
-  // use Konva methods to animate a shape
-  figure.to({
-    x: x,
-    y: y,
-    onFinish: () => {
-      figure.to({
-        scaleX: 1,
-        scaleY: 1,
-      });
-    },
-    duration: 0.2,
-  });
+  clickField: (cell: Cell, event: any) => void;
 };
 
 const Field: React.FC<FieldProps> = ({
@@ -51,16 +36,6 @@ const Field: React.FC<FieldProps> = ({
 }) => {
   const figureRef = React.useRef(null);
 
-  const handleFigureClick = (e: any) => {
-    console.log("Figure ref", e);
-    if (e.target === Image) {
-      console.log("success!!!");
-    }
-
-    // const figure: any = e.target;
-    // changePositionFigure(figure, e.evt.x, e.evt.y);
-  };
-
   return (
     <Group
       x={indexRow * 75}
@@ -69,9 +44,10 @@ const Field: React.FC<FieldProps> = ({
       height={75}
       ref={figureRef}
       onClick={(event) => {
-        // console.log("x: ", event, " y: ", event.evt.y);
-        // event?.target?.parent?.moveToTop();
-        clickField(cell, figureRef, event);
+        clickField(cell, event);
+      }}
+      onTap={(event) => {
+        clickField(cell, event);
       }}
     >
       <Rect

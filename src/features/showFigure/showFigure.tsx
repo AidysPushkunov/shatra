@@ -8,7 +8,7 @@ type ShowFieldProps = {
   intent: "black" | "white" | "active" | "fortress";
   cell: Cell;
   selected: boolean;
-  clickField: (cell: Cell, figureRef: any, event: any) => void;
+  clickField: (cell: Cell, event: any) => void;
 };
 
 const ShowFigure: React.FC<ShowFieldProps> = ({
