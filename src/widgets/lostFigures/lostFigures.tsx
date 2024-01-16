@@ -1,6 +1,5 @@
 import React from "react";
 import { Figure } from "@/models/figures/Figure";
-// import { FigureEntities } from "@/entities/figure";
 
 interface LostFiguresProps {
   title: string;
