@@ -11,7 +11,7 @@ const NotationCell: React.FC<NotationCellProp> = ({ children, index }) => {
       className={
         index
           ? "px-[5%] flex justify-center items-center bg-[#fff] h-[50px] m-1 hover:bg-[#f4f4f4] cursor-pointer duration-75 text-2xl rounded-md"
-          : "px-[16%] flex justify-center items-center bg-[#fff] h-[50px] m-1 hover:bg-[#f4f4f4] cursor-pointer duration-75 text-2xl rounded-md"
+          : "px-[22%] flex justify-center items-center bg-[#fff] h-[50px] m-1 hover:bg-[#f4f4f4] cursor-pointer duration-75 text-2xl rounded-md"
       }
     >
       {children}
