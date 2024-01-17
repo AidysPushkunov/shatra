@@ -1,5 +1,6 @@
 import React from "react";
 import { NotationCell } from "@/entities/notationCell";
+import { Colors } from "@/models/Colors";
 
 const notationSymbolY: any[] = [
   "14",
@@ -39,13 +40,58 @@ const Notation: React.FC<NotationProp> = ({ historyMovments }) => {
     });
   });
 
+  let checkedFigureCoordinateWhite: any;
+  let movedFgureCoordinateWhite: any;
+  let checkedFigureCoordinateBlack: any;
+  let movedFgureCoordinateBlack: any;
+  let numberMove = 1;
+
   return (
-    <div className="flex justify-start flex-wrap overflow-y-scroll scrollbar-hide bg-[#eef3f6] w-[800px] max-h-[400px] p-[10px] rounded-md">
+    <div className="grid grid-cols-[100px_335px_335px] overflow-y-scroll scrollbar-hide bg-[#eef3f6] w-[800px] max-h-[400px] p-[10px] rounded-md">
       {historyMovments.map((e: any, index: any) => {
+        if (e.currentPlayer === Colors.WHITE) {
+          e.checkedX
+            ? (checkedFigureCoordinateWhite =
+                notationSymbolX[e.checkedX] + notationSymbolY[e.checkedY])
+            : (movedFgureCoordinateWhite =
+                notationSymbolX[e.movedX] + notationSymbolY[e.movedY]);
+        } else {
+          e.checkedX
+            ? (checkedFigureCoordinateBlack =
+                notationSymbolX[e.checkedX] + notationSymbolY[e.checkedY])
+            : (movedFgureCoordinateBlack =
+                notationSymbolX[e.movedX] + notationSymbolY[e.movedY]);
+        }
+
         return (
-          <NotationCell index={false} key={index}>
-            {notationSymbolX[e.x] + notationSymbolY[e.y]}
-          </NotationCell>
+          <>
+            {e.currentPlayer === Colors.WHITE ? (
+              e.checkedX ? (
+                <></>
+              ) : (
+                <>
+                  <NotationCell index={true} key={index}>
+                    {String(numberMove++)}
+                  </NotationCell>
+                  <NotationCell index={false} key={index}>
+                    {checkedFigureCoordinateWhite +
+                      "-" +
+                      movedFgureCoordinateWhite}
+                  </NotationCell>
+                </>
+              )
+            ) : e.checkedX ? (
+              <></>
+            ) : (
+              <>
+                <NotationCell index={false} key={index}>
+                  {checkedFigureCoordinateBlack +
+                    "-" +
+                    movedFgureCoordinateBlack}
+                </NotationCell>
+              </>
+            )}
+          </>
         );
       })}
     </div>

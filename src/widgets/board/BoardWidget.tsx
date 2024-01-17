@@ -16,9 +16,6 @@ interface BoardProps {
   swapPlayer: () => void;
 }
 
-
-
-
 const BoardWidget: React.FC<BoardProps> = ({
   board,
   historyMovments,
@@ -91,8 +88,8 @@ const BoardWidget: React.FC<BoardProps> = ({
       historyMovments.push({
         moveFigure: true,
         currentPlayer: currentPlayer?.color,
-        x: x,
-        y: y,
+        movedX: x,
+        movedY: y,
       });
 
       setSelectedCellItems({ selectedCell, cell });
@@ -129,8 +126,8 @@ const BoardWidget: React.FC<BoardProps> = ({
         historyMovments.push({
           moveFigure: false,
           currentPlayer: currentPlayer?.color,
-          x: x,
-          y: y,
+          checkedX: x,
+          checkedY: y,
         });
 
         setSelectedCell(cell);
