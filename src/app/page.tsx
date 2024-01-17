@@ -6,11 +6,11 @@ import { BoardWidget } from "@/widgets/board";
 import { Board } from "@/models/Board";
 import { Player } from "@/models/Player";
 import { Colors } from "@/models/Colors";
-import { LostFigures } from "@/widgets/lostFigures";
 import { Timer } from "@/widgets/timer";
 import { ShowCordinates } from "@/features/showCordinates";
+import { Notation } from "@/widgets/notation";
 
-import { Stage } from "react-konva";
+const historyMovments: any[] = [];
 
 export default function Home() {
   const [board, setBoard] = React.useState(new Board());
@@ -45,35 +45,28 @@ export default function Home() {
 
   return (
     <>
-      <div>
-        {/* <LostFigures title="Black shatra: " figures={board.lostBlackFigures} />
-        <LostFigures title="White shatra: " figures={board.lostWhiteFigures} /> */}
-      </div>
-      {/* <Timer restart={restart} currentPlayer={currentPlayer} /> */}
       <div className="flex justify-center mt-10">
-        <div className="flex flex-col">
+        <div className="flex flex-col ml-[200px]">
           <div className="flex justify-center">
             <div>
               <ShowCordinates numbers={true} />
             </div>
-            {/* <Stage
-              width={525}
-              height={1050}
-              className="flex flex-wrap w-[525px] bg-white"
-            > */}
-              <BoardWidget
-                board={board}
-                setBoard={setBoard}
-                currentPlayer={currentPlayer}
-                swapPlayer={swapPlayer}
-              />
-            {/* </Stage> */}
+            <BoardWidget
+              board={board}
+              historyMovments={historyMovments}
+              setBoard={setBoard}
+              currentPlayer={currentPlayer}
+              swapPlayer={swapPlayer}
+            />
           </div>
           <div className="flex justify-center">
             <ShowCordinates numbers={false} />
           </div>
         </div>
         <Timer restart={restart} currentPlayer={currentPlayer} />
+      </div>
+      <div className="flex justify-center my-10 ml-[200px]">
+        <Notation historyMovments={historyMovments} />
       </div>
     </>
   );
