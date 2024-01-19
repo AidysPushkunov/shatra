@@ -13,6 +13,8 @@ import { Notation } from "@/widgets/notation";
 const historyMovments: any[] = [];
 
 export default function Home() {
+  const [historyMovmentsState, setHistoryMovmentsState] =
+    React.useState(historyMovments);
   const [board, setBoard] = React.useState(new Board());
   const [whitePlayer, setWhitePlayer] = React.useState(
     new Player(Colors.WHITE)
@@ -53,6 +55,7 @@ export default function Home() {
             </div>
             <BoardWidget
               board={board}
+              setHistoryMovmentsState={setHistoryMovmentsState}
               historyMovments={historyMovments}
               setBoard={setBoard}
               currentPlayer={currentPlayer}
@@ -66,7 +69,10 @@ export default function Home() {
         <Timer restart={restart} currentPlayer={currentPlayer} />
       </div>
       <div className="flex justify-center my-10">
-        <Notation historyMovments={historyMovments} />
+        <Notation
+          historyMovments={historyMovments}
+          historyMovmentsState={historyMovmentsState}
+        />
       </div>
     </>
   );

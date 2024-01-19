@@ -11,13 +11,17 @@ import { Stage, Layer } from "react-konva";
 interface BoardProps {
   board: Board;
   historyMovments: any;
+  setHistoryMovmentsState: any;
   setBoard: (board: Board) => void;
   currentPlayer: Player | null;
   swapPlayer: () => void;
 }
 
+const historyMovments: any[] = [];
+
 const BoardWidget: React.FC<BoardProps> = ({
   board,
+  setHistoryMovmentsState,
   historyMovments,
   setBoard,
   currentPlayer,
@@ -92,6 +96,8 @@ const BoardWidget: React.FC<BoardProps> = ({
         movedY: y,
       });
 
+      setHistoryMovmentsState(historyMovments);
+
       setSelectedCellItems({ selectedCell, cell });
       animatedChangePositionFigure(cell, event, true);
 
@@ -129,6 +135,8 @@ const BoardWidget: React.FC<BoardProps> = ({
           checkedX: x,
           checkedY: y,
         });
+
+        setHistoryMovmentsState(historyMovments);
 
         setSelectedCell(cell);
         animatedChangePositionFigure(cell, event, false);

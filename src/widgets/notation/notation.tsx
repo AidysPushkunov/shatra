@@ -28,10 +28,13 @@ const movementsNotation: any[] = [
 
 type NotationProp = {
   historyMovments: any;
+  historyMovmentsState: any;
 };
 
-const Notation: React.FC<NotationProp> = ({ historyMovments }) => {
-  // movementsNotation.push(historyMovments);
+const Notation: React.FC<NotationProp> = ({
+  historyMovments,
+  historyMovmentsState,
+}) => {
   historyMovments.map((e: any, index: any) => {
     movementsNotation.push({
       number: index,
@@ -48,7 +51,7 @@ const Notation: React.FC<NotationProp> = ({ historyMovments }) => {
 
   return (
     <div className="grid grid-cols-[100px_390px_390px] overflow-y-scroll scrollbar-hide bg-[#eef3f6] w-[900px] max-h-[400px] p-[10px] rounded-md">
-      {historyMovments.map((e: any, index: any) => {
+      {historyMovmentsState.map((e: any, index: any) => {
         if (e.currentPlayer === Colors.WHITE) {
           e.checkedX
             ? (checkedFigureCoordinateWhite =
