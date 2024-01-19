@@ -10,9 +10,11 @@ import { Timer } from "@/widgets/timer";
 import { ShowCordinates } from "@/features/showCordinates";
 import { Notation } from "@/widgets/notation";
 
-const historyMovments: any[] = [];
+let historyMovments: any[] = [];
 
 export default function Home() {
+  const [historyMovmentsState, setHistoryMovmentsState] =
+    React.useState(historyMovments);
   const [board, setBoard] = React.useState(new Board());
   const [whitePlayer, setWhitePlayer] = React.useState(
     new Player(Colors.WHITE)
@@ -41,18 +43,21 @@ export default function Home() {
     newBoard.initCells();
     newBoard.addFigures();
     setBoard(newBoard);
+    setHistoryMovmentsState([]);
+    historyMovments = [];
   }
 
   return (
     <>
       <div className="flex justify-center mt-10">
-        <div className="flex flex-col ml-[200px]">
+        <div className="flex flex-col">
           <div className="flex justify-center">
             <div>
               <ShowCordinates numbers={true} />
             </div>
             <BoardWidget
               board={board}
+              setHistoryMovmentsState={setHistoryMovmentsState}
               historyMovments={historyMovments}
               setBoard={setBoard}
               currentPlayer={currentPlayer}
@@ -65,8 +70,11 @@ export default function Home() {
         </div>
         <Timer restart={restart} currentPlayer={currentPlayer} />
       </div>
-      <div className="flex justify-center my-10 ml-[200px]">
-        <Notation historyMovments={historyMovments} />
+      <div className="flex justify-center my-10">
+        <Notation
+          historyMovments={historyMovments}
+          historyMovmentsState={historyMovmentsState}
+        />
       </div>
     </>
   );

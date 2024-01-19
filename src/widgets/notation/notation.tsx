@@ -1,5 +1,6 @@
 import React from "react";
 import { NotationCell } from "@/entities/notationCell";
+import { Colors } from "@/models/Colors";
 
 const notationSymbolY: any[] = [
   "14",
@@ -27,10 +28,13 @@ const movementsNotation: any[] = [
 
 type NotationProp = {
   historyMovments: any;
+  historyMovmentsState: any;
 };
 
-const Notation: React.FC<NotationProp> = ({ historyMovments }) => {
-  // movementsNotation.push(historyMovments);
+const Notation: React.FC<NotationProp> = ({
+  historyMovments,
+  historyMovmentsState,
+}) => {
   historyMovments.map((e: any, index: any) => {
     movementsNotation.push({
       number: index,
@@ -39,14 +43,53 @@ const Notation: React.FC<NotationProp> = ({ historyMovments }) => {
     });
   });
 
+  let checkedFigureCoordinateWhite: any;
+  let movedFgureCoordinateWhite: any;
+  let checkedFigureCoordinateBlack: any;
+  let movedFgureCoordinateBlack: any;
+  let numberMove = 1;
+
   return (
-    <div className="flex justify-start flex-wrap overflow-y-scroll scrollbar-hide bg-[#eef3f6] w-[800px] max-h-[400px] p-[10px] rounded-md">
-      {historyMovments.map((e: any, index: any) => {
-        return (
-          <NotationCell index={false} key={index}>
-            {notationSymbolX[e.x] + notationSymbolY[e.y]}
-          </NotationCell>
-        );
+    <div className="grid grid-cols-[100px_390px_390px] content-start overflow-y-scroll scrollbar-hide bg-[#eef3f6] w-[900px] h-96 p-[10px] rounded-md">
+      {historyMovmentsState.map((e: any, index: any) => {
+        if (e.currentPlayer === Colors.WHITE) {
+          e.checkedX
+            ? (checkedFigureCoordinateWhite =
+                notationSymbolX[e.checkedX] + notationSymbolY[e.checkedY])
+            : (movedFgureCoordinateWhite =
+                notationSymbolX[e.movedX] + notationSymbolY[e.movedY]);
+        } else {
+          e.checkedX
+            ? (checkedFigureCoordinateBlack =
+                notationSymbolX[e.checkedX] + notationSymbolY[e.checkedY])
+            : (movedFgureCoordinateBlack =
+                notationSymbolX[e.movedX] + notationSymbolY[e.movedY]);
+        }
+
+        if (e.currentPlayer === Colors.WHITE) {
+          if (e.moveFigure) {
+            return (
+              <React.Fragment key={index}>
+                <NotationCell>{String(numberMove++)}</NotationCell>
+                <NotationCell>
+                  {checkedFigureCoordinateWhite +
+                    "-" +
+                    movedFgureCoordinateWhite}
+                </NotationCell>
+              </React.Fragment>
+            );
+          }
+        } else {
+          if (e.moveFigure) {
+            return (
+              <NotationCell key={index}>
+                {checkedFigureCoordinateBlack + "-" + movedFgureCoordinateBlack}
+              </NotationCell>
+            );
+          }
+        }
+
+        return null;
       })}
     </div>
   );
