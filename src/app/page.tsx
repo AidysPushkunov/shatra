@@ -10,7 +10,7 @@ import { Timer } from "@/widgets/timer";
 import { ShowCordinates } from "@/features/showCordinates";
 import { Notation } from "@/widgets/notation";
 
-const historyMovments: any[] = [];
+let historyMovments: any[] = [];
 
 export default function Home() {
   const [historyMovmentsState, setHistoryMovmentsState] =
@@ -43,6 +43,8 @@ export default function Home() {
     newBoard.initCells();
     newBoard.addFigures();
     setBoard(newBoard);
+    setHistoryMovmentsState([]);
+    historyMovments = [];
   }
 
   return (

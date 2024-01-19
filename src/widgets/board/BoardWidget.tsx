@@ -17,8 +17,6 @@ interface BoardProps {
   swapPlayer: () => void;
 }
 
-const historyMovments: any[] = [];
-
 const BoardWidget: React.FC<BoardProps> = ({
   board,
   setHistoryMovmentsState,
