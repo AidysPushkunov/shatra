@@ -47,7 +47,7 @@ const Notation: React.FC<NotationProp> = ({ historyMovments }) => {
   let numberMove = 1;
 
   return (
-    <div className="grid grid-cols-[100px_335px_335px] overflow-y-scroll scrollbar-hide bg-[#eef3f6] w-[800px] max-h-[400px] p-[10px] rounded-md">
+    <div className="grid grid-cols-[100px_390px_390px] overflow-y-scroll scrollbar-hide bg-[#eef3f6] w-[900px] max-h-[400px] p-[10px] rounded-md">
       {historyMovments.map((e: any, index: any) => {
         if (e.currentPlayer === Colors.WHITE) {
           e.checkedX
@@ -63,36 +63,30 @@ const Notation: React.FC<NotationProp> = ({ historyMovments }) => {
                 notationSymbolX[e.movedX] + notationSymbolY[e.movedY]);
         }
 
-        return (
-          <>
-            {e.currentPlayer === Colors.WHITE ? (
-              e.checkedX ? (
-                <></>
-              ) : (
-                <>
-                  <NotationCell index={true} key={index}>
-                    {String(numberMove++)}
-                  </NotationCell>
-                  <NotationCell index={false} key={index}>
-                    {checkedFigureCoordinateWhite +
-                      "-" +
-                      movedFgureCoordinateWhite}
-                  </NotationCell>
-                </>
-              )
-            ) : e.checkedX ? (
-              <></>
-            ) : (
-              <>
-                <NotationCell index={false} key={index}>
-                  {checkedFigureCoordinateBlack +
+        if (e.currentPlayer === Colors.WHITE) {
+          if (e.moveFigure) {
+            return (
+              <React.Fragment key={index}>
+                <NotationCell>{String(numberMove++)}</NotationCell>
+                <NotationCell>
+                  {checkedFigureCoordinateWhite +
                     "-" +
-                    movedFgureCoordinateBlack}
+                    movedFgureCoordinateWhite}
                 </NotationCell>
-              </>
-            )}
-          </>
-        );
+              </React.Fragment>
+            );
+          }
+        } else {
+          if (e.moveFigure) {
+            return (
+              <NotationCell key={index}>
+                {checkedFigureCoordinateBlack + "-" + movedFgureCoordinateBlack}
+              </NotationCell>
+            );
+          }
+        }
+
+        return null;
       })}
     </div>
   );

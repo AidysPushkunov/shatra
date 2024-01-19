@@ -46,7 +46,7 @@ export default function Home() {
   return (
     <>
       <div className="flex justify-center mt-10">
-        <div className="flex flex-col ml-[200px]">
+        <div className="flex flex-col">
           <div className="flex justify-center">
             <div>
               <ShowCordinates numbers={true} />
@@ -65,7 +65,7 @@ export default function Home() {
         </div>
         <Timer restart={restart} currentPlayer={currentPlayer} />
       </div>
-      <div className="flex justify-center my-10 ml-[200px]">
+      <div className="flex justify-center my-10">
         <Notation historyMovments={historyMovments} />
       </div>
     </>
