@@ -71,10 +71,26 @@ export class Baatyr extends Figure {
       }
 
       if (canEatBaatyrTopLeft) {
+        let collisionFortress: Boolean = false;
+
         let x = canEatBaatyrTopLeft.x;
         let y = canEatBaatyrTopLeft.y;
 
         while (x >= 0 && y >= 0) {
+          if (collisionFortress) continue;
+
+          if (
+            this.cell.board.getCell(
+              canEatBaatyrTopLeft.x - 1 > 0
+                ? canEatBaatyrTopLeft.x - 1
+                : canEatBaatyrTopLeft.x,
+              canEatBaatyrTopLeft.y - 1 > 0
+                ? canEatBaatyrTopLeft.y - 1
+                : canEatBaatyrTopLeft.y
+            ).color === "fortress"
+          )
+            collisionFortress = true;
+
           if (
             this.cell.board.getCell(
               canEatBaatyrTopLeft.x - 1 > 0
@@ -103,10 +119,26 @@ export class Baatyr extends Figure {
       }
 
       if (canEatBaatyrBottomLeft) {
+        let collisionFortress: Boolean = false;
+
         let x = canEatBaatyrBottomLeft.x;
         let y = canEatBaatyrBottomLeft.y;
 
         while (x >= 0 && y <= 13) {
+          if (collisionFortress) continue;
+
+          if (
+            this.cell.board.getCell(
+              canEatBaatyrBottomLeft.x - 1 > 0
+                ? canEatBaatyrBottomLeft.x - 1
+                : canEatBaatyrBottomLeft.x,
+              canEatBaatyrBottomLeft.y + 1 < 13
+                ? canEatBaatyrBottomLeft.y + 1
+                : canEatBaatyrBottomLeft.y
+            ).color === "fortress"
+          )
+            collisionFortress = true;
+
           if (
             this.cell.board.getCell(
               canEatBaatyrBottomLeft.x - 1 > 0
@@ -134,10 +166,26 @@ export class Baatyr extends Figure {
       }
 
       if (canEatBaatyrBottomRight) {
+        let collisionFortress: Boolean = false;
+
         let x = canEatBaatyrBottomRight.x;
         let y = canEatBaatyrBottomRight.y;
 
         while (x <= 6 && y <= 13) {
+          if (collisionFortress) continue;
+
+          if (
+            this.cell.board.getCell(
+              canEatBaatyrBottomRight.x + 1 < 6
+                ? canEatBaatyrBottomRight.x + 1
+                : canEatBaatyrBottomRight.x,
+              canEatBaatyrBottomRight.y + 1 < 13
+                ? canEatBaatyrBottomRight.y + 1
+                : canEatBaatyrBottomRight.y
+            ).color === "fortress"
+          )
+            collisionFortress = true;
+
           if (
             this.cell.board.getCell(
               canEatBaatyrBottomRight.x + 1 < 6
@@ -165,10 +213,26 @@ export class Baatyr extends Figure {
       }
 
       if (canEatBaatyrTopRight) {
+        let collisionFortress: Boolean = false;
+
         let x = canEatBaatyrTopRight.x;
         let y = canEatBaatyrTopRight.y;
 
         while (x <= 6 && y >= 0) {
+          if (collisionFortress) continue;
+
+          if (
+            this.cell.board.getCell(
+              canEatBaatyrTopRight.x + 1 < 6
+                ? canEatBaatyrTopRight.x + 1
+                : canEatBaatyrTopRight.x,
+              canEatBaatyrTopRight.y - 1 > 0
+                ? canEatBaatyrTopRight.y - 1
+                : canEatBaatyrTopRight.y
+            ).color === "fortress"
+          )
+            collisionFortress = true;
+
           if (
             this.cell.board.getCell(
               canEatBaatyrTopRight.x + 1 < 6
@@ -196,7 +260,21 @@ export class Baatyr extends Figure {
       }
 
       if (canEatBaatyrLeft) {
+        let collisionFortress: Boolean = false;
+
         for (let i = canEatBaatyrLeft.x; i >= 0; i--) {
+          if (collisionFortress) continue;
+
+          if (
+            this.cell.board.getCell(
+              canEatBaatyrLeft.x - 1 > 0
+                ? canEatBaatyrLeft.x - 1
+                : canEatBaatyrLeft.x,
+              canEatBaatyrLeft.y
+            ).color === "fortress"
+          )
+            collisionFortress = true;
+
           if (
             this.cell.board.getCell(
               canEatBaatyrLeft.x - 1 > 0
@@ -218,7 +296,21 @@ export class Baatyr extends Figure {
       }
 
       if (canEatBaatyrRight) {
+        let collisionFortress: Boolean = false;
+
         for (let i = canEatBaatyrRight.x; i <= 6; i++) {
+          if (collisionFortress) continue;
+
+          if (
+            this.cell.board.getCell(
+              canEatBaatyrRight.x + 1 < 6
+                ? canEatBaatyrRight.x + 1
+                : canEatBaatyrRight.x,
+              canEatBaatyrRight.y
+            ).color === "fortress"
+          )
+            collisionFortress = true;
+
           if (
             this.cell.board.getCell(
               canEatBaatyrRight.x + 1 < 6
@@ -240,7 +332,21 @@ export class Baatyr extends Figure {
       }
 
       if (canEatBaatyrBottom) {
+        let collisionFortress: Boolean = false;
+
         for (let i = canEatBaatyrBottom.y; i <= 13; i++) {
+          if (collisionFortress) continue;
+
+          if (
+            this.cell.board.getCell(
+              canEatBaatyrBottom.x,
+              canEatBaatyrBottom.y + 1 < 13
+                ? canEatBaatyrBottom.y + 1
+                : canEatBaatyrBottom.y
+            ).color === "fortress"
+          )
+            collisionFortress = true;
+
           if (
             this.cell.board.getCell(
               canEatBaatyrBottom.x,
