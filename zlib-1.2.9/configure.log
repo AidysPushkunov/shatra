@@ -22,3 +22,75 @@ Compiler error reporting is too harsh for configure (perhaps remove -Werror).
 --------------------
 
 
+--------------------
+configure
+Wed Jan 24 01:07:01 +07 2024
+Checking for gcc...
+=== ztest1153.c ===
+extern int getchar();
+int hello() {return getchar();}
+===
+gcc -c ztest1153.c
+configure: 182: gcc: not found
+... using cc
+
+Checking for obsessive-compulsive compiler options...
+=== ztest1153.c ===
+int foo() { return 0; }
+===
+cc -c -O ztest1153.c
+configure: 370: cc: not found
+(exit code 127)
+Compiler error reporting is too harsh for configure (perhaps remove -Werror).
+** configure aborting.
+--------------------
+
+
+--------------------
+./configure
+Wed Jan 24 01:07:19 +07 2024
+Checking for gcc...
+=== ztest1183.c ===
+extern int getchar();
+int hello() {return getchar();}
+===
+gcc -c ztest1183.c
+./configure: 182: gcc: not found
+... using cc
+
+Checking for obsessive-compulsive compiler options...
+=== ztest1183.c ===
+int foo() { return 0; }
+===
+cc -c -O ztest1183.c
+./configure: 370: cc: not found
+(exit code 127)
+Compiler error reporting is too harsh for ./configure (perhaps remove -Werror).
+** ./configure aborting.
+--------------------
+
+
+--------------------
+configure
+Wed Jan 24 01:07:36 +07 2024
+Checking for gcc...
+=== ztest1213.c ===
+extern int getchar();
+int hello() {return getchar();}
+===
+gcc -c ztest1213.c
+configure: 182: gcc: not found
+... using cc
+
+Checking for obsessive-compulsive compiler options...
+=== ztest1213.c ===
+int foo() { return 0; }
+===
+cc -c -O ztest1213.c
+configure: 370: cc: not found
+(exit code 127)
+Compiler error reporting is too harsh for configure (perhaps remove -Werror).
+** configure aborting.
+--------------------
+
+
