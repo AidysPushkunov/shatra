@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "./setup.sh && next build",
     "start": "next start",
     "lint": "next lint"
   },
@@ -16,7 +16,8 @@
     "react-dom": "^18",
     "react-konva": "^18.2.10",
     "tailwind-scrollbar-hide": "^1.1.7",
-    "use-image": "^1.1.1"
+    "use-image": "^1.1.1",
+    "wget": "^0.0.1"
   },
   "devDependencies": {
     "@types/node": "^20",
