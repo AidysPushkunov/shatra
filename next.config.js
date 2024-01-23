@@ -7,6 +7,11 @@ const nextConfig = {
      */
     config.resolve.alias.canvas = false;
 
+    // You may not need this, it's just to support moduleResolution: 'node16'
+    config.resolve.extensionAlias = {
+      ".js": [".js", ".ts", ".tsx"],
+    };
+
     config.externals = [...config.externals, { canvas: "canvas" }]; // required to make Konva & react-konva work
     return config;
   },
