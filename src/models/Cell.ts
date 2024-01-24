@@ -52,9 +52,6 @@ export class Cell {
         this.board.getCell(areaFigureXEmpty, areaFigureYEmpty).isEmpty() &&
         this.board.getCell(areaFigureXEmpty, areaFigureYEmpty).color !==
           Colors.FORTRESS
-        // &&
-        // this.board.getCell(areaFigureXEmpty, areaFigureYEmpty).x !== this.x &&
-        // this.board.getCell(areaFigureXEmpty, areaFigureYEmpty).y !== this.y
       ) {
         return this.board.getCell(areaFigureXEmpty, areaFigureYEmpty);
       }
@@ -145,67 +142,66 @@ export class Cell {
     }
   }
 
+  // checkCellCycle(direction: Direction) {
+  //   let arrayCellCoordinate = [];
+
+  //   let x = this.x;
+  //   let y = this.y;
+
+  //   switch (direction) {
+  //     case Direction.TOP:
+  //       while (y >= 0) {
+  //         arrayCellCoordinate.push(y);
+  //         y--;
+  //       }
+  //       break;
+  //     case Direction.BOTTOM:
+  //       while (y <= 13) {
+  //         arrayCellCoordinate.push(y);
+  //         y++;
+  //       }
+  //       break;
+  //     case Direction.RIGHT:
+  //       while (x <= 6) {
+  //         arrayCellCoordinate.push(x);
+  //         x++;
+  //       }
+  //       break;
+  //     case Direction.LEFT:
+  //       while (x >= 0) {
+  //         arrayCellCoordinate.push(x);
+  //         x--;
+  //       }
+  //       break;
+  //   }
+
+  //   return arrayCellCoordinate;
+  // }
+
   canEatBaatyrEmptyCell(direction: Direction) {
-    if (direction === Direction.TOP) {
-      let collisionFortress: Boolean = false;
+    const checkCell = (x: number, y: number) => {
+      return this.board.getCell(x, y).figure;
+    };
 
-      for (let y = this.y; y >= 0; y--) {
-        if (collisionFortress) continue;
+    const isValidCell = (x: number, y: number) => {
+      return x >= 0 && x <= 6 && y >= 0 && y <= 13;
+    };
 
-        if (
-          this.board.getCell(this.x, y - 1 < 0 ? y : y - 1).color === "fortress"
-        ) {
-          collisionFortress = true;
-          return undefined;
-        }
-
-        if (
-          this.board.getCell(this.x, y).figure?.color !== this.figure?.color &&
-          this.board.getCell(this.x, y).figure !== null
-        ) {
-          if (y + 1 > 13 || y - 1 < 0) {
-            return undefined;
-          }
-
-          if (
-            this.board.getCell(this.x, y - 1 < 0 ? y : y - 1).figure !== null
-          ) {
-            return undefined;
-          }
-
-          return this.board.getCell(this.x, y);
-        }
-      }
-    }
-
-    if (direction === Direction.TOP_LEFT) {
-      let collisionFortress: Boolean = false;
-
+    const checkDirection = (xIncrement: number, yIncrement: number) => {
       let x = this.x;
       let y = this.y;
 
-      while (x >= 0 && y >= 0) {
-        if (collisionFortress) continue;
+      while (isValidCell(x, y)) {
+        const currentCell = checkCell(x, y);
 
-        if (
-          this.board.getCell(x - 1 < 0 ? x : x - 1, y - 1 < 0 ? y : y - 1)
-            .color === "fortress"
-        ) {
-          collisionFortress = true;
+        if (currentCell?.color === "fortress") {
           return undefined;
         }
 
-        if (
-          this.board.getCell(x, y).figure?.color !== this.figure?.color &&
-          this.board.getCell(x, y).figure !== null
-        ) {
-          if (x + 1 > 6 || x - 1 < 0 || y + 1 > 13 || y - 1 < 0) {
-            return undefined;
-          }
-
+        if (currentCell?.color !== this.figure?.color && currentCell !== null) {
           if (
-            this.board.getCell(x - 1 < 0 ? x : x - 1, y - 1 < 0 ? y : y - 1)
-              .figure !== null
+            !isValidCell(x + xIncrement, y + yIncrement) ||
+            checkCell(x + xIncrement, y + yIncrement) !== null
           ) {
             return undefined;
           }
@@ -213,218 +209,40 @@ export class Cell {
           return this.board.getCell(x, y);
         }
 
-        x--;
-        y--;
+        x += xIncrement;
+        y += yIncrement;
       }
-    }
 
-    if (direction === Direction.BOTTOM_LEFT) {
-      let collisionFortress: Boolean = false;
+      return undefined;
+    };
 
-      let x = this.x;
-      let y = this.y;
+    switch (direction) {
+      case Direction.TOP:
+        return checkDirection(0, -1);
 
-      while (x >= 0 && y <= 13) {
-        if (collisionFortress) continue;
+      case Direction.TOP_LEFT:
+        return checkDirection(-1, -1);
 
-        if (
-          this.board.getCell(x - 1 < 0 ? x : x - 1, y + 1 > 13 ? y : y + 1)
-            .color === "fortress"
-        ) {
-          collisionFortress = true;
-          return undefined;
-        }
+      case Direction.BOTTOM_LEFT:
+        return checkDirection(-1, 1);
 
-        if (
-          this.board.getCell(x, y).figure?.color !== this.figure?.color &&
-          this.board.getCell(x, y).figure !== null
-        ) {
-          if (x + 1 > 6 || x - 1 < 0 || y + 1 > 13 || y - 1 < 0) {
-            return undefined;
-          }
+      case Direction.BOTTOM_RIGHT:
+        return checkDirection(1, 1);
 
-          if (
-            this.board.getCell(x - 1 < 0 ? x : x - 1, y + 1 > 13 ? y : y + 1)
-              .figure !== null
-          ) {
-            return undefined;
-          }
+      case Direction.TOP_RIGHT:
+        return checkDirection(1, -1);
 
-          return this.board.getCell(x, y);
-        }
+      case Direction.LEFT:
+        return checkDirection(-1, 0);
 
-        x--;
-        y++;
-      }
-    }
+      case Direction.RIGHT:
+        return checkDirection(1, 0);
 
-    if (direction === Direction.BOTTOM_RIGHT) {
-      let collisionFortress: Boolean = false;
+      case Direction.BOTTOM:
+        return checkDirection(0, 1);
 
-      let x = this.x;
-      let y = this.y;
-
-      while (x <= 6 && y <= 13) {
-        if (collisionFortress) continue;
-
-        if (
-          this.board.getCell(x + 1 > 6 ? x : x + 1, y + 1 > 13 ? y : y + 1)
-            .color === "fortress"
-        ) {
-          collisionFortress = true;
-          return undefined;
-        }
-
-        if (
-          this.board.getCell(x, y).figure?.color !== this.figure?.color &&
-          this.board.getCell(x, y).figure !== null
-        ) {
-          if (x + 1 > 6 || x - 1 < 0 || y + 1 > 13 || y - 1 < 0) {
-            return undefined;
-          }
-
-          if (
-            this.board.getCell(x + 1 > 6 ? x : x + 1, y + 1 > 13 ? y : y + 1)
-              .figure !== null
-          ) {
-            return undefined;
-          }
-
-          return this.board.getCell(x, y);
-        }
-
-        x++;
-        y++;
-      }
-    }
-
-    if (direction === Direction.TOP_RIGHT) {
-      let collisionFortress: Boolean = false;
-
-      let x = this.x;
-      let y = this.y;
-
-      while (x <= 6 && y >= 0) {
-        if (collisionFortress) continue;
-
-        if (
-          this.board.getCell(x + 1 > 6 ? x : x + 1, y - 1 < 0 ? y : y - 1)
-            .color === "fortress"
-        ) {
-          collisionFortress = true;
-          return undefined;
-        }
-
-        if (
-          this.board.getCell(x, y).figure?.color !== this.figure?.color &&
-          this.board.getCell(x, y).figure !== null
-        ) {
-          if (x + 1 > 6 || x - 1 < 0 || y + 1 > 13 || y - 1 < 0) {
-            return undefined;
-          }
-
-          if (
-            this.board.getCell(x + 1 > 6 ? x : x + 1, y - 1 < 0 ? y : y - 1)
-              .figure !== null
-          ) {
-            return undefined;
-          }
-
-          return this.board.getCell(x, y);
-        }
-
-        x++;
-        y--;
-      }
-    }
-
-    if (direction === Direction.LEFT) {
-      let collisionFortress: Boolean = false;
-
-      for (let x = this.x; x >= 0; x--) {
-        if (collisionFortress) continue;
-
-        if (
-          this.board.getCell(x - 1 < 0 ? x : x - 1, this.y).color === "fortress"
-        ) {
-          collisionFortress = true;
-          return undefined;
-        }
-
-        if (
-          this.board.getCell(x, this.y).figure?.color !== this.figure?.color &&
-          this.board.getCell(x, this.y).figure !== null
-        ) {
-          if (
-            this.board.getCell(x - 1 < 0 ? x : x - 1, this.y).figure !== null
-          ) {
-            return undefined;
-          }
-
-          return this.board.getCell(x, this.y);
-        }
-      }
-    }
-
-    if (direction === Direction.RIGHT) {
-      let collisionFortress: Boolean = false;
-
-      for (let x = this.x; x <= 6; x++) {
-        if (collisionFortress) continue;
-
-        if (
-          this.board.getCell(x + 1 > 6 ? x : x + 1, this.y).color === "fortress"
-        ) {
-          collisionFortress = true;
-          return undefined;
-        }
-
-        if (
-          this.board.getCell(x, this.y).figure?.color !== this.figure?.color &&
-          this.board.getCell(x, this.y).figure !== null
-        ) {
-          if (
-            this.board.getCell(x + 1 >= 6 ? x : x + 1, this.y).figure !== null
-          ) {
-            return undefined;
-          }
-
-          return this.board.getCell(x, this.y);
-        }
-      }
-    }
-
-    if (direction === Direction.BOTTOM) {
-      let collisionFortress: Boolean = false;
-
-      for (let y = this.y; y <= 13; y++) {
-        if (collisionFortress) continue;
-
-        if (
-          this.board.getCell(this.x, y + 1 > 13 ? y : y + 1).color ===
-          "fortress"
-        ) {
-          collisionFortress = true;
-          return undefined;
-        }
-
-        if (
-          this.board.getCell(this.x, y).figure?.color !== this.figure?.color &&
-          this.board.getCell(this.x, y).figure !== null
-        ) {
-          if (y + 1 > 13 || y - 1 < 0) {
-            return undefined;
-          }
-
-          if (
-            this.board.getCell(this.x, y + 1 > 13 ? y : y + 1).figure !== null
-          ) {
-            return undefined;
-          }
-
-          return this.board.getCell(this.x, y);
-        }
-      }
+      default:
+        return undefined;
     }
   }
 
@@ -520,8 +338,6 @@ export class Cell {
     }
     return true;
   }
-
-  // В диоганади проблемы с dx и dy
 
   isEmptyDiogonal(target: Cell) {
     const absX = Math.abs(target.x - this.x);

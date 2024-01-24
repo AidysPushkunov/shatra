@@ -294,22 +294,22 @@ export class Board {
   public addFigures() {
     // this.addShatra();
     // this.addBiy();
-    new Biy(Colors.BLACK, this.getCell(0, 4));
-    new Biy(Colors.WHITE, this.getCell(0, 9));
+    // new Biy(Colors.BLACK, this.getCell(0, 4));
+    // new Biy(Colors.WHITE, this.getCell(0, 9));
 
-    new Shatra(Colors.WHITE, this.getCell(0, 8));
-    new Shatra(Colors.WHITE, this.getCell(0, 7));
-    new Shatra(Colors.WHITE, this.getCell(6, 9));
-    new Shatra(Colors.WHITE, this.getCell(6, 8));
+    // new Shatra(Colors.WHITE, this.getCell(0, 8));
+    // new Shatra(Colors.WHITE, this.getCell(0, 7));
+    // new Shatra(Colors.WHITE, this.getCell(6, 9));
+    // new Shatra(Colors.WHITE, this.getCell(6, 8));
 
-    new Shatra(Colors.WHITE, this.getCell(3, 3));
-    new Shatra(Colors.BLACK, this.getCell(3, 10));
+    new Baatyr(Colors.WHITE, this.getCell(2, 2));
+    new Baatyr(Colors.BLACK, this.getCell(4, 11));
 
-    new Shatra(Colors.BLACK, this.getCell(0, 5));
-    new Shatra(Colors.BLACK, this.getCell(0, 6));
-    new Shatra(Colors.BLACK, this.getCell(6, 4));
-    new Shatra(Colors.BLACK, this.getCell(6, 5));
-    new Shatra(Colors.BLACK, this.getCell(6, 6));
-    new Shatra(Colors.BLACK, this.getCell(6, 7));
+    // new Shatra(Colors.BLACK, this.getCell(0, 5));
+    // new Shatra(Colors.BLACK, this.getCell(0, 6));
+    // new Shatra(Colors.BLACK, this.getCell(6, 4));
+    // new Shatra(Colors.BLACK, this.getCell(6, 5));
+    // new Baatyr(Colors.BLACK, this.getCell(6, 6));
+    // new Baatyr(Colors.BLACK, this.getCell(6, 7));
   }
 }
