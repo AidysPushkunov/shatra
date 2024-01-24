@@ -145,21 +145,25 @@ export class Cell {
     }
   }
 
-  canEatBaatyr(target: Cell, direction: Direction): Cell | undefined {
+  canEatBaatyrEmptyCell(direction: Direction) {
     if (direction === Direction.TOP) {
+      let collisionFortress: Boolean = false;
+
       for (let y = this.y; y >= 0; y--) {
+        if (collisionFortress) continue;
+
+        if (
+          this.board.getCell(this.x, y - 1 < 0 ? y : y - 1).color === "fortress"
+        ) {
+          collisionFortress = true;
+          return undefined;
+        }
+
         if (
           this.board.getCell(this.x, y).figure?.color !== this.figure?.color &&
           this.board.getCell(this.x, y).figure !== null
         ) {
           if (y + 1 > 13 || y - 1 < 0) {
-            return undefined;
-          }
-
-          if (
-            this.board.getCell(this.x, y - 1 < 0 ? y : y - 1).color ===
-            "fortress"
-          ) {
             return undefined;
           }
 
@@ -175,22 +179,27 @@ export class Cell {
     }
 
     if (direction === Direction.TOP_LEFT) {
+      let collisionFortress: Boolean = false;
+
       let x = this.x;
       let y = this.y;
 
       while (x >= 0 && y >= 0) {
+        if (collisionFortress) continue;
+
+        if (
+          this.board.getCell(x - 1 < 0 ? x : x - 1, y - 1 < 0 ? y : y - 1)
+            .color === "fortress"
+        ) {
+          collisionFortress = true;
+          return undefined;
+        }
+
         if (
           this.board.getCell(x, y).figure?.color !== this.figure?.color &&
           this.board.getCell(x, y).figure !== null
         ) {
           if (x + 1 > 6 || x - 1 < 0 || y + 1 > 13 || y - 1 < 0) {
-            return undefined;
-          }
-
-          if (
-            this.board.getCell(x - 1 < 0 ? x : x - 1, y - 1 < 0 ? y : y - 1)
-              .color === "fortress"
-          ) {
             return undefined;
           }
 
@@ -210,14 +219,19 @@ export class Cell {
     }
 
     if (direction === Direction.BOTTOM_LEFT) {
+      let collisionFortress: Boolean = false;
+
       let x = this.x;
       let y = this.y;
 
       while (x >= 0 && y <= 13) {
+        if (collisionFortress) continue;
+
         if (
           this.board.getCell(x - 1 < 0 ? x : x - 1, y + 1 > 13 ? y : y + 1)
             .color === "fortress"
         ) {
+          collisionFortress = true;
           return undefined;
         }
 
@@ -245,14 +259,19 @@ export class Cell {
     }
 
     if (direction === Direction.BOTTOM_RIGHT) {
+      let collisionFortress: Boolean = false;
+
       let x = this.x;
       let y = this.y;
 
       while (x <= 6 && y <= 13) {
+        if (collisionFortress) continue;
+
         if (
           this.board.getCell(x + 1 > 6 ? x : x + 1, y + 1 > 13 ? y : y + 1)
             .color === "fortress"
         ) {
+          collisionFortress = true;
           return undefined;
         }
 
@@ -280,14 +299,19 @@ export class Cell {
     }
 
     if (direction === Direction.TOP_RIGHT) {
+      let collisionFortress: Boolean = false;
+
       let x = this.x;
       let y = this.y;
 
       while (x <= 6 && y >= 0) {
+        if (collisionFortress) continue;
+
         if (
           this.board.getCell(x + 1 > 6 ? x : x + 1, y - 1 < 0 ? y : y - 1)
             .color === "fortress"
         ) {
+          collisionFortress = true;
           return undefined;
         }
 
@@ -315,18 +339,22 @@ export class Cell {
     }
 
     if (direction === Direction.LEFT) {
+      let collisionFortress: Boolean = false;
+
       for (let x = this.x; x >= 0; x--) {
+        if (collisionFortress) continue;
+
+        if (
+          this.board.getCell(x - 1 < 0 ? x : x - 1, this.y).color === "fortress"
+        ) {
+          collisionFortress = true;
+          return undefined;
+        }
+
         if (
           this.board.getCell(x, this.y).figure?.color !== this.figure?.color &&
           this.board.getCell(x, this.y).figure !== null
         ) {
-          if (
-            this.board.getCell(x - 1 < 0 ? x : x - 1, this.y).color ===
-            "fortress"
-          ) {
-            return undefined;
-          }
-
           if (
             this.board.getCell(x - 1 < 0 ? x : x - 1, this.y).figure !== null
           ) {
@@ -339,18 +367,22 @@ export class Cell {
     }
 
     if (direction === Direction.RIGHT) {
+      let collisionFortress: Boolean = false;
+
       for (let x = this.x; x <= 6; x++) {
+        if (collisionFortress) continue;
+
+        if (
+          this.board.getCell(x + 1 > 6 ? x : x + 1, this.y).color === "fortress"
+        ) {
+          collisionFortress = true;
+          return undefined;
+        }
+
         if (
           this.board.getCell(x, this.y).figure?.color !== this.figure?.color &&
           this.board.getCell(x, this.y).figure !== null
         ) {
-          if (
-            this.board.getCell(x + 1 > 6 ? x : x + 1, this.y).color ===
-            "fortress"
-          ) {
-            return undefined;
-          }
-
           if (
             this.board.getCell(x + 1 >= 6 ? x : x + 1, this.y).figure !== null
           ) {
@@ -363,19 +395,24 @@ export class Cell {
     }
 
     if (direction === Direction.BOTTOM) {
+      let collisionFortress: Boolean = false;
+
       for (let y = this.y; y <= 13; y++) {
+        if (collisionFortress) continue;
+
+        if (
+          this.board.getCell(this.x, y + 1 > 13 ? y : y + 1).color ===
+          "fortress"
+        ) {
+          collisionFortress = true;
+          return undefined;
+        }
+
         if (
           this.board.getCell(this.x, y).figure?.color !== this.figure?.color &&
           this.board.getCell(this.x, y).figure !== null
         ) {
           if (y + 1 > 13 || y - 1 < 0) {
-            return undefined;
-          }
-
-          if (
-            this.board.getCell(this.x, y + 1 > 13 ? y : y + 1).color ===
-            "fortress"
-          ) {
             return undefined;
           }
 
@@ -388,6 +425,40 @@ export class Cell {
           return this.board.getCell(this.x, y);
         }
       }
+    }
+  }
+
+  canEatBaatyr(target: Cell, direction: Direction): Cell | undefined {
+    if (direction === Direction.TOP) {
+      return this.canEatBaatyrEmptyCell(direction);
+    }
+
+    if (direction === Direction.TOP_LEFT) {
+      return this.canEatBaatyrEmptyCell(direction);
+    }
+
+    if (direction === Direction.BOTTOM_LEFT) {
+      return this.canEatBaatyrEmptyCell(direction);
+    }
+
+    if (direction === Direction.BOTTOM_RIGHT) {
+      return this.canEatBaatyrEmptyCell(direction);
+    }
+
+    if (direction === Direction.TOP_RIGHT) {
+      return this.canEatBaatyrEmptyCell(direction);
+    }
+
+    if (direction === Direction.LEFT) {
+      return this.canEatBaatyrEmptyCell(direction);
+    }
+
+    if (direction === Direction.RIGHT) {
+      return this.canEatBaatyrEmptyCell(direction);
+    }
+
+    if (direction === Direction.BOTTOM) {
+      return this.canEatBaatyrEmptyCell(direction);
     }
   }
 
