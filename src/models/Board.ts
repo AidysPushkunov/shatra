@@ -292,8 +292,8 @@ export class Board {
   }
 
   public addFigures() {
-    // this.addShatra();
-    // this.addBiy();
+    this.addShatra();
+    this.addBiy();
     // new Biy(Colors.BLACK, this.getCell(0, 4));
     // new Biy(Colors.WHITE, this.getCell(0, 9));
 
@@ -302,8 +302,8 @@ export class Board {
     // new Shatra(Colors.WHITE, this.getCell(6, 9));
     // new Shatra(Colors.WHITE, this.getCell(6, 8));
 
-    new Baatyr(Colors.WHITE, this.getCell(2, 2));
-    new Baatyr(Colors.BLACK, this.getCell(4, 11));
+    // new Baatyr(Colors.WHITE, this.getCell(2, 2));
+    // new Baatyr(Colors.BLACK, this.getCell(4, 11));
 
     // new Shatra(Colors.BLACK, this.getCell(0, 5));
     // new Shatra(Colors.BLACK, this.getCell(0, 6));

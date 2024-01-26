@@ -26,6 +26,8 @@ const BoardWidget: React.FC<BoardProps> = ({
   swapPlayer,
 }) => {
   const [selectedCell, setSelectedCell] = React.useState<Cell | null>(null);
+  const [checkedCell, setCheckedCell] = React.useState<Cell | null>(null);
+
   const [state, setState] = React.useState<any[]>([]);
   const [animatedFigure, setAnimateFigure] = React.useState<any>();
   const [selectedCellItems, setSelectedCellItems] = React.useState<any>();
@@ -103,8 +105,10 @@ const BoardWidget: React.FC<BoardProps> = ({
         cell.x - selectedCell.x === 1 ||
         cell.y - selectedCell.y === 1 ||
         cell.x - selectedCell.x === -1 ||
-        cell.y - selectedCell.y === -1
+        cell.y - selectedCell.y === -1 ||
+        checkedCell?.infortress
       ) {
+        console.log("Вывод ячейки или из резерва: ", checkedCell?.infortress);
         swapPlayer();
       } else {
         if (
@@ -117,9 +121,11 @@ const BoardWidget: React.FC<BoardProps> = ({
           !cell.canEat(cell, Direction.BOTTOM_RIGHT) &&
           !cell.canEat(cell, Direction.BOTTOM)
         ) {
+          console.log("Вывод ячейки при рубки: ", checkedCell?.infortress);
           swapPlayer();
         }
       }
+      setCheckedCell(null);
       setSelectedCell(null);
       updateBoard();
     } else {
@@ -134,6 +140,7 @@ const BoardWidget: React.FC<BoardProps> = ({
           checkedY: y,
         });
 
+        setCheckedCell(cell);
         setHistoryMovmentsState(historyMovments);
 
         setSelectedCell(cell);

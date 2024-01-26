@@ -36,6 +36,8 @@ export class Cell {
     return this.figure === null;
   }
 
+  // при рубке проверять цвета когда чтобы при рубке не реагировали на свои цвета...
+
   canEatEmptyCell(
     areaFigureX: number,
     areaFigureY: number,
@@ -56,20 +58,27 @@ export class Cell {
         return this.board.getCell(areaFigureXEmpty, areaFigureYEmpty);
       }
     }
+    return undefined;
   }
 
   canEat(target: Cell, direction: Direction): Cell | undefined {
-    const areaFigureXForward = this.x - 1 < 0 ? this.x : this.x - 1;
-    const areaFigureYForward = this.y - 1 < 0 ? this.y : this.y - 1;
-    const areaFigureXBack = this.x + 1 > 6 ? this.x : this.x + 1;
-    const areaFigureYBack = this.y + 1 > 13 ? this.y : this.y + 1;
+    const areaFigureXForward = this.x - 1 < 0 ? undefined : this.x - 1;
+    const areaFigureYForward = this.y - 1 < 0 ? undefined : this.y - 1;
+    const areaFigureXBack = this.x + 1 > 6 ? undefined : this.x + 1;
+    const areaFigureYBack = this.y + 1 > 13 ? undefined : this.y + 1;
 
-    const areaFigureXForwardEmpty = this.x - 2 < 0 ? this.x : this.x - 2;
-    const areaFigureYForwardEmpty = this.y - 2 < 0 ? this.y : this.y - 2;
-    const areaFigureXBackEmpty = this.x + 2 > 6 ? this.x : this.x + 2;
-    const areaFigureYBackEmpty = this.y + 2 > 13 ? this.y : this.y + 2;
+    const areaFigureXForwardEmpty = this.x - 2 < 0 ? undefined : this.x - 2;
+    const areaFigureYForwardEmpty = this.y - 2 < 0 ? undefined : this.y - 2;
+    const areaFigureXBackEmpty = this.x + 2 > 6 ? undefined : this.x + 2;
+    const areaFigureYBackEmpty = this.y + 2 > 13 ? undefined : this.y + 2;
 
-    if (direction === Direction.TOP_LEFT) {
+    if (
+      direction === Direction.TOP_LEFT &&
+      areaFigureXForward !== undefined &&
+      areaFigureYForward !== undefined &&
+      areaFigureXForwardEmpty !== undefined &&
+      areaFigureYForwardEmpty !== undefined
+    ) {
       return this.canEatEmptyCell(
         areaFigureXForward,
         areaFigureYForward,
@@ -78,7 +87,11 @@ export class Cell {
       );
     }
 
-    if (direction === Direction.TOP) {
+    if (
+      direction === Direction.TOP &&
+      areaFigureYForward !== undefined &&
+      areaFigureYForwardEmpty !== undefined
+    ) {
       return this.canEatEmptyCell(
         this.x,
         areaFigureYForward,
@@ -87,7 +100,13 @@ export class Cell {
       );
     }
 
-    if (direction === Direction.TOP_RIGHT) {
+    if (
+      direction === Direction.TOP_RIGHT &&
+      areaFigureXBack !== undefined &&
+      areaFigureYForward !== undefined &&
+      areaFigureXBackEmpty !== undefined &&
+      areaFigureYForwardEmpty !== undefined
+    ) {
       return this.canEatEmptyCell(
         areaFigureXBack,
         areaFigureYForward,
@@ -96,7 +115,11 @@ export class Cell {
       );
     }
 
-    if (direction === Direction.LEFT) {
+    if (
+      direction === Direction.LEFT &&
+      areaFigureXForward !== undefined &&
+      areaFigureXForwardEmpty !== undefined
+    ) {
       return this.canEatEmptyCell(
         areaFigureXForward,
         this.y,
@@ -105,7 +128,11 @@ export class Cell {
       );
     }
 
-    if (direction === Direction.RIGHT) {
+    if (
+      direction === Direction.RIGHT &&
+      areaFigureXBack !== undefined &&
+      areaFigureXBackEmpty !== undefined
+    ) {
       return this.canEatEmptyCell(
         areaFigureXBack,
         this.y,
@@ -114,7 +141,13 @@ export class Cell {
       );
     }
 
-    if (direction === Direction.BOTTOM_LEFT) {
+    if (
+      direction === Direction.BOTTOM_LEFT &&
+      areaFigureXForward !== undefined &&
+      areaFigureYBack !== undefined &&
+      areaFigureXForwardEmpty !== undefined &&
+      areaFigureYBackEmpty !== undefined
+    ) {
       return this.canEatEmptyCell(
         areaFigureXForward,
         areaFigureYBack,
@@ -123,7 +156,11 @@ export class Cell {
       );
     }
 
-    if (direction === Direction.BOTTOM) {
+    if (
+      direction === Direction.BOTTOM &&
+      areaFigureYBack !== undefined &&
+      areaFigureYBackEmpty !== undefined
+    ) {
       return this.canEatEmptyCell(
         this.x,
         areaFigureYBack,
@@ -132,7 +169,13 @@ export class Cell {
       );
     }
 
-    if (direction === Direction.BOTTOM_RIGHT) {
+    if (
+      direction === Direction.BOTTOM_RIGHT &&
+      areaFigureXBack !== undefined &&
+      areaFigureYBack !== undefined &&
+      areaFigureXBackEmpty !== undefined &&
+      areaFigureYBackEmpty !== undefined
+    ) {
       return this.canEatEmptyCell(
         areaFigureXBack,
         areaFigureYBack,
@@ -141,42 +184,6 @@ export class Cell {
       );
     }
   }
-
-  // checkCellCycle(direction: Direction) {
-  //   let arrayCellCoordinate = [];
-
-  //   let x = this.x;
-  //   let y = this.y;
-
-  //   switch (direction) {
-  //     case Direction.TOP:
-  //       while (y >= 0) {
-  //         arrayCellCoordinate.push(y);
-  //         y--;
-  //       }
-  //       break;
-  //     case Direction.BOTTOM:
-  //       while (y <= 13) {
-  //         arrayCellCoordinate.push(y);
-  //         y++;
-  //       }
-  //       break;
-  //     case Direction.RIGHT:
-  //       while (x <= 6) {
-  //         arrayCellCoordinate.push(x);
-  //         x++;
-  //       }
-  //       break;
-  //     case Direction.LEFT:
-  //       while (x >= 0) {
-  //         arrayCellCoordinate.push(x);
-  //         x--;
-  //       }
-  //       break;
-  //   }
-
-  //   return arrayCellCoordinate;
-  // }
 
   canEatBaatyrEmptyCell(direction: Direction) {
     const checkCell = (x: number, y: number) => {
