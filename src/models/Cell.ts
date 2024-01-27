@@ -36,8 +36,6 @@ export class Cell {
     return this.figure === null;
   }
 
-  // при рубке проверять цвета когда чтобы при рубке не реагировали на свои цвета...
-
   canEatEmptyCell(
     areaFigureX: number,
     areaFigureY: number,
@@ -45,32 +43,30 @@ export class Cell {
     areaFigureYEmpty: number
   ) {
     if (
+      this.isEnemy(this.board.getCell(areaFigureX, areaFigureY)) &&
       !this.board.getCell(areaFigureX, areaFigureY).isEmpty() &&
-      this.board.getCell(areaFigureX, areaFigureY).figure?.color !==
-        this.figure?.color
+      this.board.getCell(areaFigureXEmpty, areaFigureYEmpty).isEmpty() &&
+      this.board.getCell(areaFigureXEmpty, areaFigureYEmpty).color !==
+        Colors.FORTRESS
     ) {
-      if (
-        this.isEnemy(this.board.getCell(areaFigureX, areaFigureY)) &&
-        this.board.getCell(areaFigureXEmpty, areaFigureYEmpty).isEmpty() &&
-        this.board.getCell(areaFigureXEmpty, areaFigureYEmpty).color !==
-          Colors.FORTRESS
-      ) {
-        return this.board.getCell(areaFigureXEmpty, areaFigureYEmpty);
-      }
+      return this.board.getCell(areaFigureXEmpty, areaFigureYEmpty);
     }
+
     return undefined;
   }
 
   canEat(target: Cell, direction: Direction): Cell | undefined {
-    const areaFigureXForward = this.x - 1 < 0 ? undefined : this.x - 1;
-    const areaFigureYForward = this.y - 1 < 0 ? undefined : this.y - 1;
-    const areaFigureXBack = this.x + 1 > 6 ? undefined : this.x + 1;
-    const areaFigureYBack = this.y + 1 > 13 ? undefined : this.y + 1;
+    // console.log("Can Eat this: ", this, " target: ", target);
 
-    const areaFigureXForwardEmpty = this.x - 2 < 0 ? undefined : this.x - 2;
-    const areaFigureYForwardEmpty = this.y - 2 < 0 ? undefined : this.y - 2;
-    const areaFigureXBackEmpty = this.x + 2 > 6 ? undefined : this.x + 2;
-    const areaFigureYBackEmpty = this.y + 2 > 13 ? undefined : this.y + 2;
+    const areaFigureXForward = target?.x - 1 < 0 ? undefined : target.x - 1;
+    const areaFigureYForward = target.y - 1 < 0 ? undefined : target.y - 1;
+    const areaFigureXBack = target.x + 1 > 6 ? undefined : target.x + 1;
+    const areaFigureYBack = target.y + 1 > 13 ? undefined : target.y + 1;
+
+    const areaFigureXForwardEmpty = target.x - 2 < 0 ? undefined : target.x - 2;
+    const areaFigureYForwardEmpty = target.y - 2 < 0 ? undefined : target.y - 2;
+    const areaFigureXBackEmpty = target.x + 2 > 6 ? undefined : target.x + 2;
+    const areaFigureYBackEmpty = target.y + 2 > 13 ? undefined : target.y + 2;
 
     if (
       direction === Direction.TOP_LEFT &&
@@ -293,6 +289,10 @@ export class Cell {
     }
 
     return false;
+
+    // if (this.figure && target.figure) {
+    //   return this.figure.color !== target.figure.color;
+    // }
   }
 
   isEmptyVertical(target: Cell) {
@@ -424,14 +424,14 @@ export class Cell {
         );
       }
       if (
-        this.figure.cell.canEat(target, Direction.TOP_LEFT) ||
-        this.figure.cell.canEat(target, Direction.TOP_RIGHT) ||
-        this.figure.cell.canEat(target, Direction.TOP) ||
-        this.figure.cell.canEat(target, Direction.BOTTOM_LEFT) ||
-        this.figure.cell.canEat(target, Direction.BOTTOM_RIGHT) ||
-        this.figure.cell.canEat(target, Direction.BOTTOM) ||
-        this.figure.cell.canEat(target, Direction.LEFT) ||
-        this.figure.cell.canEat(target, Direction.RIGHT)
+        this.figure.cell.canEat(this, Direction.TOP_LEFT) ||
+        this.figure.cell.canEat(this, Direction.TOP_RIGHT) ||
+        this.figure.cell.canEat(this, Direction.TOP) ||
+        this.figure.cell.canEat(this, Direction.BOTTOM_LEFT) ||
+        this.figure.cell.canEat(this, Direction.BOTTOM_RIGHT) ||
+        this.figure.cell.canEat(this, Direction.BOTTOM) ||
+        this.figure.cell.canEat(this, Direction.LEFT) ||
+        this.figure.cell.canEat(this, Direction.RIGHT)
       ) {
         let x =
           target.x - this.figure.cell.x < 0

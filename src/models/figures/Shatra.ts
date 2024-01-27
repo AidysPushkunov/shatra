@@ -15,58 +15,24 @@ export class Shatra extends Figure {
   canMove(target: Cell): boolean {
     if (!super.canMove(target)) return false;
 
-
-
     const direction = this.cell.figure?.color === Colors.BLACK ? 1 : -1;
 
     if (this.cell.board.canEatAbility(this.cell)) {
-      if (
-        this.cell.canEat(target, Direction.TOP_LEFT)?.x === target.x &&
-        this.cell.canEat(target, Direction.TOP_LEFT)?.y === target.y
-      )
-        return true;
-
-      if (
-        this.cell.canEat(target, Direction.TOP)?.x === target.x &&
-        this.cell.canEat(target, Direction.TOP)?.y === target.y
-      )
-        return true;
-
-      if (
-        this.cell.canEat(target, Direction.TOP_RIGHT)?.x === target.x &&
-        this.cell.canEat(target, Direction.TOP_RIGHT)?.y === target.y
-      )
-        return true;
-
-      if (
-        this.cell.canEat(target, Direction.LEFT)?.x === target.x &&
-        this.cell.canEat(target, Direction.LEFT)?.y === target.y
-      )
-        return true;
-
-      if (
-        this.cell.canEat(target, Direction.RIGHT)?.x === target.x &&
-        this.cell.canEat(target, Direction.RIGHT)?.y === target.y
-      )
-        return true;
-
-      if (
-        this.cell.canEat(target, Direction.BOTTOM_LEFT)?.x === target.x &&
-        this.cell.canEat(target, Direction.BOTTOM_LEFT)?.y === target.y
-      ) {
-        return true;
+      for (const dir of [
+        Direction.TOP_LEFT,
+        Direction.TOP,
+        Direction.TOP_RIGHT,
+        Direction.LEFT,
+        Direction.RIGHT,
+        Direction.BOTTOM_LEFT,
+        Direction.BOTTOM,
+        Direction.BOTTOM_RIGHT,
+      ]) {
+        const targetCell = this.cell.canEat(this.cell, dir);
+        if (targetCell?.x === target.x && targetCell?.y === target.y) {
+          return true;
+        }
       }
-      if (
-        this.cell.canEat(target, Direction.BOTTOM)?.x === target.x &&
-        this.cell.canEat(target, Direction.BOTTOM)?.y === target.y
-      )
-        return true;
-
-      if (
-        this.cell.canEat(target, Direction.BOTTOM_RIGHT)?.x === target.x &&
-        this.cell.canEat(target, Direction.BOTTOM_RIGHT)?.y === target.y
-      )
-        return true;
     } else {
       if (
         this.cell.isFortressAbility(this.cell) &&

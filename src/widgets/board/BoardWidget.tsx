@@ -100,7 +100,6 @@ const BoardWidget: React.FC<BoardProps> = ({
 
       setSelectedCellItems({ selectedCell, cell });
       animatedChangePositionFigure(cell, event, true);
-
       if (
         cell.x - selectedCell.x === 1 ||
         cell.y - selectedCell.y === 1 ||
@@ -108,20 +107,30 @@ const BoardWidget: React.FC<BoardProps> = ({
         cell.y - selectedCell.y === -1 ||
         checkedCell?.infortress
       ) {
-        console.log("Вывод ячейки или из резерва: ", checkedCell?.infortress);
         swapPlayer();
       } else {
-        if (
-          !cell.canEat(cell, Direction.LEFT) &&
-          !cell.canEat(cell, Direction.RIGHT) &&
-          !cell.canEat(cell, Direction.TOP_LEFT) &&
-          !cell.canEat(cell, Direction.TOP_RIGHT) &&
-          !cell.canEat(cell, Direction.TOP) &&
-          !cell.canEat(cell, Direction.BOTTOM_LEFT) &&
-          !cell.canEat(cell, Direction.BOTTOM_RIGHT) &&
-          !cell.canEat(cell, Direction.BOTTOM)
-        ) {
-          console.log("Вывод ячейки при рубки: ", checkedCell?.infortress);
+        let canEat = false;
+
+        for (const direction of [
+          Direction.LEFT,
+          Direction.RIGHT,
+          Direction.TOP_LEFT,
+          Direction.TOP_RIGHT,
+          Direction.TOP,
+          Direction.BOTTOM_LEFT,
+          Direction.BOTTOM_RIGHT,
+          Direction.BOTTOM,
+        ]) {
+          if (cell.canEat(cell, direction)) {
+            console.log("This is cell: ", cell);
+            console.log("This is selectedCell: ", selectedCell);
+            console.log(cell.canEat(cell, direction));
+            canEat = true;
+            break;
+          }
+        }
+
+        if (!canEat) {
           swapPlayer();
         }
       }
