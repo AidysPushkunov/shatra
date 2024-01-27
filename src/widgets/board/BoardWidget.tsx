@@ -109,30 +109,52 @@ const BoardWidget: React.FC<BoardProps> = ({
       ) {
         swapPlayer();
       } else {
-        let canEat = false;
-
-        for (const direction of [
-          Direction.LEFT,
-          Direction.RIGHT,
-          Direction.TOP_LEFT,
-          Direction.TOP_RIGHT,
-          Direction.TOP,
-          Direction.BOTTOM_LEFT,
-          Direction.BOTTOM_RIGHT,
-          Direction.BOTTOM,
-        ]) {
-          if (cell.canEat(cell, direction)) {
-            console.log("This is cell: ", cell);
-            console.log("This is selectedCell: ", selectedCell);
-            console.log(cell.canEat(cell, direction));
-            canEat = true;
-            break;
-          }
-        }
-
-        if (!canEat) {
+        console.log(
+          cell.canEat(cell, Direction.LEFT),
+          cell.canEat(cell, Direction.RIGHT),
+          cell.canEat(cell, Direction.TOP_LEFT),
+          cell.canEat(cell, Direction.TOP_RIGHT),
+          cell.canEat(cell, Direction.TOP),
+          cell.canEat(cell, Direction.BOTTOM_LEFT),
+          cell.canEat(cell, Direction.BOTTOM_RIGHT),
+          cell.canEat(cell, Direction.BOTTOM)
+        );
+        if (
+          !cell.canEat(cell, Direction.LEFT) &&
+          !cell.canEat(cell, Direction.RIGHT) &&
+          !cell.canEat(cell, Direction.TOP_LEFT) &&
+          !cell.canEat(cell, Direction.TOP_RIGHT) &&
+          !cell.canEat(cell, Direction.TOP) &&
+          !cell.canEat(cell, Direction.BOTTOM_LEFT) &&
+          !cell.canEat(cell, Direction.BOTTOM_RIGHT) &&
+          !cell.canEat(cell, Direction.BOTTOM)
+        ) {
           swapPlayer();
         }
+        // let canEat = false;
+
+        // for (const direction of [
+        //   Direction.LEFT,
+        //   Direction.RIGHT,
+        //   Direction.TOP_LEFT,
+        //   Direction.TOP_RIGHT,
+        //   Direction.TOP,
+        //   Direction.BOTTOM_LEFT,
+        //   Direction.BOTTOM_RIGHT,
+        //   Direction.BOTTOM,
+        // ]) {
+        //   if (cell.canEat(selectedCell, direction)) {
+        //     console.log("This is cell: ", cell);
+        //     console.log("This is selectedCell: ", selectedCell);
+        //     console.log(cell.canEat(cell, direction));
+        //     canEat = true;
+        //     break;
+        //   }
+        // }
+
+        // if (!canEat) {
+        //   swapPlayer();
+        // }
       }
       setCheckedCell(null);
       setSelectedCell(null);

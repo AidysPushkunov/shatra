@@ -129,7 +129,8 @@ export class Board {
           !this.getCell(x, j).isEmpty() &&
           this.getCell(x, j).figure?.color === target.figure?.color &&
           this.getCell(x, j).figure?.logo !== "blackBiy" &&
-          this.getCell(x, j).figure?.logo !== "whiteBiy"
+          this.getCell(x, j).figure?.logo !== "whiteBiy" &&
+          this.getCell(x, j).figure?.logo !== "fortress"
         ) {
           if (
             Boolean(

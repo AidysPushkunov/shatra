@@ -43,8 +43,10 @@ export class Cell {
     areaFigureYEmpty: number
   ) {
     if (
-      this.isEnemy(this.board.getCell(areaFigureX, areaFigureY)) &&
       !this.board.getCell(areaFigureX, areaFigureY).isEmpty() &&
+      this.board.getCell(areaFigureX, areaFigureY).figure?.color !==
+        this.figure?.color &&
+      this.isEnemy(this.board.getCell(areaFigureX, areaFigureY)) &&
       this.board.getCell(areaFigureXEmpty, areaFigureYEmpty).isEmpty() &&
       this.board.getCell(areaFigureXEmpty, areaFigureYEmpty).color !==
         Colors.FORTRESS
@@ -56,8 +58,6 @@ export class Cell {
   }
 
   canEat(target: Cell, direction: Direction): Cell | undefined {
-    // console.log("Can Eat this: ", this, " target: ", target);
-
     const areaFigureXForward = target?.x - 1 < 0 ? undefined : target.x - 1;
     const areaFigureYForward = target.y - 1 < 0 ? undefined : target.y - 1;
     const areaFigureXBack = target.x + 1 > 6 ? undefined : target.x + 1;
