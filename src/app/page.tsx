@@ -7,14 +7,14 @@ import { Board } from "@/models/Board";
 import { Player } from "@/models/Player";
 import { Colors } from "@/models/Colors";
 import { Timer } from "@/widgets/timer";
-import { ShowCordinates } from "@/features/showCordinates";
+import { ShowCoordinates } from "@/features/showCoordinates";
 import { Notation } from "@/widgets/notation";
 
-let historyMovments: any[] = [];
+let historyMovements: any[] = [];
 
 export default function Home() {
-  const [historyMovmentsState, setHistoryMovmentsState] =
-    React.useState(historyMovments);
+  const [historyMovementsState, setHistoryMovementsState] =
+    React.useState(historyMovements);
   const [board, setBoard] = React.useState(new Board());
   const [whitePlayer, setWhitePlayer] = React.useState(
     new Player(Colors.WHITE)
@@ -43,8 +43,8 @@ export default function Home() {
     newBoard.initCells();
     newBoard.addFigures();
     setBoard(newBoard);
-    setHistoryMovmentsState([]);
-    historyMovments = [];
+    setHistoryMovementsState([]);
+    historyMovements = [];
   }
 
   return (
@@ -53,27 +53,27 @@ export default function Home() {
         <div className="flex flex-col">
           <div className="flex justify-center">
             <div>
-              <ShowCordinates numbers={true} />
+              <ShowCoordinates numbers={true} />
             </div>
             <BoardWidget
               board={board}
-              setHistoryMovmentsState={setHistoryMovmentsState}
-              historyMovments={historyMovments}
+              setHistoryMovementsState={setHistoryMovementsState}
+              historyMovements={historyMovements}
               setBoard={setBoard}
               currentPlayer={currentPlayer}
               swapPlayer={swapPlayer}
             />
           </div>
           <div className="flex justify-center">
-            <ShowCordinates numbers={false} />
+            <ShowCoordinates numbers={false} />
           </div>
         </div>
         <Timer restart={restart} currentPlayer={currentPlayer} />
       </div>
       <div className="flex justify-center my-10">
         <Notation
-          historyMovments={historyMovments}
-          historyMovmentsState={historyMovmentsState}
+          historyMovements={historyMovements}
+          historyMovementsState={historyMovementsState}
         />
       </div>
     </>

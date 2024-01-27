@@ -27,15 +27,15 @@ const movementsNotation: any[] = [
 ];
 
 type NotationProp = {
-  historyMovments: any;
-  historyMovmentsState: any;
+  historyMovements: any;
+  historyMovementsState: any;
 };
 
 const Notation: React.FC<NotationProp> = ({
-  historyMovments,
-  historyMovmentsState,
+  historyMovements,
+  historyMovementsState,
 }) => {
-  historyMovments.map((e: any, index: any) => {
+  historyMovements.map((e: any, index: any) => {
     movementsNotation.push({
       number: index,
       whiteMove: notationSymbolY[e.y] + notationSymbolX[e.x],
@@ -44,25 +44,25 @@ const Notation: React.FC<NotationProp> = ({
   });
 
   let checkedFigureCoordinateWhite: any;
-  let movedFgureCoordinateWhite: any;
+  let movedFigureCoordinateWhite: any;
   let checkedFigureCoordinateBlack: any;
-  let movedFgureCoordinateBlack: any;
+  let movedFigureCoordinateBlack: any;
   let numberMove = 1;
 
   return (
     <div className="grid grid-cols-[100px_390px_390px] content-start overflow-y-scroll scrollbar-hide bg-[#eef3f6] w-[900px] h-96 p-[10px] rounded-md">
-      {historyMovmentsState.map((e: any, index: any) => {
+      {historyMovementsState.map((e: any, index: any) => {
         if (e.currentPlayer === Colors.WHITE) {
           e.checkedX
             ? (checkedFigureCoordinateWhite =
                 notationSymbolX[e.checkedX] + notationSymbolY[e.checkedY])
-            : (movedFgureCoordinateWhite =
+            : (movedFigureCoordinateWhite =
                 notationSymbolX[e.movedX] + notationSymbolY[e.movedY]);
         } else {
           e.checkedX
             ? (checkedFigureCoordinateBlack =
                 notationSymbolX[e.checkedX] + notationSymbolY[e.checkedY])
-            : (movedFgureCoordinateBlack =
+            : (movedFigureCoordinateBlack =
                 notationSymbolX[e.movedX] + notationSymbolY[e.movedY]);
         }
 
@@ -74,7 +74,7 @@ const Notation: React.FC<NotationProp> = ({
                 <NotationCell>
                   {checkedFigureCoordinateWhite +
                     "-" +
-                    movedFgureCoordinateWhite}
+                    movedFigureCoordinateWhite}
                 </NotationCell>
               </React.Fragment>
             );
@@ -83,7 +83,9 @@ const Notation: React.FC<NotationProp> = ({
           if (e.moveFigure) {
             return (
               <NotationCell key={index}>
-                {checkedFigureCoordinateBlack + "-" + movedFgureCoordinateBlack}
+                {checkedFigureCoordinateBlack +
+                  "-" +
+                  movedFigureCoordinateBlack}
               </NotationCell>
             );
           }

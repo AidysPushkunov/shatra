@@ -10,8 +10,8 @@ import { Stage, Layer } from "react-konva";
 
 interface BoardProps {
   board: Board;
-  historyMovments: any;
-  setHistoryMovmentsState: any;
+  historyMovements: any;
+  setHistoryMovementsState: any;
   setBoard: (board: Board) => void;
   currentPlayer: Player | null;
   swapPlayer: () => void;
@@ -19,8 +19,8 @@ interface BoardProps {
 
 const BoardWidget: React.FC<BoardProps> = ({
   board,
-  setHistoryMovmentsState,
-  historyMovments,
+  setHistoryMovementsState,
+  historyMovements,
   setBoard,
   currentPlayer,
   swapPlayer,
@@ -89,14 +89,14 @@ const BoardWidget: React.FC<BoardProps> = ({
       let x = cell.x;
       let y = cell.y;
 
-      historyMovments.push({
+      historyMovements.push({
         moveFigure: true,
         currentPlayer: currentPlayer?.color,
         movedX: x,
         movedY: y,
       });
 
-      setHistoryMovmentsState(historyMovments);
+      setHistoryMovementsState(historyMovements);
 
       setSelectedCellItems({ selectedCell, cell });
       animatedChangePositionFigure(cell, event, true);
@@ -109,52 +109,42 @@ const BoardWidget: React.FC<BoardProps> = ({
       ) {
         swapPlayer();
       } else {
-        console.log(
-          cell.canEat(cell, Direction.LEFT),
-          cell.canEat(cell, Direction.RIGHT),
-          cell.canEat(cell, Direction.TOP_LEFT),
-          cell.canEat(cell, Direction.TOP_RIGHT),
-          cell.canEat(cell, Direction.TOP),
-          cell.canEat(cell, Direction.BOTTOM_LEFT),
-          cell.canEat(cell, Direction.BOTTOM_RIGHT),
-          cell.canEat(cell, Direction.BOTTOM)
-        );
         if (
-          !cell.canEat(cell, Direction.LEFT) &&
-          !cell.canEat(cell, Direction.RIGHT) &&
-          !cell.canEat(cell, Direction.TOP_LEFT) &&
-          !cell.canEat(cell, Direction.TOP_RIGHT) &&
-          !cell.canEat(cell, Direction.TOP) &&
-          !cell.canEat(cell, Direction.BOTTOM_LEFT) &&
-          !cell.canEat(cell, Direction.BOTTOM_RIGHT) &&
-          !cell.canEat(cell, Direction.BOTTOM)
+          !selectedCellItems?.selectedCell.canEat(
+            selectedCellItems?.cell,
+            Direction.LEFT
+          ) &&
+          !selectedCellItems?.selectedCell.canEat(
+            selectedCellItems?.cell,
+            Direction.RIGHT
+          ) &&
+          !selectedCellItems?.selectedCell.canEat(
+            selectedCellItems?.cell,
+            Direction.TOP_LEFT
+          ) &&
+          !selectedCellItems?.selectedCell.canEat(
+            selectedCellItems?.cell,
+            Direction.TOP_RIGHT
+          ) &&
+          !selectedCellItems?.selectedCell.canEat(
+            selectedCellItems?.cell,
+            Direction.TOP
+          ) &&
+          !selectedCellItems?.selectedCell.canEat(
+            selectedCellItems?.cell,
+            Direction.BOTTOM_LEFT
+          ) &&
+          !selectedCellItems?.selectedCell.canEat(
+            selectedCellItems?.cell,
+            Direction.BOTTOM_RIGHT
+          ) &&
+          !selectedCellItems?.selectedCell.canEat(
+            selectedCellItems?.cell,
+            Direction.BOTTOM
+          )
         ) {
           swapPlayer();
         }
-        // let canEat = false;
-
-        // for (const direction of [
-        //   Direction.LEFT,
-        //   Direction.RIGHT,
-        //   Direction.TOP_LEFT,
-        //   Direction.TOP_RIGHT,
-        //   Direction.TOP,
-        //   Direction.BOTTOM_LEFT,
-        //   Direction.BOTTOM_RIGHT,
-        //   Direction.BOTTOM,
-        // ]) {
-        //   if (cell.canEat(selectedCell, direction)) {
-        //     console.log("This is cell: ", cell);
-        //     console.log("This is selectedCell: ", selectedCell);
-        //     console.log(cell.canEat(cell, direction));
-        //     canEat = true;
-        //     break;
-        //   }
-        // }
-
-        // if (!canEat) {
-        //   swapPlayer();
-        // }
       }
       setCheckedCell(null);
       setSelectedCell(null);
@@ -164,7 +154,7 @@ const BoardWidget: React.FC<BoardProps> = ({
         let x = cell.x;
         let y = cell.y;
 
-        historyMovments.push({
+        historyMovements.push({
           moveFigure: false,
           currentPlayer: currentPlayer?.color,
           checkedX: x,
@@ -172,7 +162,7 @@ const BoardWidget: React.FC<BoardProps> = ({
         });
 
         setCheckedCell(cell);
-        setHistoryMovmentsState(historyMovments);
+        setHistoryMovementsState(historyMovements);
 
         setSelectedCell(cell);
         animatedChangePositionFigure(cell, event, false);
