@@ -31,10 +31,10 @@ const BoardWidget: React.FC<BoardProps> = ({
   const [state, setState] = React.useState<any[]>([]);
   const [animatedFigure, setAnimateFigure] = React.useState<any>();
   const [selectedCellItems, setSelectedCellItems] = React.useState<any>();
-  const [oldCellCoordinate, setOldCellCordinate] = React.useState<any>();
+  const [oldCellCoordinate, setOldCellCoordinate] = React.useState<any>();
 
   React.useEffect(() => {
-    setState(() => generateConvasElements());
+    setState(() => generateCanvasElements());
   }, [board]);
 
   React.useEffect(() => {
@@ -61,7 +61,7 @@ const BoardWidget: React.FC<BoardProps> = ({
     if (!sequence) {
       e.target.parent.moveToTop();
       setAnimateFigure(e.target.parent.children[1]);
-      setOldCellCordinate(figure);
+      setOldCellCoordinate(figure);
     } else {
       if (animatedFigure) {
         animatedFigure.to({
@@ -100,55 +100,25 @@ const BoardWidget: React.FC<BoardProps> = ({
 
       setSelectedCellItems({ selectedCell, cell });
       animatedChangePositionFigure(cell, event, true);
-      if (
-        cell.x - selectedCell.x === 1 ||
-        cell.y - selectedCell.y === 1 ||
-        cell.x - selectedCell.x === -1 ||
-        cell.y - selectedCell.y === -1 ||
-        checkedCell?.infortress
-      ) {
-        swapPlayer();
-      } else {
+
+      setTimeout(() => {
         if (
-          !selectedCellItems?.selectedCell.canEat(
-            selectedCellItems?.cell,
-            Direction.LEFT
-          ) &&
-          !selectedCellItems?.selectedCell.canEat(
-            selectedCellItems?.cell,
-            Direction.RIGHT
-          ) &&
-          !selectedCellItems?.selectedCell.canEat(
-            selectedCellItems?.cell,
-            Direction.TOP_LEFT
-          ) &&
-          !selectedCellItems?.selectedCell.canEat(
-            selectedCellItems?.cell,
-            Direction.TOP_RIGHT
-          ) &&
-          !selectedCellItems?.selectedCell.canEat(
-            selectedCellItems?.cell,
-            Direction.TOP
-          ) &&
-          !selectedCellItems?.selectedCell.canEat(
-            selectedCellItems?.cell,
-            Direction.BOTTOM_LEFT
-          ) &&
-          !selectedCellItems?.selectedCell.canEat(
-            selectedCellItems?.cell,
-            Direction.BOTTOM_RIGHT
-          ) &&
-          !selectedCellItems?.selectedCell.canEat(
-            selectedCellItems?.cell,
-            Direction.BOTTOM
-          )
+          cell.x - selectedCell.x === 1 ||
+          cell.y - selectedCell.y === 1 ||
+          cell.x - selectedCell.x === -1 ||
+          cell.y - selectedCell.y === -1 ||
+          checkedCell?.infortress
         ) {
           swapPlayer();
+        } else {
+          if (!board.canEatAbility(cell)) {
+            swapPlayer();
+          }
         }
-      }
-      setCheckedCell(null);
-      setSelectedCell(null);
-      updateBoard();
+        setCheckedCell(null);
+        setSelectedCell(null);
+        updateBoard();
+      }, 305);
     } else {
       if (cell.figure?.color === currentPlayer?.color) {
         let x = cell.x;
@@ -179,7 +149,7 @@ const BoardWidget: React.FC<BoardProps> = ({
     updateBoard();
   }
 
-  function generateConvasElements() {
+  function generateCanvasElements() {
     const arrayCanvasElements: any = board.cells.map((row, index) =>
       row.map((cell, indexRow) => (
         <ShowFigure

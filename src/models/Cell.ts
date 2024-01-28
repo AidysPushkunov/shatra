@@ -58,128 +58,320 @@ export class Cell {
   }
 
   canEat(target: Cell, direction: Direction): Cell | undefined {
-    const areaFigureXForward = target?.x - 1 < 0 ? undefined : target.x - 1;
-    const areaFigureYForward = target.y - 1 < 0 ? undefined : target.y - 1;
-    const areaFigureXBack = target.x + 1 > 6 ? undefined : target.x + 1;
-    const areaFigureYBack = target.y + 1 > 13 ? undefined : target.y + 1;
+    const areaFigureXForward = this.x - 1 < 0 ? this.x : this.x - 1;
+    const areaFigureYForward = this.y - 1 < 0 ? this.y : this.y - 1;
+    const areaFigureXBack = this.x + 1 > 6 ? this.x : this.x + 1;
+    const areaFigureYBack = this.y + 1 > 13 ? this.y : this.y + 1;
 
-    const areaFigureXForwardEmpty = target.x - 2 < 0 ? undefined : target.x - 2;
-    const areaFigureYForwardEmpty = target.y - 2 < 0 ? undefined : target.y - 2;
-    const areaFigureXBackEmpty = target.x + 2 > 6 ? undefined : target.x + 2;
-    const areaFigureYBackEmpty = target.y + 2 > 13 ? undefined : target.y + 2;
+    const areaFigureXForwardEmpty = this.x - 2 < 0 ? this.x : this.x - 2;
+    const areaFigureYForwardEmpty = this.y - 2 < 0 ? this.y : this.y - 2;
+    const areaFigureXBackEmpty = this.x + 2 > 6 ? this.x : this.x + 2;
+    const areaFigureYBackEmpty = this.y + 2 > 13 ? this.y : this.y + 2;
 
-    if (
-      direction === Direction.TOP_LEFT &&
-      areaFigureXForward !== undefined &&
-      areaFigureYForward !== undefined &&
-      areaFigureXForwardEmpty !== undefined &&
-      areaFigureYForwardEmpty !== undefined
-    ) {
-      return this.canEatEmptyCell(
-        areaFigureXForward,
-        areaFigureYForward,
-        areaFigureXForwardEmpty,
-        areaFigureYForwardEmpty
-      );
+    if (direction === Direction.TOP_LEFT) {
+      if (
+        !this.board.getCell(areaFigureXForward, areaFigureYForward).isEmpty() &&
+        this.board.getCell(areaFigureXForward, areaFigureYForward).figure
+          ?.color !== this.figure?.color
+      ) {
+        if (
+          this.isEnemy(
+            this.board.getCell(areaFigureXForward, areaFigureYForward)
+          ) &&
+          this.board
+            .getCell(areaFigureXForwardEmpty, areaFigureYForwardEmpty)
+            .isEmpty() &&
+          this.board.getCell(areaFigureXForwardEmpty, areaFigureYForwardEmpty)
+            .color !== Colors.FORTRESS &&
+          this.board.getCell(areaFigureXForwardEmpty, areaFigureYForwardEmpty)
+            .x !== this.x &&
+          this.board.getCell(areaFigureXForwardEmpty, areaFigureYForwardEmpty)
+            .y !== this.y
+        ) {
+          return this.board.getCell(
+            areaFigureXForwardEmpty,
+            areaFigureYForwardEmpty
+          );
+        }
+      }
     }
 
-    if (
-      direction === Direction.TOP &&
-      areaFigureYForward !== undefined &&
-      areaFigureYForwardEmpty !== undefined
-    ) {
-      return this.canEatEmptyCell(
-        this.x,
-        areaFigureYForward,
-        this.x,
-        areaFigureYForwardEmpty
-      );
+    if (direction === Direction.TOP) {
+      if (
+        !this.board.getCell(this.x, areaFigureYForward).isEmpty() &&
+        this.board.getCell(this.x, areaFigureYForward).figure?.color !==
+          this.figure?.color
+      ) {
+        if (
+          this.isEnemy(this.board.getCell(this.x, areaFigureYForward)) &&
+          this.board.getCell(this.x, areaFigureYForwardEmpty).isEmpty() &&
+          this.board.getCell(this.x, areaFigureYForwardEmpty).color !==
+            Colors.FORTRESS &&
+          this.board.getCell(this.x, areaFigureYForwardEmpty).y !== this.y
+        ) {
+          return this.board.getCell(this.x, areaFigureYForwardEmpty);
+        }
+      }
     }
 
-    if (
-      direction === Direction.TOP_RIGHT &&
-      areaFigureXBack !== undefined &&
-      areaFigureYForward !== undefined &&
-      areaFigureXBackEmpty !== undefined &&
-      areaFigureYForwardEmpty !== undefined
-    ) {
-      return this.canEatEmptyCell(
-        areaFigureXBack,
-        areaFigureYForward,
-        areaFigureXBackEmpty,
-        areaFigureYForwardEmpty
-      );
+    if (direction === Direction.TOP_RIGHT) {
+      if (
+        !this.board.getCell(areaFigureXBack, areaFigureYForward).isEmpty() &&
+        this.board.getCell(areaFigureXBack, areaFigureYForward).figure
+          ?.color !== this.figure?.color
+      ) {
+        if (
+          this.isEnemy(
+            this.board.getCell(areaFigureXBack, areaFigureYForward)
+          ) &&
+          this.board
+            .getCell(areaFigureXBackEmpty, areaFigureYForwardEmpty)
+            .isEmpty() &&
+          this.board.getCell(areaFigureXBackEmpty, areaFigureYForwardEmpty)
+            .color !== Colors.FORTRESS &&
+          this.board.getCell(areaFigureXBackEmpty, areaFigureYForwardEmpty)
+            .x !== this.x &&
+          this.board.getCell(areaFigureXBackEmpty, areaFigureYForwardEmpty)
+            .y !== this.y
+        ) {
+          return this.board.getCell(
+            areaFigureXBackEmpty,
+            areaFigureYForwardEmpty
+          );
+        }
+      }
     }
 
-    if (
-      direction === Direction.LEFT &&
-      areaFigureXForward !== undefined &&
-      areaFigureXForwardEmpty !== undefined
-    ) {
-      return this.canEatEmptyCell(
-        areaFigureXForward,
-        this.y,
-        areaFigureXForwardEmpty,
-        this.y
-      );
+    if (direction === Direction.LEFT) {
+      if (
+        !this.board.getCell(areaFigureXForward, this.y).isEmpty() &&
+        this.board.getCell(areaFigureXForward, this.y).figure?.color !==
+          this.figure?.color
+      ) {
+        if (
+          this.isEnemy(this.board.getCell(areaFigureXForward, this.y)) &&
+          this.board.getCell(areaFigureXForwardEmpty, this.y).isEmpty() &&
+          this.board.getCell(areaFigureXForwardEmpty, this.y).color !==
+            Colors.FORTRESS &&
+          this.board.getCell(areaFigureXForwardEmpty, this.y).x !== this.x
+        ) {
+          return this.board.getCell(areaFigureXForwardEmpty, this.y);
+        }
+      }
     }
 
-    if (
-      direction === Direction.RIGHT &&
-      areaFigureXBack !== undefined &&
-      areaFigureXBackEmpty !== undefined
-    ) {
-      return this.canEatEmptyCell(
-        areaFigureXBack,
-        this.y,
-        areaFigureXBackEmpty,
-        this.y
-      );
+    if (direction === Direction.RIGHT) {
+      if (
+        !this.board.getCell(areaFigureXBack, this.y).isEmpty() &&
+        this.board.getCell(areaFigureXBack, this.y).figure?.color !==
+          this.figure?.color
+      ) {
+        if (
+          this.isEnemy(this.board.getCell(areaFigureXBack, this.y)) &&
+          this.board.getCell(areaFigureXBackEmpty, this.y).isEmpty() &&
+          this.board.getCell(areaFigureXBackEmpty, this.y).color !==
+            Colors.FORTRESS &&
+          this.board.getCell(areaFigureXBackEmpty, this.y).x !== this.x
+        ) {
+          return this.board.getCell(areaFigureXBackEmpty, this.y);
+        }
+      }
     }
 
-    if (
-      direction === Direction.BOTTOM_LEFT &&
-      areaFigureXForward !== undefined &&
-      areaFigureYBack !== undefined &&
-      areaFigureXForwardEmpty !== undefined &&
-      areaFigureYBackEmpty !== undefined
-    ) {
-      return this.canEatEmptyCell(
-        areaFigureXForward,
-        areaFigureYBack,
-        areaFigureXForwardEmpty,
-        areaFigureYBackEmpty
-      );
+    if (direction === Direction.BOTTOM_LEFT) {
+      if (
+        !this.board.getCell(areaFigureXForward, areaFigureYBack).isEmpty() &&
+        this.board.getCell(areaFigureXForward, areaFigureYBack).figure
+          ?.color !== this.figure?.color
+      ) {
+        if (
+          this.isEnemy(
+            this.board.getCell(areaFigureXForward, areaFigureYBack)
+          ) &&
+          this.board
+            .getCell(areaFigureXForwardEmpty, areaFigureYBackEmpty)
+            .isEmpty() &&
+          this.board.getCell(areaFigureXForwardEmpty, areaFigureYBackEmpty)
+            .color !== Colors.FORTRESS &&
+          this.board.getCell(areaFigureXForwardEmpty, areaFigureYBackEmpty)
+            .x !== this.x &&
+          this.board.getCell(areaFigureXForwardEmpty, areaFigureYBackEmpty)
+            .y !== this.y
+        ) {
+          return this.board.getCell(
+            areaFigureXForwardEmpty,
+            areaFigureYBackEmpty
+          );
+        }
+      }
     }
 
-    if (
-      direction === Direction.BOTTOM &&
-      areaFigureYBack !== undefined &&
-      areaFigureYBackEmpty !== undefined
-    ) {
-      return this.canEatEmptyCell(
-        this.x,
-        areaFigureYBack,
-        this.x,
-        areaFigureYBackEmpty
-      );
+    if (direction === Direction.BOTTOM) {
+      if (
+        !this.board.getCell(this.x, areaFigureYBack).isEmpty() &&
+        this.board.getCell(this.x, areaFigureYBack).figure?.color !==
+          this.figure?.color
+      ) {
+        if (
+          this.isEnemy(this.board.getCell(this.x, areaFigureYBack)) &&
+          this.board.getCell(this.x, areaFigureYBackEmpty).isEmpty() &&
+          this.board.getCell(this.x, areaFigureYBackEmpty).color !==
+            Colors.FORTRESS &&
+          this.board.getCell(this.x, areaFigureYBackEmpty).y !== this.y
+        ) {
+          // Логика чтобы шатра не вошла в свою крепость
+          return this.board.getCell(this.x, areaFigureYBackEmpty);
+        }
+      }
     }
 
-    if (
-      direction === Direction.BOTTOM_RIGHT &&
-      areaFigureXBack !== undefined &&
-      areaFigureYBack !== undefined &&
-      areaFigureXBackEmpty !== undefined &&
-      areaFigureYBackEmpty !== undefined
-    ) {
-      return this.canEatEmptyCell(
-        areaFigureXBack,
-        areaFigureYBack,
-        areaFigureXBackEmpty,
-        areaFigureYBackEmpty
-      );
+    if (direction === Direction.BOTTOM_RIGHT) {
+      if (
+        !this.board.getCell(areaFigureXBack, areaFigureYBack).isEmpty() &&
+        this.board.getCell(areaFigureXBack, areaFigureYBack).figure?.color !==
+          this.figure?.color
+      ) {
+        if (
+          this.isEnemy(this.board.getCell(areaFigureXBack, areaFigureYBack)) &&
+          this.board
+            .getCell(areaFigureXBackEmpty, areaFigureYBackEmpty)
+            .isEmpty() &&
+          this.board.getCell(areaFigureXBackEmpty, areaFigureYBackEmpty)
+            .color !== Colors.FORTRESS &&
+          this.board.getCell(areaFigureXBackEmpty, areaFigureYBackEmpty).x !==
+            this.x &&
+          this.board.getCell(areaFigureXBackEmpty, areaFigureYBackEmpty).y !==
+            this.y
+        ) {
+          return this.board.getCell(areaFigureXBackEmpty, areaFigureYBackEmpty);
+        }
+      }
     }
   }
+
+  // canEat(target: Cell, direction: Direction): Cell | undefined {
+  //   const areaFigureXForward = target.x - 1 < 0 ? undefined : target.x - 1;
+  //   const areaFigureYForward = target.y - 1 < 0 ? undefined : target.y - 1;
+  //   const areaFigureXBack = target.x + 1 > 6 ? undefined : target.x + 1;
+  //   const areaFigureYBack = target.y + 1 > 13 ? undefined : target.y + 1;
+
+  //   const areaFigureXForwardEmpty = target.x - 2 < 0 ? undefined : target.x - 2;
+  //   const areaFigureYForwardEmpty = target.y - 2 < 0 ? undefined : target.y - 2;
+  //   const areaFigureXBackEmpty = target.x + 2 > 6 ? undefined : target.x + 2;
+  //   const areaFigureYBackEmpty = target.y + 2 > 13 ? undefined : target.y + 2;
+
+  //   if (
+  //     direction === Direction.TOP_LEFT &&
+  //     areaFigureXForward !== undefined &&
+  //     areaFigureYForward !== undefined &&
+  //     areaFigureXForwardEmpty !== undefined &&
+  //     areaFigureYForwardEmpty !== undefined
+  //   ) {
+  //     return this.canEatEmptyCell(
+  //       areaFigureXForward,
+  //       areaFigureYForward,
+  //       areaFigureXForwardEmpty,
+  //       areaFigureYForwardEmpty
+  //     );
+  //   }
+
+  //   if (
+  //     direction === Direction.TOP &&
+  //     areaFigureYForward !== undefined &&
+  //     areaFigureYForwardEmpty !== undefined
+  //   ) {
+  //     return this.canEatEmptyCell(
+  //       this.x,
+  //       areaFigureYForward,
+  //       this.x,
+  //       areaFigureYForwardEmpty
+  //     );
+  //   }
+
+  //   if (
+  //     direction === Direction.TOP_RIGHT &&
+  //     areaFigureXBack !== undefined &&
+  //     areaFigureYForward !== undefined &&
+  //     areaFigureXBackEmpty !== undefined &&
+  //     areaFigureYForwardEmpty !== undefined
+  //   ) {
+  //     return this.canEatEmptyCell(
+  //       areaFigureXBack,
+  //       areaFigureYForward,
+  //       areaFigureXBackEmpty,
+  //       areaFigureYForwardEmpty
+  //     );
+  //   }
+
+  //   if (
+  //     direction === Direction.LEFT &&
+  //     areaFigureXForward !== undefined &&
+  //     areaFigureXForwardEmpty !== undefined
+  //   ) {
+  //     return this.canEatEmptyCell(
+  //       areaFigureXForward,
+  //       this.y,
+  //       areaFigureXForwardEmpty,
+  //       this.y
+  //     );
+  //   }
+
+  //   if (
+  //     direction === Direction.RIGHT &&
+  //     areaFigureXBack !== undefined &&
+  //     areaFigureXBackEmpty !== undefined
+  //   ) {
+  //     return this.canEatEmptyCell(
+  //       areaFigureXBack,
+  //       this.y,
+  //       areaFigureXBackEmpty,
+  //       this.y
+  //     );
+  //   }
+
+  //   if (
+  //     direction === Direction.BOTTOM_LEFT &&
+  //     areaFigureXForward !== undefined &&
+  //     areaFigureYBack !== undefined &&
+  //     areaFigureXForwardEmpty !== undefined &&
+  //     areaFigureYBackEmpty !== undefined
+  //   ) {
+  //     return this.canEatEmptyCell(
+  //       areaFigureXForward,
+  //       areaFigureYBack,
+  //       areaFigureXForwardEmpty,
+  //       areaFigureYBackEmpty
+  //     );
+  //   }
+
+  //   if (
+  //     direction === Direction.BOTTOM &&
+  //     areaFigureYBack !== undefined &&
+  //     areaFigureYBackEmpty !== undefined
+  //   ) {
+  //     return this.canEatEmptyCell(
+  //       this.x,
+  //       areaFigureYBack,
+  //       this.x,
+  //       areaFigureYBackEmpty
+  //     );
+  //   }
+
+  //   if (
+  //     direction === Direction.BOTTOM_RIGHT &&
+  //     areaFigureXBack !== undefined &&
+  //     areaFigureYBack !== undefined &&
+  //     areaFigureXBackEmpty !== undefined &&
+  //     areaFigureYBackEmpty !== undefined
+  //   ) {
+  //     return this.canEatEmptyCell(
+  //       areaFigureXBack,
+  //       areaFigureYBack,
+  //       areaFigureXBackEmpty,
+  //       areaFigureYBackEmpty
+  //     );
+  //   }
+  // }
 
   canEatBaatyrEmptyCell(direction: Direction) {
     const checkCell = (x: number, y: number) => {

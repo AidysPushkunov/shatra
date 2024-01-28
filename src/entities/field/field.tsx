@@ -55,13 +55,7 @@ const Field: React.FC<FieldProps> = ({
         y={0}
         width={75}
         height={75}
-        fill={
-          selected
-            ? fieldIntent.activeField
-            : cell.available && cell.figure?.color // for attack Figure field show red... Need to think about it
-            ? fieldIntent.attackFigure
-            : fieldIntent[intent]
-        }
+        fill={selected ? fieldIntent.activeField : fieldIntent[intent]}
       />
       {intent === "fortress"
         ? null
