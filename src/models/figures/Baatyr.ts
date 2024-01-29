@@ -14,9 +14,9 @@ export class Baatyr extends Figure {
     if (!super.canMove(target)) return false;
 
     function isFortress(cell: any) {
-      return cell.figure === null && cell.color === 'fortress';
+      return cell.figure === null && cell.color === "fortress";
     }
-    
+
     function isTargetCell(cell: any, target: any) {
       return cell.x === target.x && cell.y === target.y;
     }
@@ -74,7 +74,7 @@ export class Baatyr extends Figure {
       if (this.cell.isEmptyHorizontal(target)) {
         return true;
       }
-      if (this.cell.isEmptyDiogonal(target)) {
+      if (this.cell.isEmptyDiagonal(target)) {
         return true;
       }
 

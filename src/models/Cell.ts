@@ -4,6 +4,7 @@ import { Board } from "./Board";
 import { Direction } from "./Direction";
 import { Baatyr } from "./figures/Baatyr";
 
+let eatenFigures: any = [];
 export class Cell {
   readonly x: number;
   readonly y: number;
@@ -44,6 +45,7 @@ export class Cell {
   ) {
     if (
       !this.board.getCell(areaFigureX, areaFigureY).isEmpty() &&
+      !this.board.getCell(areaFigureX, areaFigureY).figure?.eaten &&
       this.board.getCell(areaFigureX, areaFigureY).figure?.color !==
         this.figure?.color &&
       this.isEnemy(this.board.getCell(areaFigureX, areaFigureY)) &&
@@ -289,10 +291,6 @@ export class Cell {
     }
 
     return false;
-
-    // if (this.figure && target.figure) {
-    //   return this.figure.color !== target.figure.color;
-    // }
   }
 
   isEmptyVertical(target: Cell) {
@@ -346,7 +344,7 @@ export class Cell {
     return true;
   }
 
-  isEmptyDiogonal(target: Cell) {
+  isEmptyDiagonal(target: Cell) {
     const absX = Math.abs(target.x - this.x);
     const absY = Math.abs(target.y - this.y);
 
@@ -445,8 +443,21 @@ export class Cell {
           target.x === this.figure.cell.x ? target.x : target.x - x,
           target.y === this.figure.cell.y ? target.y : target.y - y
         );
-        this.addLostFigure(eatFigure.figure);
-        eatFigure.figure = null;
+
+        eatFigure.figure?.changeOpacity(0.5);
+        eatenFigures.push(eatFigure);
+
+        setTimeout(() => {
+          if (!this.board.canEatAbility(target)) {
+            eatenFigures.map((eatenFigure: Cell) => {
+              eatenFigure.figure = null;
+            });
+
+            eatenFigures = [];
+
+            this.addLostFigure(eatFigure.figure);
+          }
+        }, 305);
       }
       if (
         this.figure.logo === "blackBaatyr" ||

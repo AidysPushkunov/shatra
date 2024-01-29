@@ -29,7 +29,7 @@ const ShowFigure: React.FC<ShowFieldProps> = ({
       clickField={clickField}
       cell={cell}
     >
-      <FigureEntities intent={cell.figure?.logo} />
+      <FigureEntities intent={cell} />
     </Field>
   );
 };

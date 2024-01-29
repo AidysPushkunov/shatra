@@ -23,6 +23,8 @@ export class Figure {
   cell: Cell;
   name: FigureNames;
   id: number;
+  opacity: number;
+  eaten: boolean;
 
   constructor(color: Colors, cell: Cell) {
     this.color = color;
@@ -31,6 +33,13 @@ export class Figure {
     this.logo = undefined;
     this.name = FigureNames.FIGURE;
     this.id = Math.random();
+    this.opacity = 1;
+    this.eaten = false;
+  }
+
+  changeOpacity(opacity: number) {
+    this.opacity = opacity;
+    this.eaten = true;
   }
 
   canMove(target: Cell): boolean {
@@ -43,7 +52,6 @@ export class Figure {
     }
 
     // let x: Boolean | Cell = target.canEat(target);
-
 
     // x.figure ? false : true;
 

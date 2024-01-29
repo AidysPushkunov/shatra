@@ -14,6 +14,7 @@ interface BoardProps {
   setHistoryMovementsState: any;
   setBoard: (board: Board) => void;
   currentPlayer: Player | null;
+  updateBoard: () => void;
   swapPlayer: () => void;
 }
 
@@ -23,6 +24,7 @@ const BoardWidget: React.FC<BoardProps> = ({
   historyMovements,
   setBoard,
   currentPlayer,
+  updateBoard,
   swapPlayer,
 }) => {
   const [selectedCell, setSelectedCell] = React.useState<Cell | null>(null);
@@ -47,11 +49,6 @@ const BoardWidget: React.FC<BoardProps> = ({
       return () => clearTimeout(moveFigureTimer);
     }
   }, [selectedCellItems]);
-
-  function updateBoard() {
-    const newBoard = board.getCopyBoard();
-    setBoard(newBoard);
-  }
 
   function animatedChangePositionFigure(
     figure: any,
@@ -109,12 +106,14 @@ const BoardWidget: React.FC<BoardProps> = ({
           cell.y - selectedCell.y === -1 ||
           checkedCell?.infortress
         ) {
+          // after move
           swapPlayer();
         } else {
           if (!board.canEatAbility(cell)) {
             swapPlayer();
           }
         }
+
         setCheckedCell(null);
         setSelectedCell(null);
         updateBoard();

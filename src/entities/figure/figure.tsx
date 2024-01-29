@@ -1,17 +1,10 @@
+import { Cell } from "@/models/Cell";
 import React from "react";
 import { Image } from "react-konva";
 import useImage from "use-image";
 
 type FigureProps = {
-  intent:
-    | "whiteShatra"
-    | "blackShatra"
-    | "whiteBiy"
-    | "blackBiy"
-    | "whiteBaatyr"
-    | "blackBaatyr"
-    | "fortress"
-    | undefined;
+  intent: Cell
 };
 
 function svgToURL(s: any) {
@@ -30,27 +23,26 @@ const FigureEntities: React.FC<FigureProps> = ({ intent }) => {
   const figureRef = React.useRef(null);
 
   const currentFigure =
-    intent === "blackBaatyr"
+    intent.figure?.logo === "blackBaatyr"
       ? blackBaatyr
-      : intent === "whiteBaatyr"
+      : intent.figure?.logo === "whiteBaatyr"
       ? whiteBaatyr
-      : intent === "whiteShatra"
+      : intent.figure?.logo === "whiteShatra"
       ? whiteShatra
-      : intent === "blackShatra"
+      : intent.figure?.logo === "blackShatra"
       ? blackShatra
-      : intent === "whiteBiy"
+      : intent.figure?.logo === "whiteBiy"
       ? whiteBiy
-      : intent === "blackBiy"
+      : intent.figure?.logo === "blackBiy"
       ? blackBiy
       : undefined;
 
   const url = svgToURL(currentFigure);
   const [image] = useImage(url);
 
-
   return (
     <>
-      {intent === "whiteShatra" ? (
+      {intent.figure?.logo === "whiteShatra" ? (
         <Image
           image={image}
           x={10}
@@ -59,8 +51,9 @@ const FigureEntities: React.FC<FigureProps> = ({ intent }) => {
           height={55}
           alt="whiteShatra"
           ref={figureRef}
+          opacity={intent.figure?.opacity}
         />
-      ) : intent === "blackShatra" ? (
+      ) : intent.figure?.logo === "blackShatra" ? (
         <Image
           image={image}
           x={10}
@@ -69,8 +62,9 @@ const FigureEntities: React.FC<FigureProps> = ({ intent }) => {
           height={55}
           alt="whiteShatra"
           ref={figureRef}
+          opacity={intent.figure?.opacity}
         />
-      ) : intent === "whiteBiy" ? (
+      ) : intent.figure?.logo === "whiteBiy" ? (
         <Image
           image={image}
           x={10}
@@ -79,8 +73,9 @@ const FigureEntities: React.FC<FigureProps> = ({ intent }) => {
           height={55}
           alt="whiteBiy"
           ref={figureRef}
+          opacity={intent.figure?.opacity}
         />
-      ) : intent === "blackBiy" ? (
+      ) : intent.figure?.logo === "blackBiy" ? (
         <Image
           image={image}
           x={10}
@@ -89,8 +84,9 @@ const FigureEntities: React.FC<FigureProps> = ({ intent }) => {
           height={55}
           alt="blackBiy"
           ref={figureRef}
+          opacity={intent.figure?.opacity}
         />
-      ) : intent === "whiteBaatyr" ? (
+      ) : intent.figure?.logo === "whiteBaatyr" ? (
         <Image
           image={image}
           x={10}
@@ -99,8 +95,9 @@ const FigureEntities: React.FC<FigureProps> = ({ intent }) => {
           height={55}
           alt="whiteBaatyr"
           ref={figureRef}
+          opacity={intent.figure?.opacity}
         />
-      ) : intent === "blackBaatyr" ? (
+      ) : intent.figure?.logo === "blackBaatyr" ? (
         <Image
           image={image}
           x={10}
@@ -109,6 +106,7 @@ const FigureEntities: React.FC<FigureProps> = ({ intent }) => {
           height={55}
           alt="blackBaatyr"
           ref={figureRef}
+          opacity={intent.figure?.opacity}
         />
       ) : (
         <></>

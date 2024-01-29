@@ -32,10 +32,16 @@ export default function Home() {
     setCurrentPlayer(whitePlayer);
   }, []);
 
+  function updateBoard() {
+    const newBoard = board.getCopyBoard();
+    setBoard(newBoard);
+  }
+
   function swapPlayer() {
     setCurrentPlayer(
       currentPlayer?.color === Colors.WHITE ? blackPlayer : whitePlayer
     );
+    setTimeout(() => updateBoard(), 305);
   }
 
   function restart() {
@@ -61,6 +67,7 @@ export default function Home() {
               historyMovements={historyMovements}
               setBoard={setBoard}
               currentPlayer={currentPlayer}
+              updateBoard={updateBoard}
               swapPlayer={swapPlayer}
             />
           </div>
