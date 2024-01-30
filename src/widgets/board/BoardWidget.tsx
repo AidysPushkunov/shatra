@@ -111,6 +111,7 @@ const BoardWidget: React.FC<BoardProps> = ({
         } else {
           if (!board.canEatAbility(cell)) {
             swapPlayer();
+            console.log(board.highlightCells(cell));
           }
         }
 
