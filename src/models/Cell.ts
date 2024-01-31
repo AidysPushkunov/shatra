@@ -56,26 +56,26 @@ export class Cell {
       return this.board.getCell(areaFigureXEmpty, areaFigureYEmpty);
     }
 
-    return undefined;
+    return null;
   }
 
-  canEat(target: Cell, direction: Direction): Cell | undefined {
-    const areaFigureXForward = target.x - 1 < 0 ? undefined : target.x - 1;
-    const areaFigureYForward = target.y - 1 < 0 ? undefined : target.y - 1;
-    const areaFigureXBack = target.x + 1 > 6 ? undefined : target.x + 1;
-    const areaFigureYBack = target.y + 1 > 13 ? undefined : target.y + 1;
+  canEat(target: Cell, direction: Direction): Cell | null {
+    const areaFigureXForward = target.x - 1 < 0 ? null : target.x - 1;
+    const areaFigureYForward = target.y - 1 < 0 ? null : target.y - 1;
+    const areaFigureXBack = target.x + 1 > 6 ? null : target.x + 1;
+    const areaFigureYBack = target.y + 1 > 13 ? null : target.y + 1;
 
-    const areaFigureXForwardEmpty = target.x - 2 < 0 ? undefined : target.x - 2;
-    const areaFigureYForwardEmpty = target.y - 2 < 0 ? undefined : target.y - 2;
-    const areaFigureXBackEmpty = target.x + 2 > 6 ? undefined : target.x + 2;
-    const areaFigureYBackEmpty = target.y + 2 > 13 ? undefined : target.y + 2;
+    const areaFigureXForwardEmpty = target.x - 2 < 0 ? null : target.x - 2;
+    const areaFigureYForwardEmpty = target.y - 2 < 0 ? null : target.y - 2;
+    const areaFigureXBackEmpty = target.x + 2 > 6 ? null : target.x + 2;
+    const areaFigureYBackEmpty = target.y + 2 > 13 ? null : target.y + 2;
 
     if (
       direction === Direction.TOP_LEFT &&
-      areaFigureXForward !== undefined &&
-      areaFigureYForward !== undefined &&
-      areaFigureXForwardEmpty !== undefined &&
-      areaFigureYForwardEmpty !== undefined
+      areaFigureXForward !== null &&
+      areaFigureYForward !== null &&
+      areaFigureXForwardEmpty !== null &&
+      areaFigureYForwardEmpty !== null
     ) {
       return this.canEatEmptyCell(
         areaFigureXForward,
@@ -87,8 +87,8 @@ export class Cell {
 
     if (
       direction === Direction.TOP &&
-      areaFigureYForward !== undefined &&
-      areaFigureYForwardEmpty !== undefined
+      areaFigureYForward !== null &&
+      areaFigureYForwardEmpty !== null
     ) {
       return this.canEatEmptyCell(
         this.x,
@@ -100,10 +100,10 @@ export class Cell {
 
     if (
       direction === Direction.TOP_RIGHT &&
-      areaFigureXBack !== undefined &&
-      areaFigureYForward !== undefined &&
-      areaFigureXBackEmpty !== undefined &&
-      areaFigureYForwardEmpty !== undefined
+      areaFigureXBack !== null &&
+      areaFigureYForward !== null &&
+      areaFigureXBackEmpty !== null &&
+      areaFigureYForwardEmpty !== null
     ) {
       return this.canEatEmptyCell(
         areaFigureXBack,
@@ -115,8 +115,8 @@ export class Cell {
 
     if (
       direction === Direction.LEFT &&
-      areaFigureXForward !== undefined &&
-      areaFigureXForwardEmpty !== undefined
+      areaFigureXForward !== null &&
+      areaFigureXForwardEmpty !== null
     ) {
       return this.canEatEmptyCell(
         areaFigureXForward,
@@ -128,8 +128,8 @@ export class Cell {
 
     if (
       direction === Direction.RIGHT &&
-      areaFigureXBack !== undefined &&
-      areaFigureXBackEmpty !== undefined
+      areaFigureXBack !== null &&
+      areaFigureXBackEmpty !== null
     ) {
       return this.canEatEmptyCell(
         areaFigureXBack,
@@ -141,10 +141,10 @@ export class Cell {
 
     if (
       direction === Direction.BOTTOM_LEFT &&
-      areaFigureXForward !== undefined &&
-      areaFigureYBack !== undefined &&
-      areaFigureXForwardEmpty !== undefined &&
-      areaFigureYBackEmpty !== undefined
+      areaFigureXForward !== null &&
+      areaFigureYBack !== null &&
+      areaFigureXForwardEmpty !== null &&
+      areaFigureYBackEmpty !== null
     ) {
       return this.canEatEmptyCell(
         areaFigureXForward,
@@ -156,8 +156,8 @@ export class Cell {
 
     if (
       direction === Direction.BOTTOM &&
-      areaFigureYBack !== undefined &&
-      areaFigureYBackEmpty !== undefined
+      areaFigureYBack !== null &&
+      areaFigureYBackEmpty !== null
     ) {
       return this.canEatEmptyCell(
         this.x,
@@ -169,10 +169,10 @@ export class Cell {
 
     if (
       direction === Direction.BOTTOM_RIGHT &&
-      areaFigureXBack !== undefined &&
-      areaFigureYBack !== undefined &&
-      areaFigureXBackEmpty !== undefined &&
-      areaFigureYBackEmpty !== undefined
+      areaFigureXBack !== null &&
+      areaFigureYBack !== null &&
+      areaFigureXBackEmpty !== null &&
+      areaFigureYBackEmpty !== null
     ) {
       return this.canEatEmptyCell(
         areaFigureXBack,
@@ -181,6 +181,8 @@ export class Cell {
         areaFigureYBackEmpty
       );
     }
+
+    return null;
   }
 
   canEatBaatyrEmptyCell(direction: Direction) {

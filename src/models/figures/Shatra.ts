@@ -18,21 +18,30 @@ export class Shatra extends Figure {
     const direction = this.cell.figure?.color === Colors.BLACK ? 1 : -1;
 
     if (this.cell.board.canEatAbility(this.cell)) {
-      for (const dir of [
-        Direction.TOP_LEFT,
-        Direction.TOP,
-        Direction.TOP_RIGHT,
-        Direction.LEFT,
-        Direction.RIGHT,
-        Direction.BOTTOM_LEFT,
-        Direction.BOTTOM,
-        Direction.BOTTOM_RIGHT,
-      ]) {
-        const targetCell = this.cell.canEat(this.cell, dir);
-        if (targetCell?.x === target.x && targetCell?.y === target.y) {
-          return true;
-        }
+      const lastCanEatCell = findLastCanEatCell(this.cell, target);
+
+      console.log("lastCanEatCell: ", lastCanEatCell);
+
+      if (lastCanEatCell?.x === target.x && lastCanEatCell?.y === target.y) {
+        return true;
       }
+
+      // for (const dir of [
+      //   Direction.TOP_LEFT,
+      //   Direction.TOP,
+      //   Direction.TOP_RIGHT,
+      //   Direction.LEFT,
+      //   Direction.RIGHT,
+      //   Direction.BOTTOM_LEFT,
+      //   Direction.BOTTOM,
+      //   Direction.BOTTOM_RIGHT,
+      // ]) {
+      //   const targetCell = this.cell.canEat(this.cell, dir);
+
+      //   if (targetCell?.x === target.x && targetCell?.y === target.y) {
+      //     return true;
+      //   }
+      // }
     } else {
       if (
         this.cell.isFortressAbility(this.cell) &&
@@ -112,4 +121,44 @@ export class Shatra extends Figure {
     }
     return false;
   }
+}
+
+// переместить проверку на вражескую фигуру сюда убрать из canEat...
+
+function findLastCanEatCell(cell: Cell, target: Cell): Cell | null {
+  if (!cell.board.canEatAbility(cell)) {
+    return null;
+  }
+
+  let lastCanEatCell = null;
+
+  for (const dir of [
+    Direction.TOP_LEFT,
+    Direction.TOP,
+    Direction.TOP_RIGHT,
+    Direction.LEFT,
+    Direction.RIGHT,
+    Direction.BOTTOM_LEFT,
+    Direction.BOTTOM,
+    Direction.BOTTOM_RIGHT,
+  ]) {
+    const targetCell = cell.canEat(cell, dir);
+
+    if (targetCell?.x === target.x && targetCell?.y === target.y) {
+      // Если найдена ячейка target, обновляем lastCanEatCell
+      lastCanEatCell = targetCell;
+    }
+
+    // Рекурсивный вызов для проверки следующей ячейки
+    const recursiveResult: Cell | null = targetCell
+      ? findLastCanEatCell(targetCell, target)
+      : null;
+
+    if (recursiveResult) {
+      // Если в рекурсивном вызове была найдена ячейка, обновляем lastCanEatCell
+      lastCanEatCell = recursiveResult;
+    }
+  }
+
+  return lastCanEatCell;
 }

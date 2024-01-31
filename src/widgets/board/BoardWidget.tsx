@@ -31,7 +31,7 @@ const BoardWidget: React.FC<BoardProps> = ({
   const [checkedCell, setCheckedCell] = React.useState<Cell | null>(null);
 
   const [state, setState] = React.useState<any[]>([]);
-  const [animatedFigure, setAnimateFigure] = React.useState<any>();
+  const [animatedFigure, setAnimateFigure] = React.useState<any>(null);
   const [selectedCellItems, setSelectedCellItems] = React.useState<any>();
   const [oldCellCoordinate, setOldCellCoordinate] = React.useState<any>();
 
@@ -108,15 +108,17 @@ const BoardWidget: React.FC<BoardProps> = ({
         ) {
           // after move
           swapPlayer();
+          setSelectedCell(null);
         } else {
           if (!board.canEatAbility(cell)) {
             swapPlayer();
-            console.log(board.highlightCells(cell));
+            setSelectedCell(null);
+          } else {
+            setSelectedCell(cell);
           }
         }
 
         setCheckedCell(null);
-        setSelectedCell(null);
         updateBoard();
       }, 305);
     } else {
