@@ -55,12 +55,49 @@ const BoardWidget: React.FC<BoardProps> = ({
     e: any,
     sequence: boolean
   ) {
+    const findAncestor = (
+      node: any,
+      predicate: (node: any) => boolean
+    ): any => {
+      while (node && !predicate(node)) {
+        node = node.parent;
+      }
+      return node;
+    };
+
+    const addToLayerIfNeeded = (figure: any): any => {
+      const figureGroup = findAncestor(
+        figure,
+        (node: any) => node.getClassName && node.getClassName() === "Group"
+      );
+
+      if (figureGroup) {
+        if (
+          !figureGroup.getParent() ||
+          figureGroup.getParent().className !== "Layer"
+        ) {
+          figureGroup.moveToTop();
+        }
+      }
+    };
+
     if (!sequence) {
-      e.target.parent.moveToTop();
-      setAnimateFigure(e.target.parent.children[1]);
-      setOldCellCoordinate(figure);
+      addToLayerIfNeeded(e.target);
+
+      const parent = e.target.parent;
+      const children = parent ? parent.getChildren() : [];
+      const animateFigure = children.find(
+        (child: any) => child instanceof Konva.Image
+      );
+
+      if (animateFigure) {
+        setAnimateFigure(animateFigure);
+        setOldCellCoordinate(figure);
+      }
     } else {
       if (animatedFigure) {
+        addToLayerIfNeeded(animatedFigure);
+
         animatedFigure.to({
           x:
             (figure.x - oldCellCoordinate.x) * 75 == 0
@@ -71,8 +108,8 @@ const BoardWidget: React.FC<BoardProps> = ({
               ? (figure.y - oldCellCoordinate.y) * 75 + 10
               : (figure.y - oldCellCoordinate.y) * 75 + 10,
           duration: 0.3,
+          onFinish: () => setAnimateFigure(null),
         });
-        setAnimateFigure(null);
       }
     }
   }
@@ -106,7 +143,6 @@ const BoardWidget: React.FC<BoardProps> = ({
           cell.y - selectedCell.y === -1 ||
           checkedCell?.infortress
         ) {
-          // after move
           swapPlayer();
           setSelectedCell(null);
         } else {
@@ -115,6 +151,7 @@ const BoardWidget: React.FC<BoardProps> = ({
             setSelectedCell(null);
           } else {
             setSelectedCell(cell);
+            animatedChangePositionFigure(cell, event, false);
           }
         }
 
