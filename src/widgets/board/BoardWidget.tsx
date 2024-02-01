@@ -8,6 +8,8 @@ import { Direction } from "@/models/Direction";
 
 import { Stage, Layer } from "react-konva";
 
+import Konva from "konva";
+
 interface BoardProps {
   board: Board;
   historyMovements: any;
