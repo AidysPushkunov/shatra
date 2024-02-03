@@ -18,20 +18,10 @@ export class Shatra extends Figure {
     const direction = this.cell.figure?.color === Colors.BLACK ? 1 : -1;
 
     if (this.cell.board.canEatAbility(this.cell)) {
-      for (const dir of [
-        Direction.TOP_LEFT,
-        Direction.TOP,
-        Direction.TOP_RIGHT,
-        Direction.LEFT,
-        Direction.RIGHT,
-        Direction.BOTTOM_LEFT,
-        Direction.BOTTOM,
-        Direction.BOTTOM_RIGHT,
-      ]) {
-        const targetCell = this.cell.canEat(this.cell, dir);
-        if (targetCell?.x === target.x && targetCell?.y === target.y) {
-          return true;
-        }
+      const lastCanEatCell = findLastCanEatCell(this.cell, target);
+
+      if (lastCanEatCell?.x === target.x && lastCanEatCell?.y === target.y) {
+        return true;
       }
     } else {
       if (
@@ -112,4 +102,39 @@ export class Shatra extends Figure {
     }
     return false;
   }
+}
+
+function findLastCanEatCell(cell: Cell, target: Cell): Cell | null {
+  if (!cell.board.canEatAbility(cell)) {
+    return null;
+  }
+
+  let lastCanEatCell = null;
+
+  for (const dir of [
+    Direction.TOP_LEFT,
+    Direction.TOP,
+    Direction.TOP_RIGHT,
+    Direction.LEFT,
+    Direction.RIGHT,
+    Direction.BOTTOM_LEFT,
+    Direction.BOTTOM,
+    Direction.BOTTOM_RIGHT,
+  ]) {
+    const targetCell = cell.canEat(cell, dir);
+
+    if (targetCell?.x === target.x && targetCell?.y === target.y) {
+      lastCanEatCell = targetCell;
+    }
+
+    const recursiveResult: Cell | null = targetCell
+      ? findLastCanEatCell(targetCell, target)
+      : null;
+
+    if (recursiveResult) {
+      lastCanEatCell = recursiveResult;
+    }
+  }
+
+  return lastCanEatCell;
 }
