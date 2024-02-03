@@ -2,6 +2,7 @@
 
 The goal of this project is to create an Internet platform for the game “Shatra” in real time between two people or with artificial intelligence.
 
+ <img width="900px" src="./public/images/interface.png" alt="app interface"/>
 
 ## Getting Started
 
