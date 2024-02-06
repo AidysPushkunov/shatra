@@ -128,6 +128,8 @@ export class Board {
         if (
           !this.getCell(x, j).isEmpty() &&
           this.getCell(x, j).figure?.color === target.figure?.color &&
+          this.getCell(x, j).figure?.logo !== "blackBiy" &&
+          this.getCell(x, j).figure?.logo !== "whiteBiy" &&
           this.getCell(x, j).figure?.logo !== "fortress"
         ) {
           if (
@@ -291,19 +293,19 @@ export class Board {
   }
 
   public addFigures() {
-    // for (let i = 0; i < 7; i++) {
-    //   new Shatra(Colors.BLACK, this.getCell(i, 4));
-    //   // new Shatra(Colors.BLACK, this.getCell(i, 5));
+    for (let i = 0; i < 7; i++) {
+      new Shatra(Colors.BLACK, this.getCell(i, 4));
+      // new Shatra(Colors.BLACK, this.getCell(i, 5));
 
-    //   // new Shatra(Colors.WHITE, this.getCell(i, 8));
-    //   new Shatra(Colors.WHITE, this.getCell(i, 8));
-    // }
-    // new Biy(Colors.WHITE, this.getCell(3, 3));
+      // new Shatra(Colors.WHITE, this.getCell(i, 8));
+      new Shatra(Colors.WHITE, this.getCell(i, 8));
+    }
+    new Biy(Colors.WHITE, this.getCell(3, 3));
     // new Shatra(Colors.WHITE, this.getCell(3, 3));
 
-    // new Shatra(Colors.BLACK, this.getCell(3, 9));
+    new Shatra(Colors.BLACK, this.getCell(3, 9));
 
-    this.addShatra();
-    this.addBiy();
+    // this.addShatra();
+    // this.addBiy();
   }
 }
