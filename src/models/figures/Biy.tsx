@@ -14,60 +14,22 @@ export class Biy extends Figure {
     if (!super.canMove(target)) return false;
 
     const direction = this.cell.figure?.color === Colors.BLACK ? 1 : -1;
-
+    console.log(this.cell);
+    console.log(
+      this.cell.board.canEatAbilityWithBiy(this.cell) &&
+        this.cell.board.canEatAbility(this.cell)
+    );
     if (
       this.cell.board.canEatAbilityWithBiy(this.cell) &&
       this.cell.board.canEatAbility(this.cell)
     ) {
-      if (
-        this.cell.canEat(target, Direction.TOP_LEFT)?.x === target.x &&
-        this.cell.canEat(target, Direction.TOP_LEFT)?.y === target.y
-      )
-        return true;
+      const lastCanEatCell = findLastCanEatCell(this.cell, target);
 
-      if (
-        this.cell.canEat(target, Direction.TOP)?.x === target.x &&
-        this.cell.canEat(target, Direction.TOP)?.y === target.y
-      )
+      if (lastCanEatCell?.x === target.x && lastCanEatCell?.y === target.y) {
         return true;
-
-      if (
-        this.cell.canEat(target, Direction.TOP_RIGHT)?.x === target.x &&
-        this.cell.canEat(target, Direction.TOP_RIGHT)?.y === target.y
-      )
-        return true;
-
-      if (
-        this.cell.canEat(target, Direction.LEFT)?.x === target.x &&
-        this.cell.canEat(target, Direction.LEFT)?.y === target.y
-      )
-        return true;
-
-      if (
-        this.cell.canEat(target, Direction.RIGHT)?.x === target.x &&
-        this.cell.canEat(target, Direction.RIGHT)?.y === target.y
-      )
-        return true;
-
-      if (
-        this.cell.canEat(target, Direction.BOTTOM_LEFT)?.x === target.x &&
-        this.cell.canEat(target, Direction.BOTTOM_LEFT)?.y === target.y
-      )
-        return true;
-
-      if (
-        this.cell.canEat(target, Direction.BOTTOM)?.x === target.x &&
-        this.cell.canEat(target, Direction.BOTTOM)?.y === target.y
-      )
-        return true;
-
-      if (
-        this.cell.canEat(target, Direction.BOTTOM_RIGHT)?.x === target.x &&
-        this.cell.canEat(target, Direction.BOTTOM_RIGHT)?.y === target.y
-      )
-        return true;
+      }
     } else {
-      if (!this.cell.board.canEatAbility(this.cell)) {
+      if (!this.cell.board.canEatAbility(target)) {
         if (
           this.cell.canEat(target, Direction.TOP_LEFT)?.x === target.x &&
           this.cell.canEat(target, Direction.TOP_LEFT)?.y === target.y
@@ -133,14 +95,16 @@ export class Biy extends Figure {
         }
 
         if (this.cell.isFortressAbility(this.cell)) {
-          if (this.cell.figure?.color === Colors.WHITE) {
-            for (let i = 7; i <= 9; i++) {
+          if (this.cell.y <= 3) {
+            for (let i = 4; i <= 6; i++) {
               for (let j = 0; j <= 6; j++) {
                 if (target.x === j && target.y === i) return true;
               }
             }
-          } else {
-            for (let i = 4; i <= 6; i++) {
+          }
+
+          if (this.cell.y >= 10) {
+            for (let i = 7; i <= 9; i++) {
               for (let j = 0; j <= 6; j++) {
                 if (target.x === j && target.y === i) return true;
               }
@@ -154,4 +118,39 @@ export class Biy extends Figure {
 
     return false;
   }
+}
+
+function findLastCanEatCell(cell: Cell, target: Cell): Cell | null {
+  if (!cell.board.canEatAbility(cell)) {
+    return null;
+  }
+
+  let lastCanEatCell = null;
+
+  for (const dir of [
+    Direction.TOP_LEFT,
+    Direction.TOP,
+    Direction.TOP_RIGHT,
+    Direction.LEFT,
+    Direction.RIGHT,
+    Direction.BOTTOM_LEFT,
+    Direction.BOTTOM,
+    Direction.BOTTOM_RIGHT,
+  ]) {
+    const targetCell = cell.canEat(cell, dir);
+
+    if (targetCell?.x === target.x && targetCell?.y === target.y) {
+      lastCanEatCell = targetCell;
+    }
+
+    const recursiveResult: Cell | null = targetCell
+      ? findLastCanEatCell(targetCell, target)
+      : null;
+
+    if (recursiveResult) {
+      lastCanEatCell = recursiveResult;
+    }
+  }
+
+  return lastCanEatCell;
 }

@@ -4,10 +4,13 @@ import { Direction } from "../Direction";
 import { Figure, FigureNames } from "./Figure";
 
 export class Shatra extends Figure {
+  biyRules: boolean;
+
   constructor(color: Colors, cell: Cell) {
     super(color, cell);
     this.logo = color === Colors.BLACK ? "blackShatra" : "whiteShatra";
     this.name = FigureNames.SHATRA;
+    this.biyRules = false;
   }
 
   isFirstStep: boolean = true;

@@ -42,7 +42,7 @@ export class Cell {
     areaFigureY: number,
     areaFigureXEmpty: number,
     areaFigureYEmpty: number
-  ) {
+  ): Cell | null {
     if (
       !this.board.getCell(areaFigureX, areaFigureY).isEmpty() &&
       !this.board.getCell(areaFigureX, areaFigureY).figure?.eaten &&
@@ -53,7 +53,15 @@ export class Cell {
       this.board.getCell(areaFigureXEmpty, areaFigureYEmpty).color !==
         Colors.FORTRESS
     ) {
-      return this.board.getCell(areaFigureXEmpty, areaFigureYEmpty);
+      if (this.figure?.color === Colors.WHITE) {
+        if (areaFigureYEmpty < 10)
+          return this.board.getCell(areaFigureXEmpty, areaFigureYEmpty);
+      }
+
+      if (this.figure?.color === Colors.BLACK) {
+        if (areaFigureYEmpty > 3)
+          return this.board.getCell(areaFigureXEmpty, areaFigureYEmpty);
+      }
     }
 
     return null;
@@ -414,6 +422,7 @@ export class Cell {
   }
 
   moveFigure(target: Cell) {
+
     if (this.figure && this.figure?.canMove(target)) {
       this.figure?.moveFigure(target);
       if (
@@ -567,6 +576,7 @@ export class Cell {
           }
         }
       }
+
       if (target.figure) {
         this.addLostFigure(target.figure);
       }
