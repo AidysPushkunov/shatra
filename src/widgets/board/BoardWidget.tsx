@@ -172,6 +172,8 @@ const BoardWidget: React.FC<BoardProps> = ({
           checkedY: y,
         });
 
+        cell.setEatFieldAttack(null, false);
+
         setCheckedCell(cell);
         setHistoryMovementsState(historyMovements);
 

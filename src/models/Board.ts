@@ -113,6 +113,8 @@ export class Board {
       const row = this.cells[i];
       for (let j = 0; j < row.length; j++) {
         const target = row[j];
+        if (!selectedCell?.board.canEatAbility(selectedCell))
+          target.eatFieldAttack = false;
         target.available = !!selectedCell?.figure?.canMove(target);
       }
     }
@@ -293,19 +295,7 @@ export class Board {
   }
 
   public addFigures() {
-    for (let i = 0; i < 7; i++) {
-      new Shatra(Colors.BLACK, this.getCell(i, 4));
-      // new Shatra(Colors.BLACK, this.getCell(i, 5));
-
-      // new Shatra(Colors.WHITE, this.getCell(i, 8));
-      new Shatra(Colors.WHITE, this.getCell(i, 8));
-    }
-    new Biy(Colors.WHITE, this.getCell(3, 3));
-    // new Shatra(Colors.WHITE, this.getCell(3, 3));
-
-    new Shatra(Colors.BLACK, this.getCell(3, 9));
-
-    // this.addShatra();
-    // this.addBiy();
+    this.addShatra();
+    this.addBiy();
   }
 }
