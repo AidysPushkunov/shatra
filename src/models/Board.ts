@@ -277,7 +277,10 @@ export class Board {
     for (positionX; positionX <= 4; positionX++) {
       fortressEmpty = this.getCell(positionX, limit).isEmpty() === true;
 
-      if (!fortressEmpty) {
+      if (
+        !fortressEmpty &&
+        this.getCell(positionX, limit).figure?.color === color
+      ) {
         return false;
       }
 
@@ -320,19 +323,22 @@ export class Board {
   }
 
   public addFigures() {
-    for (let i = 2; i <= 4; i++) {
-      new Shatra(Colors.BLACK, this.getCell(i, 0));
-      new Shatra(Colors.WHITE, this.getCell(i, 13));
+    // for (let i = 2; i <= 4; i++) {
+    // new Shatra(Colors.BLACK, this.getCell(i, 0));
+    // new Shatra(Colors.WHITE, this.getCell(i, 13));
+    // new Shatra(Colors.WHITE, this.getCell(i, 9));
+    // new Shatra(Colors.WHITE, this.getCell(i, 8));
+    // }
+    // new Biy(Colors.BLACK, this.getCell(3, 3));
+    // new Shatra(Colors.BLACK, this.getCell(3, 5));
+    // new Shatra(Colors.WHITE, this.getCell(3, 3));
 
-      // new Shatra(Colors.WHITE, this.getCell(i, 9));
-      // new Shatra(Colors.WHITE, this.getCell(i, 8));
-    }
-    new Biy(Colors.BLACK, this.getCell(3, 3));
-    new Biy(Colors.WHITE, this.getCell(3, 10));
+    // new Biy(Colors.WHITE, this.getCell(3, 10));
+    // new Shatra(Colors.BLACK, this.getCell(3, 10));
 
     // new Shatra(Colors.BLACK, this.getCell(3, 9));
 
-    // this.addShatra();
-    // this.addBiy();
+    this.addShatra();
+    this.addBiy();
   }
 }

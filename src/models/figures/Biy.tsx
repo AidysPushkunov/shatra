@@ -61,28 +61,97 @@ export class Biy extends Figure {
       if (
         this.cell.canEat(this.cell, Direction.BOTTOM_RIGHT)?.x === target.x &&
         this.cell.canEat(this.cell, Direction.BOTTOM_RIGHT)?.y === target.y
-      )
-        return true;
-
-      console.log(
-        "Fortress empty: ",
-        this.cell.board.checkFortressEmpty(Colors.BLACK)
-      );
-
-      if (
-        (target.y === this.cell.y + direction &&
-          target.x === this.cell.x + 1) ||
-        (target.y === this.cell.y + direction &&
-          target.x === this.cell.x - 1) ||
-        (target.y === this.cell.y && target.x === this.cell.x - 1) ||
-        (target.y === this.cell.y && target.x === this.cell.x + 1) ||
-        (target.y === this.cell.y + direction && target.x === this.cell.x) ||
-        (target.y === this.cell.y - direction && target.x === this.cell.x) ||
-        (target.y === this.cell.y - direction &&
-          target.x === this.cell.x - 1) ||
-        (target.y === this.cell.y - direction && target.x === this.cell.x + 1)
       ) {
         return true;
+      }
+
+      const directionTopRight =
+        target.y === this.cell.y + direction && target.x === this.cell.x + 1;
+      const directionTopLeft =
+        target.y === this.cell.y + direction && target.x === this.cell.x - 1;
+      const directionTop =
+        target.y === this.cell.y + direction && target.x === this.cell.x;
+      const directionBottom =
+        target.y === this.cell.y - direction && target.x === this.cell.x;
+      const directionLeft =
+        target.y === this.cell.y && target.x === this.cell.x - 1;
+      const directionRight =
+        target.y === this.cell.y && target.x === this.cell.x + 1;
+      const directionBottomLeft =
+        target.y === this.cell.y - direction && target.x === this.cell.x - 1;
+      const directionBottomRight =
+        target.y === this.cell.y - direction && target.x === this.cell.x + 1;
+
+      if (
+        (this.cell.x === 3 && this.cell.y === 10) ||
+        (this.cell.x === 3 && this.cell.y === 3)
+      ) {
+        if (this.cell.figure?.logo === "whiteBiy") {
+          if (this.cell.board.checkFortressEmpty(Colors.WHITE)) {
+            if (
+              directionBottomRight ||
+              directionBottomLeft ||
+              directionLeft ||
+              directionRight ||
+              directionBottom ||
+              directionTop ||
+              directionTopLeft ||
+              directionTopRight
+            ) {
+              return true;
+            }
+          } else {
+            if (
+              directionLeft ||
+              directionRight ||
+              directionTop ||
+              directionTopLeft ||
+              directionTopRight
+            ) {
+              return true;
+            }
+          }
+        }
+
+        if (this.cell.figure?.logo === "blackBiy") {
+          if (this.cell.board.checkFortressEmpty(Colors.BLACK)) {
+            if (
+              directionBottomRight ||
+              directionBottomLeft ||
+              directionLeft ||
+              directionRight ||
+              directionBottom ||
+              directionTop ||
+              directionTopLeft ||
+              directionTopRight
+            ) {
+              return true;
+            }
+          } else {
+            if (
+              directionLeft ||
+              directionRight ||
+              directionTop ||
+              directionTopLeft ||
+              directionTopRight
+            ) {
+              return true;
+            }
+          }
+        }
+      } else {
+        if (
+          directionBottomRight ||
+          directionBottomLeft ||
+          directionLeft ||
+          directionRight ||
+          directionBottom ||
+          directionTop ||
+          directionTopLeft ||
+          directionTopRight
+        ) {
+          return true;
+        }
       }
 
       if (this.cell.isFortressAbility(this.cell)) {

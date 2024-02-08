@@ -61,15 +61,32 @@ export class Cell {
       this.board.getCell(areaFigureXEmpty, areaFigureYEmpty).color !==
         Colors.FORTRESS
     ) {
-
       if (this.figure?.color === Colors.WHITE) {
-        if (areaFigureYEmpty < 10)
+        if (this.figure.logo === "whiteBiy" && areaFigureYEmpty < 10) {
           return this.board.getCell(areaFigureXEmpty, areaFigureYEmpty);
+        } else {
+          if (this.board.checkFortressEmpty(Colors.WHITE)) {
+            return this.board.getCell(areaFigureXEmpty, areaFigureYEmpty);
+          }
+        }
+
+        if (areaFigureYEmpty < 10 && this.figure.logo !== "whiteBiy") {
+          return this.board.getCell(areaFigureXEmpty, areaFigureYEmpty);
+        }
       }
 
       if (this.figure?.color === Colors.BLACK) {
-        if (areaFigureYEmpty > 3)
+        if (this.figure.logo === "blackBiy" && areaFigureYEmpty > 3) {
           return this.board.getCell(areaFigureXEmpty, areaFigureYEmpty);
+        } else {
+          if (this.board.checkFortressEmpty(Colors.BLACK)) {
+            return this.board.getCell(areaFigureXEmpty, areaFigureYEmpty);
+          }
+        }
+
+        if (areaFigureYEmpty > 3 && this.figure.logo !== "blackBiy") {
+          return this.board.getCell(areaFigureXEmpty, areaFigureYEmpty);
+        }
       }
     }
     this.setEatFieldAttack(null, false);
