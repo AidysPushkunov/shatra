@@ -269,6 +269,31 @@ export class Board {
     }
   }
 
+  checkFortressEmpty(color: Colors): boolean {
+    const limitCoordinateY: number = color === Colors.WHITE ? 13 : 2;
+    let fortressEmpty: boolean;
+    let limit: number = color === Colors.WHITE ? 11 : 0;
+    let positionX: number = 2;
+    for (positionX; positionX <= 4; positionX++) {
+      fortressEmpty = this.getCell(positionX, limit).isEmpty() === true;
+
+      if (!fortressEmpty) {
+        return false;
+      }
+
+      if (positionX === 4 && limit < limitCoordinateY) {
+        positionX = 2;
+        ++limit;
+      }
+
+      if (positionX === 4 && limit === limitCoordinateY) {
+        return true;
+      }
+    }
+
+    return true;
+  }
+
   private addShatra() {
     for (let i = 2; i <= 4; i++) {
       new Shatra(Colors.BLACK, this.getCell(i, 0));
@@ -295,7 +320,19 @@ export class Board {
   }
 
   public addFigures() {
-    this.addShatra();
-    this.addBiy();
+    for (let i = 2; i <= 4; i++) {
+      new Shatra(Colors.BLACK, this.getCell(i, 0));
+      new Shatra(Colors.WHITE, this.getCell(i, 13));
+
+      // new Shatra(Colors.WHITE, this.getCell(i, 9));
+      // new Shatra(Colors.WHITE, this.getCell(i, 8));
+    }
+    new Biy(Colors.BLACK, this.getCell(3, 3));
+    new Biy(Colors.WHITE, this.getCell(3, 10));
+
+    // new Shatra(Colors.BLACK, this.getCell(3, 9));
+
+    // this.addShatra();
+    // this.addBiy();
   }
 }

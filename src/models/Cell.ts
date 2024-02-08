@@ -61,9 +61,6 @@ export class Cell {
       this.board.getCell(areaFigureXEmpty, areaFigureYEmpty).color !==
         Colors.FORTRESS
     ) {
-      if (this.x === 3 && this.y === 3) {
-        
-      }
 
       if (this.figure?.color === Colors.WHITE) {
         if (areaFigureYEmpty < 10)

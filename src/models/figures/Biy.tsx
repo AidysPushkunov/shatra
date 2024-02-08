@@ -64,6 +64,11 @@ export class Biy extends Figure {
       )
         return true;
 
+      console.log(
+        "Fortress empty: ",
+        this.cell.board.checkFortressEmpty(Colors.BLACK)
+      );
+
       if (
         (target.y === this.cell.y + direction &&
           target.x === this.cell.x + 1) ||
