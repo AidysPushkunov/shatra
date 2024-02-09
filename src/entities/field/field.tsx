@@ -12,7 +12,7 @@ const fieldIntent = {
   // fortress: "#F4F7FA",
   fortress: "",
 
-  attackFigure: "#CD0000",
+  attackFigure: "green",
 };
 
 type FieldProps = {
@@ -61,7 +61,17 @@ const Field: React.FC<FieldProps> = ({
         ? null
         : cell.available &&
           !cell.figure && (
-            <Circle x={37.5} y={37.5} radius={10} fill={fieldIntent.active} />
+            <Circle
+              x={37.5}
+              y={37.5}
+              radius={10}
+              opacity={0.8}
+              fill={
+                cell.eatFieldAttack
+                  ? fieldIntent.attackFigure
+                  : fieldIntent.active
+              }
+            />
           )}
       {children}
     </Group>
