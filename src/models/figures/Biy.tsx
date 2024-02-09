@@ -173,6 +173,55 @@ export class Biy extends Figure {
 
         return false;
       }
+    } else {
+      if (
+        this.cell.canEat(this.cell, Direction.TOP_LEFT)?.x === target.x &&
+        this.cell.canEat(this.cell, Direction.TOP_LEFT)?.y === target.y
+      )
+        return true;
+
+      if (
+        this.cell.canEat(this.cell, Direction.TOP)?.x === target.x &&
+        this.cell.canEat(this.cell, Direction.TOP)?.y === target.y
+      )
+        return true;
+
+      if (
+        this.cell.canEat(this.cell, Direction.TOP_RIGHT)?.x === target.x &&
+        this.cell.canEat(this.cell, Direction.TOP_RIGHT)?.y === target.y
+      )
+        return true;
+
+      if (
+        this.cell.canEat(this.cell, Direction.LEFT)?.x === target.x &&
+        this.cell.canEat(this.cell, Direction.LEFT)?.y === target.y
+      )
+        return true;
+
+      if (
+        this.cell.canEat(this.cell, Direction.RIGHT)?.x === target.x &&
+        this.cell.canEat(this.cell, Direction.RIGHT)?.y === target.y
+      )
+        return true;
+
+      if (
+        this.cell.canEat(this.cell, Direction.BOTTOM_LEFT)?.x === target.x &&
+        this.cell.canEat(this.cell, Direction.BOTTOM_LEFT)?.y === target.y
+      )
+        return true;
+
+      if (
+        this.cell.canEat(this.cell, Direction.BOTTOM)?.x === target.x &&
+        this.cell.canEat(this.cell, Direction.BOTTOM)?.y === target.y
+      )
+        return true;
+
+      if (
+        this.cell.canEat(this.cell, Direction.BOTTOM_RIGHT)?.x === target.x &&
+        this.cell.canEat(this.cell, Direction.BOTTOM_RIGHT)?.y === target.y
+      ) {
+        return true;
+      }
     }
     return false;
   }
