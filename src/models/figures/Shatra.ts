@@ -177,12 +177,7 @@ export class Shatra extends Figure {
             ? this.cell.y >= 10
             : this.cell.y <= 3
         ) {
-          console.log(
-            "!!!!!!!11",
-            !this.cell.board.canEatAbilityWithBiy(this.cell)
-          );
           if (!this.cell.board.canEatAbilityWithBiy(this.cell)) {
-            console.log("success");
             if (
               !this.cell.board.canEatAbilityWithBiy(this.cell) &&
               this.cell.figure?.color === Colors.WHITE

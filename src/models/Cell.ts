@@ -251,7 +251,7 @@ export class Cell {
     return null;
   }
 
-  canEatBaatyrEmptyCell(direction: Direction) {
+  canEatBaatyrEmptyCell(target: Cell, direction: Direction) {
     const checkCell = (x: number, y: number) => {
       return this.board.getCell(x, y).figure;
     };
@@ -261,8 +261,9 @@ export class Cell {
     };
 
     const checkDirection = (xIncrement: number, yIncrement: number) => {
-      let x = this.x;
-      let y = this.y;
+      let x = target.x;
+      let y = target.y;
+
 
       while (isValidCell(x, y)) {
         const currentCell = checkCell(x, y);
@@ -271,10 +272,10 @@ export class Cell {
           return undefined;
         }
 
-        if (currentCell?.color !== this.figure?.color && currentCell !== null) {
+        if (currentCell?.color !== this.figure?.color && currentCell) {
           if (
             !isValidCell(x + xIncrement, y + yIncrement) ||
-            checkCell(x + xIncrement, y + yIncrement) !== null
+            checkCell(x + xIncrement, y + yIncrement)
           ) {
             return undefined;
           }
@@ -321,35 +322,35 @@ export class Cell {
 
   canEatBaatyr(target: Cell, direction: Direction): Cell | undefined {
     if (direction === Direction.TOP) {
-      return this.canEatBaatyrEmptyCell(direction);
+      return this.canEatBaatyrEmptyCell(target, direction);
     }
 
     if (direction === Direction.TOP_LEFT) {
-      return this.canEatBaatyrEmptyCell(direction);
+      return this.canEatBaatyrEmptyCell(target, direction);
     }
 
     if (direction === Direction.BOTTOM_LEFT) {
-      return this.canEatBaatyrEmptyCell(direction);
+      return this.canEatBaatyrEmptyCell(target, direction);
     }
 
     if (direction === Direction.BOTTOM_RIGHT) {
-      return this.canEatBaatyrEmptyCell(direction);
+      return this.canEatBaatyrEmptyCell(target, direction);
     }
 
     if (direction === Direction.TOP_RIGHT) {
-      return this.canEatBaatyrEmptyCell(direction);
+      return this.canEatBaatyrEmptyCell(target, direction);
     }
 
     if (direction === Direction.LEFT) {
-      return this.canEatBaatyrEmptyCell(direction);
+      return this.canEatBaatyrEmptyCell(target, direction);
     }
 
     if (direction === Direction.RIGHT) {
-      return this.canEatBaatyrEmptyCell(direction);
+      return this.canEatBaatyrEmptyCell(target, direction);
     }
 
     if (direction === Direction.BOTTOM) {
-      return this.canEatBaatyrEmptyCell(direction);
+      return this.canEatBaatyrEmptyCell(target, direction);
     }
   }
 

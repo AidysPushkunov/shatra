@@ -172,53 +172,49 @@ export class Board {
   }
 
   canEatAbilityBaatyr(target: Cell) {
-    for (let x = 0; x <= 6; x++) {
-      for (let j = 0; j <= 13; j++) {
-        if (
-          !this.getCell(x, j).isEmpty() &&
-          this.getCell(x, j).figure?.color === target.figure?.color &&
-          this.getCell(x, j).figure?.logo !== "blackBiy" &&
-          this.getCell(x, j).figure?.logo !== "whiteBiy"
-        ) {
-          if (
-            Boolean(
-              this.getCell(x, j).canEatBaatyr(
-                this.getCell(x, j),
-                Direction.TOP
-              ) ||
-                this.getCell(x, j).canEatBaatyr(
-                  this.getCell(x, j),
-                  Direction.LEFT
-                ) ||
-                this.getCell(x, j).canEatBaatyr(
-                  this.getCell(x, j),
-                  Direction.RIGHT
-                ) ||
-                this.getCell(x, j).canEatBaatyr(
-                  this.getCell(x, j),
-                  Direction.BOTTOM
-                ) ||
-                this.getCell(x, j).canEatBaatyr(
-                  this.getCell(x, j),
-                  Direction.TOP_LEFT
-                ) ||
-                this.getCell(x, j).canEatBaatyr(
-                  this.getCell(x, j),
-                  Direction.TOP_RIGHT
-                ) ||
-                this.getCell(x, j).canEatBaatyr(
-                  this.getCell(x, j),
-                  Direction.BOTTOM_LEFT
-                ) ||
-                this.getCell(x, j).canEatBaatyr(
-                  this.getCell(x, j),
-                  Direction.BOTTOM_RIGHT
-                )
+    if (
+      !this.getCell(target.x, target.y).isEmpty() &&
+      this.getCell(target.x, target.y).figure?.color !== target.figure?.color &&
+      (this.getCell(target.x, target.y).figure?.logo !== "whiteBaatyr" ||
+        this.getCell(target.x, target.y).figure?.logo !== "blackBaatyr")
+    ) {
+      if (
+        Boolean(
+          this.getCell(target.x, target.y).canEatBaatyr(
+            this.getCell(target.x, target.y),
+            Direction.TOP
+          ) ||
+            this.getCell(target.x, target.y).canEatBaatyr(
+              this.getCell(target.x, target.y),
+              Direction.LEFT
+            ) ||
+            this.getCell(target.x, target.y).canEatBaatyr(
+              this.getCell(target.x, target.y),
+              Direction.RIGHT
+            ) ||
+            this.getCell(target.x, target.y).canEatBaatyr(
+              this.getCell(target.x, target.y),
+              Direction.BOTTOM
+            ) ||
+            this.getCell(target.x, target.y).canEatBaatyr(
+              this.getCell(target.x, target.y),
+              Direction.TOP_LEFT
+            ) ||
+            this.getCell(target.x, target.y).canEatBaatyr(
+              this.getCell(target.x, target.y),
+              Direction.TOP_RIGHT
+            ) ||
+            this.getCell(target.x, target.y).canEatBaatyr(
+              this.getCell(target.x, target.y),
+              Direction.BOTTOM_LEFT
+            ) ||
+            this.getCell(target.x, target.y).canEatBaatyr(
+              this.getCell(target.x, target.y),
+              Direction.BOTTOM_RIGHT
             )
-          ) {
-            return true;
-          }
-        }
+        )
+      ) {
+        return true;
       }
     }
   }

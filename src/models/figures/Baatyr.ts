@@ -22,6 +22,7 @@ export class Baatyr extends Figure {
     }
 
     if (this.cell.board.canEatAbilityBaatyr(this.cell)) {
+
       const directions: Direction[] = [
         Direction.TOP,
         Direction.TOP_LEFT,
@@ -36,7 +37,9 @@ export class Baatyr extends Figure {
       for (const direction of directions) {
         const canEatBaatyr = this.cell.canEatBaatyr(target, direction);
 
-        if (canEatBaatyr) {
+ 
+
+        if (Boolean(canEatBaatyr) && canEatBaatyr) {
           let x = canEatBaatyr.x;
           let y = canEatBaatyr.y;
           let collisionFortress = false;
@@ -52,18 +55,8 @@ export class Baatyr extends Figure {
               return true;
             }
 
-            x +=
-              direction === Direction.LEFT
-                ? -1
-                : direction === Direction.RIGHT
-                ? 1
-                : 0;
-            y +=
-              direction === Direction.TOP
-                ? -1
-                : direction === Direction.BOTTOM
-                ? 1
-                : 0;
+            x += direction === Direction.LEFT ? -1 : 1;
+            y += direction === Direction.TOP ? -1 : 1;
           }
         }
       }
