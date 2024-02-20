@@ -17,41 +17,35 @@ export default function Home() {
     React.useState(historyMovements);
   const [board, setBoard] = React.useState(new Board());
 
-  const [whitePlayer, setWhitePlayer] = React.useState(
-    new Player(Colors.WHITE)
-  );
+  const [whitePlayer] = React.useState(new Player(Colors.WHITE));
 
-  const [onFortress, setOnFortress] = React.useState([]);
-
-  const [blackPlayer, setBlackPlayer] = React.useState(
-    new Player(Colors.BLACK)
-  );
+  const [blackPlayer] = React.useState(new Player(Colors.BLACK));
   const [currentPlayer, setCurrentPlayer] = React.useState<Player | null>(null);
 
-  React.useEffect(() => {
+  React.useEffect((): void => {
     restart();
     setCurrentPlayer(whitePlayer);
   }, []);
 
-  function flipBoard() {
+  function flipBoard(): void {
     const newBoard = board.getCopyBoard();
     newBoard.flipBoard();
     setBoard(newBoard);
   }
 
-  function updateBoard() {
+  function updateBoard(): void {
     const newBoard = board.getCopyBoard();
     setBoard(newBoard);
   }
 
-  function swapPlayer() {
+  function swapPlayer(): void {
     setCurrentPlayer(
       currentPlayer?.color === Colors.WHITE ? blackPlayer : whitePlayer
     );
-    setTimeout(() => updateBoard(), 305);
+    setTimeout((): void => updateBoard(), 305);
   }
 
-  function restart() {
+  function restart(): void {
     const newBoard = new Board();
     newBoard.initCells();
     newBoard.addFigures();

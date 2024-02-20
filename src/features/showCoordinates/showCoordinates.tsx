@@ -4,14 +4,14 @@ type ShowCoordinatesPropsType = {
   numbers: boolean;
 };
 
+const coordinatesNumber: number[] = [];
+const coordinatesAlphabet: string[] = ["", "A", "B", "C", "D", "E", "F", "G"];
+
+for (let i = 14; i >= 1; i--) {
+  coordinatesNumber.push(i);
+}
+
 const ShowCoordinates: React.FC<ShowCoordinatesPropsType> = ({ numbers }) => {
-  const coordinatesNumber = [];
-  const coordinatesAlphabet = ["", "A", "B", "C", "D", "E", "F", "G"];
-
-  for (let i = 14; i >= 1; i--) {
-    coordinatesNumber.push(i);
-  }
-
   return (
     <div className={numbers ? "text-2xl" : "text-2xl flex"}>
       {numbers

@@ -9,9 +9,7 @@ const fieldIntent = {
   white: "#e8edf9",
   active: "rgba(123, 97, 255, 0.5)",
   activeField: "#BAAEFE",
-  // fortress: "#F4F7FA",
   fortress: "",
-
   attackFigure: "green",
 };
 
