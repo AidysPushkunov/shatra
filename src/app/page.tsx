@@ -16,6 +16,7 @@ export default function Home() {
   const [historyMovementsState, setHistoryMovementsState] =
     React.useState(historyMovements);
   const [board, setBoard] = React.useState(new Board());
+
   const [whitePlayer, setWhitePlayer] = React.useState(
     new Player(Colors.WHITE)
   );
@@ -31,6 +32,12 @@ export default function Home() {
     restart();
     setCurrentPlayer(whitePlayer);
   }, []);
+
+  function flipBoard() {
+    const newBoard = board.getCopyBoard();
+    newBoard.flipBoard();
+    setBoard(newBoard);
+  }
 
   function updateBoard() {
     const newBoard = board.getCopyBoard();
@@ -76,6 +83,7 @@ export default function Home() {
           </div>
         </div>
         <Timer restart={restart} currentPlayer={currentPlayer} />
+        <button onClick={flipBoard}>Перевернуть доску</button>
       </div>
       <div className="flex justify-center my-10">
         <Notation

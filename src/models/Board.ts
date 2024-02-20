@@ -10,6 +10,7 @@ export class Board {
   cells: Cell[][] = [];
   lostBlackFigures: Figure[] = [];
   lostWhiteFigures: Figure[] = [];
+  isBoardFlipped: boolean = false;
 
   public initCells() {
     for (let i = 0; i < 14; i++) {
@@ -98,6 +99,30 @@ export class Board {
       }
       this.cells.push(row);
     }
+  }
+
+  public flipBoard() {
+    this.cells = this.cells.reverse();
+
+    for (let i = 0; i < this.cells.length; i++) {
+      for (let j = 0; j < this.cells[i].length; j++) {
+        this.cells[i][j].x = j;
+        this.cells[i][j].y = i;
+      }
+    }
+
+    for (let i = 0; i < this.cells.length; i++) {
+      this.cells[i] = this.cells[i].reverse();
+      for (let j = 0; j < this.cells[i].length; j++) {
+        this.cells[i][j].x = j;
+        this.cells[i][j].y = i;
+      }
+    }
+
+    this.lostBlackFigures = this.lostBlackFigures.reverse();
+    this.lostWhiteFigures = this.lostWhiteFigures.reverse();
+
+    this.isBoardFlipped = this.isBoardFlipped === true ? false : true;
   }
 
   public getCopyBoard(): Board {

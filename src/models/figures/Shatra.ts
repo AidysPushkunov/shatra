@@ -22,7 +22,8 @@ export class Shatra extends Figure {
   canMove(target: Cell): boolean {
     if (!super.canMove(target)) return false;
 
-    const direction = this.cell.figure?.color === Colors.BLACK ? 1 : -1;
+    let direction = this.cell.figure?.color === Colors.BLACK ? 1 : -1;
+    direction = !this.cell.board.isBoardFlipped ? -1 : 1;
 
     if (
       (this.cell.x === 3 && this.cell.y === 3) ||

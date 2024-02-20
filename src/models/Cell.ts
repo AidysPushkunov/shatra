@@ -6,9 +6,9 @@ import { Baatyr } from "./figures/Baatyr";
 
 let eatenFigures: any = [];
 export class Cell {
-  readonly x: number;
-  readonly y: number;
-  readonly color: Colors;
+  x: number;
+  y: number;
+  color: Colors;
   infortress: boolean;
   figure: Figure | null;
   board: Board;
@@ -263,7 +263,6 @@ export class Cell {
     const checkDirection = (xIncrement: number, yIncrement: number) => {
       let x = target.x;
       let y = target.y;
-
 
       while (isValidCell(x, y)) {
         const currentCell = checkCell(x, y);
