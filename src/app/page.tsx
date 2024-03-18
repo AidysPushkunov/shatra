@@ -27,11 +27,11 @@ export default function Home() {
     setCurrentPlayer(whitePlayer);
   }, []);
 
-  function flipBoard(): void {
-    const newBoard = board.getCopyBoard();
-    newBoard.flipBoard();
-    setBoard(newBoard);
-  }
+  // function flipBoard(): void {
+  //   const newBoard = board.getCopyBoard();
+  //   newBoard.flipBoard();
+  //   setBoard(newBoard);
+  // }
 
   function updateBoard(): void {
     const newBoard = board.getCopyBoard();
@@ -77,7 +77,7 @@ export default function Home() {
           </div>
         </div>
         <Timer restart={restart} currentPlayer={currentPlayer} />
-        <button onClick={flipBoard}>Перевернуть доску</button>
+        {/* <button onClick={flipBoard}>Перевернуть доску</button> */}
       </div>
       <div className="flex justify-center my-10">
         <Notation
