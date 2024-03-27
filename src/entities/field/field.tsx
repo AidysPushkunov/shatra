@@ -36,10 +36,10 @@ const Field: React.FC<FieldProps> = ({
 
   return (
     <Group
-      x={indexRow * 75}
-      y={index * 75}
-      width={75}
-      height={75}
+      x={indexRow * 40}
+      y={index * 40}
+      width={40}
+      height={40}
       ref={figureRef}
       onClick={(event) => {
         clickField(cell, event);
@@ -51,8 +51,8 @@ const Field: React.FC<FieldProps> = ({
       <Rect
         x={0}
         y={0}
-        width={75}
-        height={75}
+        width={40}
+        height={40}
         fill={selected ? fieldIntent.activeField : fieldIntent[intent]}
       />
       {intent === "fortress"
@@ -60,9 +60,9 @@ const Field: React.FC<FieldProps> = ({
         : cell.available &&
           !cell.figure && (
             <Circle
-              x={37.5}
-              y={37.5}
-              radius={10}
+              x={20}
+              y={20}
+              radius={5}
               opacity={0.8}
               fill={
                 cell.eatFieldAttack

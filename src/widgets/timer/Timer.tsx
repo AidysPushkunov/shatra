@@ -55,17 +55,17 @@ const Timer: React.FC<TimerProps> = ({ currentPlayer, restart }) => {
   };
 
   return (
-    <div className="flex flex-col justify-between ml-20 w-[200px] text-2xl">
+    <div className="flex flex-col justify-between ml-20 w-[200px] text-sm">
       <div>
         <div className="font-semibold">Surname N.</div>
         <div className="flex items-center">
-          <span className="relative flex h-4 w-4">
+          <span className="relative flex h-2 w-2">
             {currentPlayer?.color === Colors.BLACK ? (
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
             ) : (
               <></>
             )}
-            <span className="relative inline-flex rounded-full h-4 w-4 bg-red-500"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
           </span>
           <div className="ml-3">
             {/* {hoursBlackTime < 10
@@ -79,21 +79,21 @@ const Timer: React.FC<TimerProps> = ({ currentPlayer, restart }) => {
           </div>
         </div>
       </div>
-
+      {/* 
       <div>
         <button onClick={handleRestart}>Restart game</button>
-      </div>
+      </div> */}
 
       <div className="mb-20">
         <div className="font-semibold">Amyrov A.</div>
         <div className="flex items-center">
-          <span className="relative flex h-4 w-4">
+          <span className="relative flex h-2 w-2">
             {currentPlayer?.color === Colors.WHITE ? (
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
             ) : (
               <></>
             )}
-            <span className="relative inline-flex rounded-full h-4 w-4 bg-red-500"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
           </span>
           <div className="ml-3">
             {/* {hoursWhiteTime < 10

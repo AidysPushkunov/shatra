@@ -35,6 +35,7 @@ export default function Home() {
 
   function updateBoard(): void {
     const newBoard = board.getCopyBoard();
+    console.log('This is board: ', newBoard)
     setBoard(newBoard);
   }
 
@@ -56,12 +57,18 @@ export default function Home() {
 
   return (
     <>
-      <div className="flex justify-center mt-10">
+      <div className="flex justify-center mt-2">
         <div className="flex flex-col">
-          <div className="flex justify-center">
-            <div>
+          <div className="flex justify-center gap-5">
+      
+        <Notation
+          historyMovements={historyMovements}
+          historyMovementsState={historyMovementsState}
+        />
+     
+            {/* <div>
               <ShowCoordinates numbers={true} />
-            </div>
+            </div> */}
             <BoardWidget
               board={board}
               setHistoryMovementsState={setHistoryMovementsState}
@@ -72,19 +79,14 @@ export default function Home() {
               swapPlayer={swapPlayer}
             />
           </div>
-          <div className="flex justify-center">
+          {/* <div className="flex justify-center">
             <ShowCoordinates numbers={false} />
-          </div>
+          </div> */}
         </div>
         <Timer restart={restart} currentPlayer={currentPlayer} />
         {/* <button onClick={flipBoard}>Перевернуть доску</button> */}
       </div>
-      <div className="flex justify-center my-10">
-        <Notation
-          historyMovements={historyMovements}
-          historyMovementsState={historyMovementsState}
-        />
-      </div>
+
     </>
   );
 }

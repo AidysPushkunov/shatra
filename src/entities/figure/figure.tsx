@@ -45,10 +45,10 @@ const FigureEntities: React.FC<FigureProps> = ({ intent }) => {
       {intent.figure?.logo === "whiteShatra" ? (
         <Image
           image={image}
-          x={10}
-          y={10}
-          width={55}
-          height={55}
+          x={5}
+          y={5}
+          width={30}
+          height={30}
           alt="whiteShatra"
           ref={figureRef}
           opacity={intent.figure?.opacity}
@@ -56,10 +56,10 @@ const FigureEntities: React.FC<FigureProps> = ({ intent }) => {
       ) : intent.figure?.logo === "blackShatra" ? (
         <Image
           image={image}
-          x={10}
-          y={10}
-          width={55}
-          height={55}
+          x={5}
+          y={5}
+          width={30}
+          height={30}
           alt="whiteShatra"
           ref={figureRef}
           opacity={intent.figure?.opacity}
@@ -67,10 +67,10 @@ const FigureEntities: React.FC<FigureProps> = ({ intent }) => {
       ) : intent.figure?.logo === "whiteBiy" ? (
         <Image
           image={image}
-          x={10}
-          y={10}
-          width={55}
-          height={55}
+          x={5}
+          y={5}
+          width={30}
+          height={30}
           alt="whiteBiy"
           ref={figureRef}
           opacity={intent.figure?.opacity}
@@ -78,10 +78,10 @@ const FigureEntities: React.FC<FigureProps> = ({ intent }) => {
       ) : intent.figure?.logo === "blackBiy" ? (
         <Image
           image={image}
-          x={10}
-          y={10}
-          width={55}
-          height={55}
+          x={5}
+          y={5}
+          width={30}
+          height={30}
           alt="blackBiy"
           ref={figureRef}
           opacity={intent.figure?.opacity}
@@ -89,10 +89,10 @@ const FigureEntities: React.FC<FigureProps> = ({ intent }) => {
       ) : intent.figure?.logo === "whiteBaatyr" ? (
         <Image
           image={image}
-          x={10}
-          y={10}
-          width={55}
-          height={55}
+          x={5}
+          y={5}
+          width={30}
+          height={30}
           alt="whiteBaatyr"
           ref={figureRef}
           opacity={intent.figure?.opacity}
@@ -100,16 +100,16 @@ const FigureEntities: React.FC<FigureProps> = ({ intent }) => {
       ) : intent.figure?.logo === "blackBaatyr" ? (
         <Image
           image={image}
-          x={10}
-          y={10}
-          width={55}
-          height={55}
+          x={5}
+          y={5}
+          width={30}
+          height={30}
           alt="blackBaatyr"
           ref={figureRef}
           opacity={intent.figure?.opacity}
         />
       ) : (
-        <></>
+        null
       )}
     </>
   );

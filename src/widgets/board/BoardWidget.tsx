@@ -1,4 +1,4 @@
-import React from "react";
+import { useEffect, useState } from "react";
 
 import { Board } from "@/models/Board";
 import { ShowFigure } from "@/features/showFigure";
@@ -20,6 +20,9 @@ interface BoardProps {
   swapPlayer: () => void;
 }
 
+var SCENE_BASE_WIDTH = 280;
+var SCENE_BASE_HEIGHT = 560;
+
 const BoardWidget: React.FC<BoardProps> = ({
   board,
   setHistoryMovementsState,
@@ -29,19 +32,24 @@ const BoardWidget: React.FC<BoardProps> = ({
   updateBoard,
   swapPlayer,
 }) => {
-  const [selectedCell, setSelectedCell] = React.useState<Cell | null>(null);
-  const [checkedCell, setCheckedCell] = React.useState<Cell | null>(null);
+  const [selectedCell, setSelectedCell] = useState<Cell | null>(null);
+  const [checkedCell, setCheckedCell] = useState<Cell | null>(null);
 
-  const [state, setState] = React.useState<any[]>([]);
-  const [animatedFigure, setAnimateFigure] = React.useState<any>(null);
-  const [selectedCellItems, setSelectedCellItems] = React.useState<any>();
-  const [oldCellCoordinate, setOldCellCoordinate] = React.useState<any>();
+  const [state, setState] = useState<any[]>([]);
+  const [animatedFigure, setAnimateFigure] = useState<any>(null);
+  const [selectedCellItems, setSelectedCellItems] = useState<any>();
+  const [oldCellCoordinate, setOldCellCoordinate] = useState<any>();
 
-  React.useEffect(() => {
+  const [size, setSize] = useState({
+    width: window.innerWidth / 4.47,
+    height: window.innerHeight
+  });
+
+  useEffect(() => {
     setState(() => generateCanvasElements());
   }, [board]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (selectedCellItems) {
       const moveFigureTimer = setTimeout(() => {
         selectedCellItems?.selectedCell.moveFigure(selectedCellItems?.cell);
@@ -102,13 +110,13 @@ const BoardWidget: React.FC<BoardProps> = ({
 
         animatedFigure.to({
           x:
-            (figure.x - oldCellCoordinate.x) * 75 == 0
-              ? (figure.x - oldCellCoordinate.x) * 75 + 10
-              : (figure.x - oldCellCoordinate.x) * 75 + 10,
+            (figure.x - oldCellCoordinate.x) * 40 == 0
+              ? (figure.x - oldCellCoordinate.x) * 40 + 5
+              : (figure.x - oldCellCoordinate.x) * 40 + 5,
           y:
-            (figure.y - oldCellCoordinate.y) * 75 == 0
-              ? (figure.y - oldCellCoordinate.y) * 75 + 10
-              : (figure.y - oldCellCoordinate.y) * 75 + 10,
+            (figure.y - oldCellCoordinate.y) * 40 == 0
+              ? (figure.y - oldCellCoordinate.y) * 40 + 5
+              : (figure.y - oldCellCoordinate.y) * 40 + 5,
           duration: 0.3,
           onFinish: () => setAnimateFigure(null),
         });
@@ -183,7 +191,7 @@ const BoardWidget: React.FC<BoardProps> = ({
     }
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     highlightCells();
   }, [selectedCell]);
 
@@ -210,9 +218,69 @@ const BoardWidget: React.FC<BoardProps> = ({
     return arrayCanvasElements.flat();
   }
 
+  // useEffect(() => {
+
+  // //   function fitStageIntoParentContainer() {
+  // //     const container = document.querySelector('#stage-parent');
+
+  // //     if (container !== null && container instanceof HTMLElement) {
+  // // // now we need to fit stage into parent container
+  // // let containerWidth = container.offsetWidth;
+
+  // // // but we also make the full scene visible
+  // // // so we need to scale all objects on canvas
+  // // let scale = containerWidth / size.width;
+
+  // // setSize(size => ({
+  // //   width: size.width * scale,
+  // //   height: size.height * scale,
+  // //   scale: {
+  // //     x: scale,
+  // //     y: scale
+  // //   }
+  // // }));
+  // //     }
+    
+  // //   }
+
+  //   // fitStageIntoParentContainer();
+  //   // adapt the stage on any window resize
+
+  //   const checkSize = () => {
+  //     setSize(size => ({
+  //       ...size,
+  //       width: window.innerWidth,
+  //       height: window.innerHeight,
+  //     }));
+  // };
+
+  //   window.addEventListener('resize', checkSize);
+    
+  //   return () => {
+  //     window.removeEventListener('resize', checkSize);
+  //   };
+  // }, [])
+
+  useEffect(() => {
+    const checkSize = () => {
+      setSize({
+        width: window.innerWidth / 4.47,
+        height: window.innerHeight
+      });
+    };
+
+    window.addEventListener("resize", checkSize);
+    return () => window.removeEventListener("resize", checkSize);
+  }, []);
+
+  const scale = size.width / SCENE_BASE_WIDTH;
+  // const scale = 1
+
+
   return (
     <>
-      <Stage width={525} height={1050} className="flex flex-wrap w-[525px]">
+      <Stage id="stage-parent" width={size.width} height={size.height}  scaleX={scale}
+      scaleY={scale}>
         <Layer>{state}</Layer>
       </Stage>
     </>
