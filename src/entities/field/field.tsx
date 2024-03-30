@@ -13,6 +13,14 @@ const fieldIntent = {
   attackFigure: "green",
 };
 
+
+// black: "#769656",
+// white: "#EEEED2",
+// active: "rgba(123, 97, 255, 0.5)",
+// activeField: "#BAAEFE",
+// fortress: "",
+// attackFigure: "red",
+
 type FieldProps = {
   index: number;
   indexRow: number;

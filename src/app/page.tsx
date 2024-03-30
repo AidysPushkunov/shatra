@@ -57,15 +57,14 @@ export default function Home() {
 
   return (
     <>
-      <div className="flex justify-center mt-2">
-        <div className="flex flex-col">
-          <div className="flex justify-center gap-5 max-w-[70vw]">
+      <div className="w-[70px] h-[100vh] bg-white drop-shadow-md  fixed">
+
+      </div>
+      <div className="flex justify-center ml-[70px]">
+        {/* <div className="flex flex-col"> */}
+          <div className="flex justify-center gap-20">
       
-        {/* <Notation
-          historyMovements={historyMovements}
-          historyMovementsState={historyMovementsState}
-        /> */}
-     
+
             {/* <div>
               <ShowCoordinates numbers={true} />
             </div> */}
@@ -79,6 +78,15 @@ export default function Home() {
               updateBoard={updateBoard}
               swapPlayer={swapPlayer}
             />
+
+<div className="flex items-start h-full mt-5">
+      <Notation
+          historyMovements={historyMovements}
+          historyMovementsState={historyMovementsState}
+          currentPlayer={currentPlayer}
+        />
+      </div>
+     
             {/* </div> */}
 {/* <Timer restart={restart} currentPlayer={currentPlayer} /> */}
           </div>
@@ -88,7 +96,7 @@ export default function Home() {
         </div>
 
         {/* <button onClick={flipBoard}>Перевернуть доску</button> */}
-      </div>
+      {/* </div> */}
 
     </>
   );

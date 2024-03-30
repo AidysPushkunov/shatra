@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-
 import { Board } from "@/models/Board";
 import { ShowFigure } from "@/features/showFigure";
 import { Cell } from "@/models/Cell";
@@ -19,6 +18,7 @@ interface BoardProps {
   updateBoard: () => void;
   swapPlayer: () => void;
 }
+
 
 const SCENE_BASE_WIDTH = 280; // 28
 const SCENE_BASE_HEIGHT = 560; // 56
@@ -44,6 +44,13 @@ const BoardWidget: React.FC<BoardProps> = ({
     width: SCENE_BASE_WIDTH,
     height: SCENE_BASE_HEIGHT,
   });
+
+  let moveSound: any;
+
+  if (typeof window !== 'undefined') { 
+    moveSound = new Audio('./sounds/shatra_sound.mp3')
+  }
+
 
   useEffect(() => {
     setState(() => generateCanvasElements());
@@ -153,13 +160,16 @@ const BoardWidget: React.FC<BoardProps> = ({
           cell.y - selectedCell.y === -1 ||
           checkedCell?.infortress
         ) {
+          moveSound.play();
           swapPlayer();
           setSelectedCell(null);
         } else {
           if (!board.canEatAbility(cell)) {
+            moveSound.play();
             swapPlayer();
             setSelectedCell(null);
           } else {
+            moveSound.play();
             setSelectedCell(cell);
             animatedChangePositionFigure(cell, event, false);
           }
@@ -181,7 +191,6 @@ const BoardWidget: React.FC<BoardProps> = ({
         });
 
         cell.setEatFieldAttack(null, false);
-
         setCheckedCell(cell);
         setHistoryMovementsState(historyMovements);
 
@@ -248,12 +257,14 @@ const BoardWidget: React.FC<BoardProps> = ({
   };
 
   return (
+    <div id="stage-parent-container">
      <div id="stage-parent" >
       <Stage width={size.width} height={size.height}
       scale={getScale()}
       >
         <Layer>{state}</Layer>
       </Stage>
+      </div>
       </div>
   );
 };
