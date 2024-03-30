@@ -20,8 +20,8 @@ interface BoardProps {
   swapPlayer: () => void;
 }
 
-var SCENE_BASE_WIDTH = 280;
-var SCENE_BASE_HEIGHT = 560;
+const SCENE_BASE_WIDTH = 280; // 28
+const SCENE_BASE_HEIGHT = 560; // 56
 
 const BoardWidget: React.FC<BoardProps> = ({
   board,
@@ -41,8 +41,8 @@ const BoardWidget: React.FC<BoardProps> = ({
   const [oldCellCoordinate, setOldCellCoordinate] = useState<any>();
 
   const [size, setSize] = useState({
-    width: window.innerWidth / 4.47,
-    height: window.innerHeight
+    width: SCENE_BASE_WIDTH,
+    height: SCENE_BASE_HEIGHT,
   });
 
   useEffect(() => {
@@ -218,72 +218,43 @@ const BoardWidget: React.FC<BoardProps> = ({
     return arrayCanvasElements.flat();
   }
 
-  // useEffect(() => {
-
-  // //   function fitStageIntoParentContainer() {
-  // //     const container = document.querySelector('#stage-parent');
-
-  // //     if (container !== null && container instanceof HTMLElement) {
-  // // // now we need to fit stage into parent container
-  // // let containerWidth = container.offsetWidth;
-
-  // // // but we also make the full scene visible
-  // // // so we need to scale all objects on canvas
-  // // let scale = containerWidth / size.width;
-
-  // // setSize(size => ({
-  // //   width: size.width * scale,
-  // //   height: size.height * scale,
-  // //   scale: {
-  // //     x: scale,
-  // //     y: scale
-  // //   }
-  // // }));
-  // //     }
-    
-  // //   }
-
-  //   // fitStageIntoParentContainer();
-  //   // adapt the stage on any window resize
-
-  //   const checkSize = () => {
-  //     setSize(size => ({
-  //       ...size,
-  //       width: window.innerWidth,
-  //       height: window.innerHeight,
-  //     }));
-  // };
-
-  //   window.addEventListener('resize', checkSize);
-    
-  //   return () => {
-  //     window.removeEventListener('resize', checkSize);
-  //   };
-  // }, [])
-
   useEffect(() => {
-    const checkSize = () => {
-      setSize({
-        width: window.innerWidth / 4.47,
-        height: window.innerHeight
-      });
+    const handleResize = () => {
+      const container = document.getElementById("stage-parent");
+      if (container) {
+        setSize({
+          width: container.offsetWidth,
+          height: container.offsetHeight,
+        });
+      }
     };
 
-    window.addEventListener("resize", checkSize);
-    return () => window.removeEventListener("resize", checkSize);
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const scale = size.width / SCENE_BASE_WIDTH;
-  // const scale = 1
 
+  const getMaxScale = () => {
+    const scaleX = size.width / SCENE_BASE_WIDTH;
+    const scaleY = size.height / SCENE_BASE_HEIGHT;
+
+    return Math.min(scaleX, scaleY);
+  };
+
+  const getScale = () => {
+    const maxScale = getMaxScale();
+    return { x: maxScale, y: maxScale };
+  };
 
   return (
-    <>
-      <Stage id="stage-parent" width={size.width} height={size.height}  scaleX={scale}
-      scaleY={scale}>
+     <div id="stage-parent" >
+      <Stage width={size.width} height={size.height}
+      scale={getScale()}
+      >
         <Layer>{state}</Layer>
       </Stage>
-    </>
+      </div>
   );
 };
 

@@ -50,7 +50,7 @@ const Notation: React.FC<NotationProp> = ({
   let numberMove = 1;
 
   return (
-    <div className="grid grid-cols-[10%_45%_45%] content-start overflow-y-scroll scrollbar-hide bg-slate-100 w-[300px] max-h-40 p-[10px] rounded-md">
+    <div className="grid grid-cols-[10%_45%_45%] content-start overflow-y-scroll scrollbar-hide bg-slate-100 w-[30vw] max-h-[20vh] p-[10px] rounded-md">
       {historyMovementsState.map((e: any, index: any) => {
         if (e.currentPlayer === Colors.WHITE) {
           e.checkedX

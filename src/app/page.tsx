@@ -59,16 +59,17 @@ export default function Home() {
     <>
       <div className="flex justify-center mt-2">
         <div className="flex flex-col">
-          <div className="flex justify-center gap-5">
+          <div className="flex justify-center gap-5 max-w-[70vw]">
       
-        <Notation
+        {/* <Notation
           historyMovements={historyMovements}
           historyMovementsState={historyMovementsState}
-        />
+        /> */}
      
             {/* <div>
               <ShowCoordinates numbers={true} />
             </div> */}
+            {/* <div  className="w-full h-full max-w-[30vw]"> */}
             <BoardWidget
               board={board}
               setHistoryMovementsState={setHistoryMovementsState}
@@ -78,12 +79,14 @@ export default function Home() {
               updateBoard={updateBoard}
               swapPlayer={swapPlayer}
             />
+            {/* </div> */}
+{/* <Timer restart={restart} currentPlayer={currentPlayer} /> */}
           </div>
           {/* <div className="flex justify-center">
             <ShowCoordinates numbers={false} />
           </div> */}
         </div>
-        <Timer restart={restart} currentPlayer={currentPlayer} />
+
         {/* <button onClick={flipBoard}>Перевернуть доску</button> */}
       </div>
 

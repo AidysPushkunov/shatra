@@ -55,7 +55,7 @@ const Timer: React.FC<TimerProps> = ({ currentPlayer, restart }) => {
   };
 
   return (
-    <div className="flex flex-col justify-between ml-20 w-[200px] text-sm">
+    <div className="flex flex-col justify-between max-h-[100vh] w-[20vw] text-sm bg-stone-500">
       <div>
         <div className="font-semibold">Surname N.</div>
         <div className="flex items-center">

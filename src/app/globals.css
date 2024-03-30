@@ -2,8 +2,36 @@
 @tailwind components;
 @tailwind utilities;
 
-
+/* 
 body {
     overflow-x: hidden;
-    overflow-y: hidden
+    overflow-y: hidden;
+} */
+
+
+/* === Adaptive for canvas board game === */
+
+#stage-parent {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 100%;
+  max-height: 100%;
 }
+
+@media screen and (min-width: 280px) {
+  #stage-parent {
+    width: 280px; /* Ширина доски */
+    height: 560px; /* Высота доски */
+  }
+}
+
+@media screen and (max-width: 280px) {
+  #stage-parent {
+    width: 100%;
+    height: auto;
+  }
+}
+
+  /* ================================  */
