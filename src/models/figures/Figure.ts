@@ -26,6 +26,7 @@ export class Figure {
   opacity: number;
   eaten: boolean;
 
+
   constructor(color: Colors, cell: Cell) {
     this.color = color;
     this.cell = cell;
@@ -36,6 +37,7 @@ export class Figure {
     this.opacity = 1;
     this.eaten = false;
   }
+  
 
   changeOpacity(opacity: number) {
     this.opacity = opacity;
@@ -50,10 +52,6 @@ export class Figure {
     if (target.color === Colors.FORTRESS) {
       return false;
     }
-
-    // let x: Boolean | Cell = target.canEat(target);
-
-    // x.figure ? false : true;
 
     return true;
   }

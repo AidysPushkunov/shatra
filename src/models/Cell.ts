@@ -15,6 +15,8 @@ export class Cell {
   available: boolean;
   id: number;
   eatFieldAttack: Boolean;
+  coordinate: string;
+  isBoardFlipped: boolean = false;
 
   constructor(
     board: Board,
@@ -22,7 +24,8 @@ export class Cell {
     y: number,
     color: Colors,
     inFortress: boolean,
-    figure: Figure | null
+    figure: Figure | null,
+    coordinate: string
   ) {
     this.x = x;
     this.y = y;
@@ -33,6 +36,11 @@ export class Cell {
     this.available = false;
     this.id = Math.random();
     this.eatFieldAttack = false;
+    this.coordinate = coordinate
+  }
+
+  changeFlippedBoard() {
+    this.isBoardFlipped = !this.isBoardFlipped;
   }
 
   setEatFieldAttack(cell: Cell | null, activate: boolean): void {

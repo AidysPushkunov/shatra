@@ -2,7 +2,7 @@
 
 import { Cell } from "@/models/Cell";
 import React from "react";
-import { Rect, Circle, Group } from "react-konva";
+import { Rect, Circle, Group, Text } from "react-konva";
 
 const fieldIntent = {
   black: "#b7c0d8",
@@ -13,13 +13,14 @@ const fieldIntent = {
   attackFigure: "green",
 };
 
-
+// const fieldIntent = {
 // black: "#769656",
 // white: "#EEEED2",
 // active: "rgba(123, 97, 255, 0.5)",
 // activeField: "#BAAEFE",
 // fortress: "",
 // attackFigure: "red",
+// };
 
 type FieldProps = {
   index: number;
@@ -63,6 +64,7 @@ const Field: React.FC<FieldProps> = ({
         height={40}
         fill={selected ? fieldIntent.activeField : fieldIntent[intent]}
       />
+   <Text x={1} y={1} fontSize={7} text={cell.coordinate} fill="gray" />
       {intent === "fortress"
         ? null
         : cell.available &&

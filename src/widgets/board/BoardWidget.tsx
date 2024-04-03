@@ -17,11 +17,12 @@ interface BoardProps {
   currentPlayer: Player | null;
   updateBoard: () => void;
   swapPlayer: () => void;
+  onUpdateBoard: (board: Board) => void;
 }
 
 
-const SCENE_BASE_WIDTH = 280; // 28
-const SCENE_BASE_HEIGHT = 560; // 56
+const SCENE_BASE_WIDTH = 280;
+const SCENE_BASE_HEIGHT = 560;
 
 const BoardWidget: React.FC<BoardProps> = ({
   board,
@@ -31,6 +32,7 @@ const BoardWidget: React.FC<BoardProps> = ({
   currentPlayer,
   updateBoard,
   swapPlayer,
+  onUpdateBoard,
 }) => {
   const [selectedCell, setSelectedCell] = useState<Cell | null>(null);
   const [checkedCell, setCheckedCell] = useState<Cell | null>(null);
@@ -51,10 +53,6 @@ const BoardWidget: React.FC<BoardProps> = ({
     moveSound = new Audio('./sounds/shatra_sound.mp3')
   }
 
-
-  useEffect(() => {
-    setState(() => generateCanvasElements());
-  }, [board]);
 
   useEffect(() => {
     if (selectedCellItems) {
@@ -143,6 +141,7 @@ const BoardWidget: React.FC<BoardProps> = ({
       historyMovements.push({
         moveFigure: true,
         currentPlayer: currentPlayer?.color,
+        coordinate: cell.coordinate,
         movedX: x,
         movedY: y,
       });
@@ -186,6 +185,7 @@ const BoardWidget: React.FC<BoardProps> = ({
         historyMovements.push({
           moveFigure: false,
           currentPlayer: currentPlayer?.color,
+          coordinateChecked: cell.coordinate,
           checkedX: x,
           checkedY: y,
         });
@@ -208,6 +208,13 @@ const BoardWidget: React.FC<BoardProps> = ({
     board.highlightCells(selectedCell);
     updateBoard();
   }
+
+
+  
+  useEffect(() => {
+    setState(() => generateCanvasElements());
+    onUpdateBoard(board); 
+  }, [board]);
 
   function generateCanvasElements() {
     const arrayCanvasElements: any = board.cells.map((row, index) =>

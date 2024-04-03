@@ -1,6 +1,7 @@
 "use client";
 
-import React from "react";
+import {useState, useEffect} from "react";
+import Image from 'next/image';
 
 import { BoardWidget } from "@/widgets/board";
 import { Board } from "@/models/Board";
@@ -10,32 +11,64 @@ import { Timer } from "@/widgets/timer";
 import { ShowCoordinates } from "@/features/showCoordinates";
 import { Notation } from "@/widgets/notation";
 
+import _ from 'lodash';
+
 let historyMovements: any[] = [];
 
+
 export default function Home() {
+
   const [historyMovementsState, setHistoryMovementsState] =
-    React.useState(historyMovements);
-  const [board, setBoard] = React.useState(new Board());
+    useState(historyMovements);
+  const [whitePlayer] = useState(new Player(Colors.WHITE));
+  const [blackPlayer] = useState(new Player(Colors.BLACK));
+  const [currentPlayer, setCurrentPlayer] = useState<Player | null>(null);
 
-  const [whitePlayer] = React.useState(new Player(Colors.WHITE));
 
-  const [blackPlayer] = React.useState(new Player(Colors.BLACK));
-  const [currentPlayer, setCurrentPlayer] = React.useState<Player | null>(null);
+  const [flipped, setFlipped] = useState(false)
+  const [flippedCorrect, setFlippedCorrect] = useState(false)
+ 
+  const [board, setBoard] = useState(new Board());
 
-  React.useEffect((): void => {
+
+  useEffect(() => {
+    if (!flipped && localStorage.getItem('flippedBoard') === 'true') {
+      setFlippedCorrect(true);
+    }
+  }, [])
+
+
+  useEffect(() => {
+    if (flippedCorrect) {
+      flipBoard()
+    }
+  }, [flippedCorrect])
+
+
+  useEffect(() => {
+    setBoard(prevBoard => {
+      const newBoard = _.cloneDeep(prevBoard);
+      newBoard.flipBoard();
+      return newBoard;
+    });
+
+    localStorage.setItem('flippedBoard', flipped.toString()); 
+}, [flipped])
+
+
+
+  function flipBoard(): void {
+    setFlipped(!flipped);
+  }
+
+  useEffect((): void => {
     restart();
     setCurrentPlayer(whitePlayer);
   }, []);
 
-  // function flipBoard(): void {
-  //   const newBoard = board.getCopyBoard();
-  //   newBoard.flipBoard();
-  //   setBoard(newBoard);
-  // }
 
   function updateBoard(): void {
     const newBoard = board.getCopyBoard();
-    console.log('This is board: ', newBoard)
     setBoard(newBoard);
   }
 
@@ -77,15 +110,19 @@ export default function Home() {
               currentPlayer={currentPlayer}
               updateBoard={updateBoard}
               swapPlayer={swapPlayer}
+              onUpdateBoard={(updatedBoard) => setBoard(updatedBoard)}
             />
 
 <div className="flex items-start h-full mt-5">
+  <div>
       <Notation
-          historyMovements={historyMovements}
-          historyMovementsState={historyMovementsState}
-          currentPlayer={currentPlayer}
-        />
-      </div>
+        historyMovements={historyMovements}
+        historyMovementsState={historyMovementsState}
+        currentPlayer={currentPlayer}
+      />
+      <Image className='cursor-pointer mt-5 hover:rotate-[-360deg] duration-300' src={'/images/reverse.svg'} width={30} height={30} alt={'reverse'} onClick={() => flipBoard()} />
+    </div>
+  </div>
      
             {/* </div> */}
 {/* <Timer restart={restart} currentPlayer={currentPlayer} /> */}
@@ -94,8 +131,6 @@ export default function Home() {
             <ShowCoordinates numbers={false} />
           </div> */}
         </div>
-
-        {/* <button onClick={flipBoard}>Перевернуть доску</button> */}
       {/* </div> */}
 
     </>

@@ -1,6 +1,7 @@
 import React from "react";
 import { NotationCell } from "@/entities/notationCell";
 import { Colors } from "@/models/Colors";
+import { Coordinates } from '@/entities/coordinates';
 
 const notationSymbolY: any[] = [
   "14",
@@ -68,16 +69,12 @@ const Notation: React.FC<NotationProp> = ({
       {historyMovementsState.map((e: any, index: any) => {
         if (e.currentPlayer === Colors.WHITE) {
           e.checkedX
-            ? (checkedFigureCoordinateWhite =
-                notationSymbolX[e.checkedX] + notationSymbolY[e.checkedY])
-            : (movedFigureCoordinateWhite =
-                notationSymbolX[e.movedX] + notationSymbolY[e.movedY]);
+            ? (checkedFigureCoordinateWhite = e.coordinateChecked)
+            : (movedFigureCoordinateWhite = e.coordinate);
         } else {
           e.checkedX
-            ? (checkedFigureCoordinateBlack =
-                notationSymbolX[e.checkedX] + notationSymbolY[e.checkedY])
-            : (movedFigureCoordinateBlack =
-                notationSymbolX[e.movedX] + notationSymbolY[e.movedY]);
+            ? (checkedFigureCoordinateBlack = e.coordinateChecked)
+            : (movedFigureCoordinateBlack = e.coordinate);
         }
 
         if (e.currentPlayer === Colors.WHITE) {
