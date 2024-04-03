@@ -1,7 +1,6 @@
 "use client";
 
 import {useState, useEffect} from "react";
-import Image from 'next/image';
 
 import { BoardWidget } from "@/widgets/board";
 import { Board } from "@/models/Board";
@@ -11,7 +10,7 @@ import { Timer } from "@/widgets/timer";
 import { ShowCoordinates } from "@/features/showCoordinates";
 import { Notation } from "@/widgets/notation";
 
-import _ from 'lodash';
+import { FlippingBoard } from "@/features/flippingBoard";
 
 let historyMovements: any[] = [];
 
@@ -22,44 +21,10 @@ export default function Home() {
     useState(historyMovements);
   const [whitePlayer] = useState(new Player(Colors.WHITE));
   const [blackPlayer] = useState(new Player(Colors.BLACK));
-  const [currentPlayer, setCurrentPlayer] = useState<Player | null>(null);
-
-
-  const [flipped, setFlipped] = useState(false)
-  const [flippedCorrect, setFlippedCorrect] = useState(false)
- 
+  const [currentPlayer, setCurrentPlayer] = useState<Player | null>(null); 
   const [board, setBoard] = useState(new Board());
 
 
-  useEffect(() => {
-    if (!flipped && localStorage.getItem('flippedBoard') === 'true') {
-      setFlippedCorrect(true);
-    }
-  }, [])
-
-
-  useEffect(() => {
-    if (flippedCorrect) {
-      flipBoard()
-    }
-  }, [flippedCorrect])
-
-
-  useEffect(() => {
-    setBoard(prevBoard => {
-      const newBoard = _.cloneDeep(prevBoard);
-      newBoard.flipBoard();
-      return newBoard;
-    });
-
-    localStorage.setItem('flippedBoard', flipped.toString()); 
-}, [flipped])
-
-
-
-  function flipBoard(): void {
-    setFlipped(!flipped);
-  }
 
   useEffect((): void => {
     restart();
@@ -120,7 +85,7 @@ export default function Home() {
         historyMovementsState={historyMovementsState}
         currentPlayer={currentPlayer}
       />
-      <Image className='cursor-pointer mt-5 hover:rotate-[-360deg] duration-300' src={'/images/reverse.svg'} width={30} height={30} alt={'reverse'} onClick={() => flipBoard()} />
+      <FlippingBoard setBoard={setBoard} />
     </div>
   </div>
      
