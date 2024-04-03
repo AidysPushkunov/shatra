@@ -1,6 +1,7 @@
 import React from "react";
 import { NotationCell } from "@/entities/notationCell";
 import { Colors } from "@/models/Colors";
+import { Coordinates } from '@/entities/coordinates';
 
 const notationSymbolY: any[] = [
   "14",
@@ -29,11 +30,13 @@ const movementsNotation: any[] = [
 type NotationProp = {
   historyMovements: any;
   historyMovementsState: any;
+  currentPlayer: any;
 };
 
 const Notation: React.FC<NotationProp> = ({
   historyMovements,
   historyMovementsState,
+  currentPlayer
 }) => {
   historyMovements.map((e: any, index: any) => {
     movementsNotation.push({
@@ -50,20 +53,28 @@ const Notation: React.FC<NotationProp> = ({
   let numberMove = 1;
 
   return (
-    <div className="grid grid-cols-[10%_45%_45%] content-start overflow-y-scroll scrollbar-hide bg-slate-100 w-[30vw] max-h-[20vh] p-[10px] rounded-md">
+    <div className="flex-col justify-between bg-white drop-shadow-lg  w-[30vw] h-[40vh] rounded-md">
+      <div className="flex justify-start border-t-4 border-gray-100 gap-5 px-2 py-2 items-center">
+      <span className="relative flex h-3 w-3">
+            {currentPlayer?.color === Colors.BLACK ? (
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+            ) : (
+              <></>
+            )}
+            <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+          </span>
+          <div>User Two</div>
+      </div>
+      <div className="grid grid-cols-[7%_45%_45%] w-[30vw] h-[25vh] gap-1 content-start overflow-y-scroll overflow-x-hidden scrollbar-hide">
       {historyMovementsState.map((e: any, index: any) => {
         if (e.currentPlayer === Colors.WHITE) {
           e.checkedX
-            ? (checkedFigureCoordinateWhite =
-                notationSymbolX[e.checkedX] + notationSymbolY[e.checkedY])
-            : (movedFigureCoordinateWhite =
-                notationSymbolX[e.movedX] + notationSymbolY[e.movedY]);
+            ? (checkedFigureCoordinateWhite = e.coordinateChecked)
+            : (movedFigureCoordinateWhite = e.coordinate);
         } else {
           e.checkedX
-            ? (checkedFigureCoordinateBlack =
-                notationSymbolX[e.checkedX] + notationSymbolY[e.checkedY])
-            : (movedFigureCoordinateBlack =
-                notationSymbolX[e.movedX] + notationSymbolY[e.movedY]);
+            ? (checkedFigureCoordinateBlack = e.coordinateChecked)
+            : (movedFigureCoordinateBlack = e.coordinate);
         }
 
         if (e.currentPlayer === Colors.WHITE) {
@@ -93,6 +104,20 @@ const Notation: React.FC<NotationProp> = ({
 
         return null;
       })}
+  
+      </div>
+
+      <div className="flex justify-start gap-5 border-b-4 border-gray-100 px-2 py-2 items-center">
+      <span className="relative flex h-3 w-3">
+            {currentPlayer?.color === Colors.WHITE ? (
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+            ) : (
+              <></>
+            )}
+            <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+          </span>
+          <div>User One</div>
+      </div>
     </div>
   );
 };

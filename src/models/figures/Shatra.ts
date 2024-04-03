@@ -2,15 +2,22 @@ import { Cell } from "../Cell";
 import { Colors } from "../Colors";
 import { Direction } from "../Direction";
 import { Figure, FigureNames } from "./Figure";
+import { Board } from "../Board"; 
 
 export class Shatra extends Figure {
+  board: Board;
   biyRules: boolean;
 
-  constructor(color: Colors, cell: Cell) {
+  constructor(color: Colors, cell: Cell, board: Board) {
     super(color, cell);
     this.logo = color === Colors.BLACK ? "blackShatra" : "whiteShatra";
     this.name = FigureNames.SHATRA;
     this.biyRules = false;
+    this.board = board;
+  }
+
+  updateBoardReference(board: Board): void {
+    this.board = board;
   }
 
   setBiyRules(active: boolean): void {
@@ -22,8 +29,21 @@ export class Shatra extends Figure {
   canMove(target: Cell): boolean {
     if (!super.canMove(target)) return false;
 
-    let direction = this.cell.figure?.color === Colors.BLACK ? 1 : -1;
-    // direction = !this.cell.board.isBoardFlipped ? -1 : 1;
+    // this.cell.figure?.color === Colors.BLACK ? 1 : -1;
+
+    let direction;
+
+
+    const flippedBoardValue = localStorage.getItem('flippedBoard');
+
+
+
+    if ( flippedBoardValue === 'true') {
+      direction = this.cell.figure?.color === Colors.BLACK ? -1 : 1;;
+    } else {
+      direction = this.cell.figure?.color === Colors.BLACK ? 1 : -1;
+    }
+
 
     if (
       (this.cell.x === 3 && this.cell.y === 3) ||

@@ -6,11 +6,55 @@ import { Shatra } from "./figures/Shatra";
 import { Figure } from "./figures/Figure";
 import { Direction } from "./Direction";
 
+
+const notationSymbolY: string[] = [
+  "14",
+  "13",
+  "12",
+  "11",
+  "10",
+  "9",
+  "8",
+  "7",
+  "6",
+  "5",
+  "4",
+  "3",
+  "2",
+  "1",
+];
+
+const notationSymbolX: string[] = ["A", "B", "C", "D", "E", "F", "G"];
+
+
 export class Board {
   cells: Cell[][] = [];
   lostBlackFigures: Figure[] = [];
   lostWhiteFigures: Figure[] = [];
-  isBoardFlipped: boolean = false;
+
+  public flipBoard() {
+    this.cells = this.cells.reverse();
+    
+    for (let i = 0; i < this.cells.length; i++) {
+      for (let j = 0; j < this.cells[i].length; j++) {
+        this.cells[i][j].x = j;
+        this.cells[i][j].y = i;
+      }
+    }
+
+    for (let i = 0; i < this.cells.length; i++) {
+      this.cells[i] = this.cells[i].reverse();
+      for (let j = 0; j < this.cells[i].length; j++) {
+        this.cells[i][j].x = j;
+        this.cells[i][j].y = i;
+      }
+    }
+
+    this.lostBlackFigures = this.lostBlackFigures.reverse();
+    this.lostWhiteFigures = this.lostWhiteFigures.reverse();
+  }
+
+
 
   public initCells() {
     for (let i = 0; i < 14; i++) {
@@ -37,7 +81,7 @@ export class Board {
             (i === 13 && j === 6) ||
             (i === 13 && j === 0)
           ) {
-            row.push(new Cell(this, j, i, Colors.FORTRESS, false, null));
+            row.push(new Cell(this, j, i, Colors.FORTRESS, false, null, ""));
           } else {
             if (
               (i === 0 && j >= 2 && j <= 4) ||
@@ -49,9 +93,9 @@ export class Board {
               (i === 11 && j >= 2 && j <= 4) ||
               (i === 10 && j === 3)
             ) {
-              row.push(new Cell(this, j, i, Colors.WHITE, true, null));
+              row.push(new Cell(this, j, i, Colors.WHITE, true, null, notationSymbolX[j] + notationSymbolY[i]));
             } else {
-              row.push(new Cell(this, j, i, Colors.WHITE, false, null));
+              row.push(new Cell(this, j, i, Colors.WHITE, false, null, notationSymbolX[j] + notationSymbolY[i]));
             }
           }
         } else {
@@ -78,7 +122,7 @@ export class Board {
             (i === 12 && j === 0) ||
             (i === 13 && j === 1)
           ) {
-            row.push(new Cell(this, j, i, Colors.FORTRESS, false, null));
+            row.push(new Cell(this, j, i, Colors.FORTRESS, false, null, ""));
           } else {
             if (
               (i === 0 && j >= 2 && j <= 4) ||
@@ -90,9 +134,9 @@ export class Board {
               (i === 11 && j >= 2 && j <= 4) ||
               (i === 10 && j === 3)
             ) {
-              row.push(new Cell(this, j, i, Colors.BLACK, true, null));
+              row.push(new Cell(this, j, i, Colors.BLACK, true, null, notationSymbolX[j] + notationSymbolY[i]));
             } else {
-              row.push(new Cell(this, j, i, Colors.BLACK, false, null));
+              row.push(new Cell(this, j, i, Colors.BLACK, false, null, notationSymbolX[j] + notationSymbolY[i]));
             }
           }
         }
@@ -101,29 +145,6 @@ export class Board {
     }
   }
 
-  public flipBoard() {
-    this.cells = this.cells.reverse();
-
-    for (let i = 0; i < this.cells.length; i++) {
-      for (let j = 0; j < this.cells[i].length; j++) {
-        this.cells[i][j].x = j;
-        this.cells[i][j].y = i;
-      }
-    }
-
-    for (let i = 0; i < this.cells.length; i++) {
-      this.cells[i] = this.cells[i].reverse();
-      for (let j = 0; j < this.cells[i].length; j++) {
-        this.cells[i][j].x = j;
-        this.cells[i][j].y = i;
-      }
-    }
-
-    this.lostBlackFigures = this.lostBlackFigures.reverse();
-    this.lostWhiteFigures = this.lostWhiteFigures.reverse();
-
-    this.isBoardFlipped = this.isBoardFlipped === true ? false : true;
-  }
 
   public getCopyBoard(): Board {
     const newBoard = new Board();
@@ -320,21 +341,21 @@ export class Board {
 
   private addShatra() {
     for (let i = 2; i <= 4; i++) {
-      new Shatra(Colors.BLACK, this.getCell(i, 0));
-      new Shatra(Colors.BLACK, this.getCell(i, 1));
-      new Shatra(Colors.BLACK, this.getCell(i, 2));
+      new Shatra(Colors.BLACK, this.getCell(i, 0) , this) ;
+      new Shatra(Colors.BLACK, this.getCell(i, 1) , this) ;
+      new Shatra(Colors.BLACK, this.getCell(i, 2) , this) ;
 
-      new Shatra(Colors.WHITE, this.getCell(i, 11));
-      new Shatra(Colors.WHITE, this.getCell(i, 12));
-      new Shatra(Colors.WHITE, this.getCell(i, 13));
+      new Shatra(Colors.WHITE, this.getCell(i, 11), this );
+      new Shatra(Colors.WHITE, this.getCell(i, 12), this );
+      new Shatra(Colors.WHITE, this.getCell(i, 13), this );
     }
 
     for (let i = 0; i < 7; i++) {
-      new Shatra(Colors.BLACK, this.getCell(i, 4));
-      new Shatra(Colors.BLACK, this.getCell(i, 5));
+      new Shatra(Colors.BLACK, this.getCell(i, 4) , this) ;
+      new Shatra(Colors.BLACK, this.getCell(i, 5) , this) ;
 
-      new Shatra(Colors.WHITE, this.getCell(i, 8));
-      new Shatra(Colors.WHITE, this.getCell(i, 9));
+      new Shatra(Colors.WHITE, this.getCell(i, 8) , this) ;
+      new Shatra(Colors.WHITE, this.getCell(i, 9) , this) ;
     }
   }
 

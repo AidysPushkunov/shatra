@@ -55,7 +55,7 @@ const Timer: React.FC<TimerProps> = ({ currentPlayer, restart }) => {
   };
 
   return (
-    <div className="flex flex-col justify-between max-h-[100vh] w-[20vw] text-sm bg-stone-500">
+    <div className="flex flex-col justify-between my-auto h-[95vh] max-h-[95vh] w-[50vw] text-sm">
       <div>
         <div className="font-semibold">Surname N.</div>
         <div className="flex items-center">
@@ -84,7 +84,7 @@ const Timer: React.FC<TimerProps> = ({ currentPlayer, restart }) => {
         <button onClick={handleRestart}>Restart game</button>
       </div> */}
 
-      <div className="mb-20">
+      <div className="">
         <div className="font-semibold">Amyrov A.</div>
         <div className="flex items-center">
           <span className="relative flex h-2 w-2">
