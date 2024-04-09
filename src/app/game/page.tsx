@@ -131,8 +131,8 @@ export default function Home() {
 
       <Suspense fallback={<Loading />}>
         <Menu />
-        <div className="flex justify-center ml-[70px]">
-          <div className="md:flex md:justify-center gap-20">
+        <div className="flex justify-center">
+          <div className="flex justify-center">
 
             <BoardWidget
               board={board}
@@ -145,7 +145,7 @@ export default function Home() {
               onUpdateBoard={(updatedBoard) => setBoard(updatedBoard)}
             />
 
-            <div className="flex items-start h-full mt-5">
+            {/* <div className="flex items-start h-full mt-5">
               <div>
                 <Notation
                   historyMovements={historyMovements}
@@ -154,7 +154,7 @@ export default function Home() {
                 />
                 <FlippingBoard setBoard={setBoard} />
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </Suspense>

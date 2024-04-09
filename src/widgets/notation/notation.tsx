@@ -1,31 +1,7 @@
 import React from "react";
 import { NotationCell } from "@/entities/notationCell";
 import { Colors } from "@/models/Colors";
-import { Coordinates } from '@/entities/coordinates';
 
-const notationSymbolY: any[] = [
-  "14",
-  "13",
-  "12",
-  "11",
-  "10",
-  "9",
-  "8",
-  "7",
-  "6",
-  "5",
-  "4",
-  "3",
-  "2",
-  "1",
-];
-
-const notationSymbolX: any[] = ["A", "B", "C", "D", "E", "F", "G"];
-
-const movementsNotation: any[] = [
-  { number: 1, whiteMove: "B6-A7", blackMove: "B9-A8" },
-  { number: 2, whiteMove: "B6-A7", blackMove: "B9-A8" },
-];
 
 type NotationProp = {
   historyMovements: any;
@@ -34,17 +10,9 @@ type NotationProp = {
 };
 
 const Notation: React.FC<NotationProp> = ({
-  historyMovements,
   historyMovementsState,
   currentPlayer
 }) => {
-  historyMovements.map((e: any, index: any) => {
-    movementsNotation.push({
-      number: index,
-      whiteMove: notationSymbolY[e.y] + notationSymbolX[e.x],
-      blackMove: "B9-A8",
-    });
-  });
 
   let checkedFigureCoordinateWhite: any;
   let movedFigureCoordinateWhite: any;
@@ -65,7 +33,7 @@ const Notation: React.FC<NotationProp> = ({
         </span>
         <div>User Two</div>
       </div>
-      <div className="grid grid-cols-[7%_45%_45%] w-[30vw] h-[25vh] gap-1 content-start overflow-y-scroll overflow-x-hidden scrollbar-hide">
+      <div className="grid grid-cols-[7%_45%_45%] w-full max-w-36 h-[25vh] gap-1 content-start overflow-y-scroll overflow-x-hidden scrollbar-hide">
         {historyMovementsState.map((e: any, index: any) => {
           if (e.currentPlayer === Colors.WHITE) {
             e.checkedX
