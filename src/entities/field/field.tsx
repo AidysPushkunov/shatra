@@ -64,23 +64,23 @@ const Field: React.FC<FieldProps> = ({
         height={40}
         fill={selected ? fieldIntent.activeField : fieldIntent[intent]}
       />
-   <Text x={1} y={1} fontSize={7} text={cell.coordinate} fill="gray" />
+      {/* <Text x={1} y={1} fontSize={7} text={cell.coordinate} fill="gray" /> */}
       {intent === "fortress"
         ? null
         : cell.available &&
-          !cell.figure && (
-            <Circle
-              x={20}
-              y={20}
-              radius={5}
-              opacity={0.8}
-              fill={
-                cell.eatFieldAttack
-                  ? fieldIntent.attackFigure
-                  : fieldIntent.active
-              }
-            />
-          )}
+        !cell.figure && (
+          <Circle
+            x={20}
+            y={20}
+            radius={5}
+            opacity={0.8}
+            fill={
+              cell.eatFieldAttack
+                ? fieldIntent.attackFigure
+                : fieldIntent.active
+            }
+          />
+        )}
       {children}
     </Group>
   );

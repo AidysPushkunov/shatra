@@ -21,19 +21,8 @@ const Notation: React.FC<NotationProp> = ({
   let numberMove = 1;
 
   return (
-    <div className="flex-col justify-between bg-white drop-shadow-lg h-[40vh] rounded-md">
-      <div className="flex justify-start border-t-4 border-gray-100 gap-5 px-2 py-2 items-center">
-        <span className="relative flex h-3 w-3">
-          {currentPlayer?.color === Colors.BLACK ? (
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-          ) : (
-            <></>
-          )}
-          <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
-        </span>
-        <div>User Two</div>
-      </div>
-      <div className="grid grid-cols-[7%_45%_45%] w-full max-w-36 h-[25vh] gap-1 content-start overflow-y-scroll overflow-x-hidden scrollbar-hide">
+    <div className="flex-col justify-between bg-white drop-shadow-lg h-[40vh] w-96 rounded-md">
+      <div className="grid grid-cols-[7%_45%_45%] h-[40vh] gap-1 content-start overflow-y-scroll overflow-x-hidden scrollbar-hide">
         {historyMovementsState.map((e: any, index: any) => {
           if (e.currentPlayer === Colors.WHITE) {
             e.checkedX
@@ -73,18 +62,6 @@ const Notation: React.FC<NotationProp> = ({
           return null;
         })}
 
-      </div>
-
-      <div className="flex justify-start gap-5 border-b-4 border-gray-100 px-2 py-2 items-center">
-        <span className="relative flex h-3 w-3">
-          {currentPlayer?.color === Colors.WHITE ? (
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-          ) : (
-            <></>
-          )}
-          <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
-        </span>
-        <div>User One</div>
       </div>
     </div>
   );

@@ -34,7 +34,7 @@ export class Board {
 
   public flipBoard() {
     this.cells = this.cells.reverse();
-    
+
     for (let i = 0; i < this.cells.length; i++) {
       for (let j = 0; j < this.cells[i].length; j++) {
         this.cells[i][j].x = j;
@@ -183,31 +183,31 @@ export class Board {
           if (
             Boolean(
               this.getCell(x, j).canEat(this.getCell(x, j), Direction.TOP) ||
-                this.getCell(x, j).canEat(this.getCell(x, j), Direction.LEFT) ||
-                this.getCell(x, j).canEat(
-                  this.getCell(x, j),
-                  Direction.RIGHT
-                ) ||
-                this.getCell(x, j).canEat(
-                  this.getCell(x, j),
-                  Direction.BOTTOM
-                ) ||
-                this.getCell(x, j).canEat(
-                  this.getCell(x, j),
-                  Direction.TOP_LEFT
-                ) ||
-                this.getCell(x, j).canEat(
-                  this.getCell(x, j),
-                  Direction.TOP_RIGHT
-                ) ||
-                this.getCell(x, j).canEat(
-                  this.getCell(x, j),
-                  Direction.BOTTOM_LEFT
-                ) ||
-                this.getCell(x, j).canEat(
-                  this.getCell(x, j),
-                  Direction.BOTTOM_RIGHT
-                )
+              this.getCell(x, j).canEat(this.getCell(x, j), Direction.LEFT) ||
+              this.getCell(x, j).canEat(
+                this.getCell(x, j),
+                Direction.RIGHT
+              ) ||
+              this.getCell(x, j).canEat(
+                this.getCell(x, j),
+                Direction.BOTTOM
+              ) ||
+              this.getCell(x, j).canEat(
+                this.getCell(x, j),
+                Direction.TOP_LEFT
+              ) ||
+              this.getCell(x, j).canEat(
+                this.getCell(x, j),
+                Direction.TOP_RIGHT
+              ) ||
+              this.getCell(x, j).canEat(
+                this.getCell(x, j),
+                Direction.BOTTOM_LEFT
+              ) ||
+              this.getCell(x, j).canEat(
+                this.getCell(x, j),
+                Direction.BOTTOM_RIGHT
+              )
             )
           ) {
             return true;
@@ -230,34 +230,34 @@ export class Board {
             this.getCell(target.x, target.y),
             Direction.TOP
           ) ||
-            this.getCell(target.x, target.y).canEatBaatyr(
-              this.getCell(target.x, target.y),
-              Direction.LEFT
-            ) ||
-            this.getCell(target.x, target.y).canEatBaatyr(
-              this.getCell(target.x, target.y),
-              Direction.RIGHT
-            ) ||
-            this.getCell(target.x, target.y).canEatBaatyr(
-              this.getCell(target.x, target.y),
-              Direction.BOTTOM
-            ) ||
-            this.getCell(target.x, target.y).canEatBaatyr(
-              this.getCell(target.x, target.y),
-              Direction.TOP_LEFT
-            ) ||
-            this.getCell(target.x, target.y).canEatBaatyr(
-              this.getCell(target.x, target.y),
-              Direction.TOP_RIGHT
-            ) ||
-            this.getCell(target.x, target.y).canEatBaatyr(
-              this.getCell(target.x, target.y),
-              Direction.BOTTOM_LEFT
-            ) ||
-            this.getCell(target.x, target.y).canEatBaatyr(
-              this.getCell(target.x, target.y),
-              Direction.BOTTOM_RIGHT
-            )
+          this.getCell(target.x, target.y).canEatBaatyr(
+            this.getCell(target.x, target.y),
+            Direction.LEFT
+          ) ||
+          this.getCell(target.x, target.y).canEatBaatyr(
+            this.getCell(target.x, target.y),
+            Direction.RIGHT
+          ) ||
+          this.getCell(target.x, target.y).canEatBaatyr(
+            this.getCell(target.x, target.y),
+            Direction.BOTTOM
+          ) ||
+          this.getCell(target.x, target.y).canEatBaatyr(
+            this.getCell(target.x, target.y),
+            Direction.TOP_LEFT
+          ) ||
+          this.getCell(target.x, target.y).canEatBaatyr(
+            this.getCell(target.x, target.y),
+            Direction.TOP_RIGHT
+          ) ||
+          this.getCell(target.x, target.y).canEatBaatyr(
+            this.getCell(target.x, target.y),
+            Direction.BOTTOM_LEFT
+          ) ||
+          this.getCell(target.x, target.y).canEatBaatyr(
+            this.getCell(target.x, target.y),
+            Direction.BOTTOM_RIGHT
+          )
         )
       ) {
         return true;
@@ -277,31 +277,31 @@ export class Board {
           if (
             Boolean(
               this.getCell(x, j).canEat(this.getCell(x, j), Direction.TOP) ||
-                this.getCell(x, j).canEat(this.getCell(x, j), Direction.LEFT) ||
-                this.getCell(x, j).canEat(
-                  this.getCell(x, j),
-                  Direction.RIGHT
-                ) ||
-                this.getCell(x, j).canEat(
-                  this.getCell(x, j),
-                  Direction.BOTTOM
-                ) ||
-                this.getCell(x, j).canEat(
-                  this.getCell(x, j),
-                  Direction.TOP_LEFT
-                ) ||
-                this.getCell(x, j).canEat(
-                  this.getCell(x, j),
-                  Direction.TOP_RIGHT
-                ) ||
-                this.getCell(x, j).canEat(
-                  this.getCell(x, j),
-                  Direction.BOTTOM_LEFT
-                ) ||
-                this.getCell(x, j).canEat(
-                  this.getCell(x, j),
-                  Direction.BOTTOM_RIGHT
-                )
+              this.getCell(x, j).canEat(this.getCell(x, j), Direction.LEFT) ||
+              this.getCell(x, j).canEat(
+                this.getCell(x, j),
+                Direction.RIGHT
+              ) ||
+              this.getCell(x, j).canEat(
+                this.getCell(x, j),
+                Direction.BOTTOM
+              ) ||
+              this.getCell(x, j).canEat(
+                this.getCell(x, j),
+                Direction.TOP_LEFT
+              ) ||
+              this.getCell(x, j).canEat(
+                this.getCell(x, j),
+                Direction.TOP_RIGHT
+              ) ||
+              this.getCell(x, j).canEat(
+                this.getCell(x, j),
+                Direction.BOTTOM_LEFT
+              ) ||
+              this.getCell(x, j).canEat(
+                this.getCell(x, j),
+                Direction.BOTTOM_RIGHT
+              )
             )
           ) {
             return true;
@@ -341,21 +341,21 @@ export class Board {
 
   private addShatra() {
     for (let i = 2; i <= 4; i++) {
-      new Shatra(Colors.BLACK, this.getCell(i, 0) , this) ;
-      new Shatra(Colors.BLACK, this.getCell(i, 1) , this) ;
-      new Shatra(Colors.BLACK, this.getCell(i, 2) , this) ;
+      new Shatra(Colors.BLACK, this.getCell(i, 0), this);
+      new Shatra(Colors.BLACK, this.getCell(i, 1), this);
+      new Shatra(Colors.BLACK, this.getCell(i, 2), this);
 
-      new Shatra(Colors.WHITE, this.getCell(i, 11), this );
-      new Shatra(Colors.WHITE, this.getCell(i, 12), this );
-      new Shatra(Colors.WHITE, this.getCell(i, 13), this );
+      new Shatra(Colors.WHITE, this.getCell(i, 11), this);
+      new Shatra(Colors.WHITE, this.getCell(i, 12), this);
+      new Shatra(Colors.WHITE, this.getCell(i, 13), this);
     }
 
     for (let i = 0; i < 7; i++) {
-      new Shatra(Colors.BLACK, this.getCell(i, 4) , this) ;
-      new Shatra(Colors.BLACK, this.getCell(i, 5) , this) ;
+      new Shatra(Colors.BLACK, this.getCell(i, 4), this);
+      new Shatra(Colors.BLACK, this.getCell(i, 5), this);
 
-      new Shatra(Colors.WHITE, this.getCell(i, 8) , this) ;
-      new Shatra(Colors.WHITE, this.getCell(i, 9) , this) ;
+      new Shatra(Colors.WHITE, this.getCell(i, 8), this);
+      new Shatra(Colors.WHITE, this.getCell(i, 9), this);
     }
   }
 

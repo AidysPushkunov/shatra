@@ -18,6 +18,7 @@ interface BoardProps {
   updateBoard: () => void;
   swapPlayer: () => void;
   onUpdateBoard: (board: Board) => void;
+  handlePlayerMove: (move: string) => void
 }
 
 
@@ -33,6 +34,7 @@ const BoardWidget: React.FC<BoardProps> = ({
   updateBoard,
   swapPlayer,
   onUpdateBoard,
+  handlePlayerMove
 }) => {
   const [selectedCell, setSelectedCell] = useState<Cell | null>(null);
   const [checkedCell, setCheckedCell] = useState<Cell | null>(null);
@@ -49,8 +51,8 @@ const BoardWidget: React.FC<BoardProps> = ({
 
   let moveSound: any;
 
-  if (typeof window !== 'undefined') { 
-    moveSound = new Audio('./sounds/shatra_sound.mp3')
+  if (typeof window !== 'undefined') {
+    moveSound = new Audio("/sounds/shatra_sound.mp3")
   }
 
 
@@ -150,6 +152,7 @@ const BoardWidget: React.FC<BoardProps> = ({
 
       setSelectedCellItems({ selectedCell, cell });
       animatedChangePositionFigure(cell, event, true);
+      handlePlayerMove(cell.coordinate)
 
       setTimeout(() => {
         if (
@@ -200,21 +203,24 @@ const BoardWidget: React.FC<BoardProps> = ({
     }
   }
 
+
   useEffect(() => {
     highlightCells();
   }, [selectedCell]);
+
+
+
+  useEffect(() => {
+    setState(() => generateCanvasElements());
+    onUpdateBoard(board);
+  }, [board]);
+
 
   function highlightCells() {
     board.highlightCells(selectedCell);
     updateBoard();
   }
 
-
-  
-  useEffect(() => {
-    setState(() => generateCanvasElements());
-    onUpdateBoard(board); 
-  }, [board]);
 
   function generateCanvasElements() {
     const arrayCanvasElements: any = board.cells.map((row, index) =>
@@ -265,14 +271,14 @@ const BoardWidget: React.FC<BoardProps> = ({
 
   return (
     <div id="stage-parent-container">
-     <div id="stage-parent" >
-      <Stage width={size.width} height={size.height}
-      scale={getScale()}
-      >
-        <Layer>{state}</Layer>
-      </Stage>
+      <div id="stage-parent" >
+        <Stage width={size.width} height={size.height}
+          scale={getScale()}
+        >
+          <Layer>{state}</Layer>
+        </Stage>
       </div>
-      </div>
+    </div>
   );
 };
 

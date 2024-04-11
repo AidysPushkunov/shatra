@@ -26,16 +26,16 @@ const FigureEntities: React.FC<FigureProps> = ({ intent }) => {
     intent.figure?.logo === "blackBaatyr"
       ? blackBaatyr
       : intent.figure?.logo === "whiteBaatyr"
-      ? whiteBaatyr
-      : intent.figure?.logo === "whiteShatra"
-      ? whiteShatra
-      : intent.figure?.logo === "blackShatra"
-      ? blackShatra
-      : intent.figure?.logo === "whiteBiy"
-      ? whiteBiy
-      : intent.figure?.logo === "blackBiy"
-      ? blackBiy
-      : undefined;
+        ? whiteBaatyr
+        : intent.figure?.logo === "whiteShatra"
+          ? whiteShatra
+          : intent.figure?.logo === "blackShatra"
+            ? blackShatra
+            : intent.figure?.logo === "whiteBiy"
+              ? whiteBiy
+              : intent.figure?.logo === "blackBiy"
+                ? blackBiy
+                : undefined;
 
   const url = svgToURL(currentFigure);
   const [image] = useImage(url);
@@ -44,6 +44,8 @@ const FigureEntities: React.FC<FigureProps> = ({ intent }) => {
     <>
       {intent.figure?.logo === "whiteShatra" ? (
         <Image
+        draggable
+
           image={image}
           x={5}
           y={5}
@@ -55,6 +57,8 @@ const FigureEntities: React.FC<FigureProps> = ({ intent }) => {
         />
       ) : intent.figure?.logo === "blackShatra" ? (
         <Image
+        draggable
+
           image={image}
           x={5}
           y={5}
@@ -66,6 +70,8 @@ const FigureEntities: React.FC<FigureProps> = ({ intent }) => {
         />
       ) : intent.figure?.logo === "whiteBiy" ? (
         <Image
+        draggable
+
           image={image}
           x={5}
           y={5}
@@ -77,6 +83,8 @@ const FigureEntities: React.FC<FigureProps> = ({ intent }) => {
         />
       ) : intent.figure?.logo === "blackBiy" ? (
         <Image
+        draggable
+
           image={image}
           x={5}
           y={5}
@@ -88,6 +96,8 @@ const FigureEntities: React.FC<FigureProps> = ({ intent }) => {
         />
       ) : intent.figure?.logo === "whiteBaatyr" ? (
         <Image
+        draggable
+
           image={image}
           x={5}
           y={5}
@@ -99,6 +109,7 @@ const FigureEntities: React.FC<FigureProps> = ({ intent }) => {
         />
       ) : intent.figure?.logo === "blackBaatyr" ? (
         <Image
+          draggable
           image={image}
           x={5}
           y={5}
