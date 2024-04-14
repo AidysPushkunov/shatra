@@ -9,6 +9,7 @@ import { Stage, Layer } from "react-konva";
 
 import Konva from "konva";
 
+
 interface BoardProps {
   board: Board;
   historyMovements: any;
@@ -18,7 +19,8 @@ interface BoardProps {
   updateBoard: () => void;
   swapPlayer: () => void;
   onUpdateBoard: (board: Board) => void;
-  handlePlayerMove: (move: string) => void
+  handlePlayerMove: (moveFrom: string, moveTo: string, event: any) => void;
+  socket: any;
 }
 
 
@@ -34,7 +36,8 @@ const BoardWidget: React.FC<BoardProps> = ({
   updateBoard,
   swapPlayer,
   onUpdateBoard,
-  handlePlayerMove
+  handlePlayerMove,
+  socket
 }) => {
   const [selectedCell, setSelectedCell] = useState<Cell | null>(null);
   const [checkedCell, setCheckedCell] = useState<Cell | null>(null);
@@ -56,16 +59,70 @@ const BoardWidget: React.FC<BoardProps> = ({
   }
 
 
-  useEffect(() => {
-    if (selectedCellItems) {
-      const moveFigureTimer = setTimeout(() => {
-        selectedCellItems?.selectedCell.moveFigure(selectedCellItems?.cell);
-        updateBoard();
-      }, 300);
 
-      return () => clearTimeout(moveFigureTimer);
+  const makeMove = (fromCoordinate: string, toCoordinate: string, event: any) => {
+    const fromCell = board.getCellByCoordinate(fromCoordinate);
+    const toCell = board.getCellByCoordinate(toCoordinate);
+
+    // console.log('fromCell: ', fromCell, ' toCell: ', toCell);
+
+    animatedChangePositionFigure(toCell, event, true);
+
+    const moveFigureTimer = setTimeout(() => {
+      // console.log('Testing: fromCell', fromCell)
+      if (fromCell && toCell && fromCell.figure) {
+
+        if (fromCell.figure.canMove(toCell)) { // error in this place
+          moveSound.play();
+          fromCell.moveFigure(toCell);
+          swapPlayer();
+          updateBoard();
+          // Здесь можно добавить обновление истории ходов, звука и других действий
+
+          // Пример обновления состояния после хода
+          setSelectedCell(null);
+          setCheckedCell(null);
+        } else {
+          // console.log("Invalid move!");
+        }
+      } else {
+        // console.log("Invalid selection!");
+      }
+    }, 300);
+
+    return () => clearTimeout(moveFigureTimer);
+
+  };
+
+
+  useEffect(() => {
+    if (socket) {
+      const handleOpponentMove = (moveFrom: string, moveTo: string, event: any) => {
+        // console.log('Received opponent move in BoardWidget:', moveFrom, moveTo);
+        makeMove(moveFrom, moveTo, event);
+        // Здесь обрабатывайте прием хода от другого игрока
+      };
+
+      // Подписка на событие 'opponentMove' при монтировании компонента
+      socket.on('opponentMove', handleOpponentMove);
+
+      // Функция очистки подписки при размонтировании компонента
+      return () => {
+        socket.off('opponentMove', handleOpponentMove);
+      };
     }
-  }, [selectedCellItems]);
+  }, [socket]);
+
+  // useEffect(() => {
+  //   if (selectedCellItems) {
+  //     const moveFigureTimer = setTimeout(() => {
+  //       selectedCellItems?.selectedCell.moveFigure(selectedCellItems?.cell);
+  //       updateBoard();
+  //     }, 300);
+
+  //     return () => clearTimeout(moveFigureTimer);
+  //   }
+  // }, [selectedCellItems]);
 
   function animatedChangePositionFigure(
     figure: any,
@@ -131,6 +188,23 @@ const BoardWidget: React.FC<BoardProps> = ({
     }
   }
 
+
+
+  // const clickField = (cell: Cell) => {
+  //   if (selectedCell) {
+  //     if (checkedCell) {
+  //     
+  //       makeMove(fromCoordinate, toCoordinate);
+  //     }
+  //     else {
+  //       setCheckedCell(cell)
+  //     }
+  //   } else {
+  //     setSelectedCell(cell);
+  //   }
+  // };
+
+
   function clickField(cell: Cell, event: any) {
     if (
       selectedCell &&
@@ -152,7 +226,8 @@ const BoardWidget: React.FC<BoardProps> = ({
 
       setSelectedCellItems({ selectedCell, cell });
       animatedChangePositionFigure(cell, event, true);
-      handlePlayerMove(cell.coordinate)
+      makeMove(selectedCell.coordinate, cell.coordinate, event);
+      handlePlayerMove(selectedCell.coordinate, cell.coordinate, event);
 
       setTimeout(() => {
         if (
@@ -202,6 +277,83 @@ const BoardWidget: React.FC<BoardProps> = ({
       }
     }
   }
+
+
+
+  // function clickField(cell: Cell, event: any) {
+  //   if (
+  //     selectedCell &&
+  //     selectedCell !== cell &&
+  //     selectedCell.figure?.canMove(cell)
+  //   ) {
+  //     let x = cell.x;
+  //     let y = cell.y;
+
+
+  //     historyMovements.push({
+  //       moveFigure: true,
+  //       currentPlayer: currentPlayer?.color,
+  //       coordinate: cell.coordinate,
+  //       movedX: x,
+  //       movedY: y,
+  //     });
+
+  //     setHistoryMovementsState(historyMovements);
+
+  //     // setSelectedCellItems({ selectedCell, cell });
+  //     checkedCell && makeMove(selectedCell.coordinate, checkedCell.coordinate, event);
+  //     // animatedChangePositionFigure(cell, event, true);
+
+  //     checkedCell && handlePlayerMove(selectedCell.coordinate, checkedCell.coordinate, event);
+
+  //     setTimeout(() => {
+  //       if (
+  //         cell.x - selectedCell.x === 1 ||
+  //         cell.y - selectedCell.y === 1 ||
+  //         cell.x - selectedCell.x === -1 ||
+  //         cell.y - selectedCell.y === -1 ||
+  //         checkedCell?.infortress
+  //       ) {
+  //         // moveSound.play();
+  //         // swapPlayer();
+  //         setSelectedCell(null);
+  //       } else {
+  //         if (!board.canEatAbility(cell)) {
+  //           // moveSound.play();
+  //           // swapPlayer();
+  //           setSelectedCell(null);
+  //         } else {
+  //           // moveSound.play();
+  //           setSelectedCell(cell);
+  //           // animatedChangePositionFigure(cell, event, false);
+  //         }
+  //       }
+
+  //       setCheckedCell(null);
+  //       updateBoard();
+  //     }, 305);
+  //   } else {
+  //     if (cell.figure?.color === currentPlayer?.color) {
+  //       let x = cell.x;
+  //       let y = cell.y;
+
+  //       historyMovements.push({
+  //         moveFigure: false,
+  //         currentPlayer: currentPlayer?.color,
+  //         coordinateChecked: cell.coordinate,
+  //         checkedX: x,
+  //         checkedY: y,
+  //       });
+
+  //       cell.setEatFieldAttack(null, false);
+  //       setCheckedCell(cell);
+  //       setHistoryMovementsState(historyMovements);
+
+  //       setSelectedCell(cell);
+  //       animatedChangePositionFigure(cell, event, false);
+  //     }
+  //   }
+  // }
 
 
   useEffect(() => {

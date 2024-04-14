@@ -53,11 +53,12 @@ export default function Home() {
       setSocket(socket);
     });
 
-    // Обработка событий (например, прием ходов от других игроков)
-    socket.on('opponentMove', (move: string) => {
-      console.log('Received opponent move:', move);
-      // Обработать ход от другого игрока
-    });
+    //  // Обработка событий (например, прием ходов от других игроков)
+    //  socket.on('opponentMove', (moveFrom: string, moveTo: string) => {
+    //   console.log('Received opponent move:', moveFrom, moveTo);
+    //   // Обработать ход от другого игрока
+    // });
+
 
     return () => {
       socket.disconnect(); // Отключить сокет при размонтировании компонента
@@ -65,12 +66,9 @@ export default function Home() {
   }, []);
 
 
-  const handlePlayerMove = (move: string) => {
-    console.log('success!!!');
+  const handlePlayerMove = (moveFrom: string, moveTo: string, event: any) => {
     if (socket) {
-      // Отправка события 'makeMove' на сервер с данными хода
-      console.log('Socket worked now need handle emit!!!')
-      socket.emit('makeMove', { gameId, move });
+      socket.emit('makeMove', { gameId, moveFrom, moveTo, event });
     }
   };
 
@@ -118,13 +116,13 @@ export default function Home() {
               currentPlayer={currentPlayer}
               updateBoard={updateBoard}
               swapPlayer={swapPlayer}
-              onUpdateBoard={(updatedBoard) => setBoard(updatedBoard)}
+              onUpdateBoard={(updatedBoard: any) => setBoard(updatedBoard)}
               handlePlayerMove={handlePlayerMove}
+              socket={socket}
             />
           </div>
         </div>
       </Suspense>
-
     </>
   );
 }

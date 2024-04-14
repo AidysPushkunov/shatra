@@ -81,7 +81,7 @@ export class Board {
             (i === 13 && j === 6) ||
             (i === 13 && j === 0)
           ) {
-            row.push(new Cell(this, j, i, Colors.FORTRESS, false, null, ""));
+            row.push(new Cell(this, j, i, Colors.FORTRESS, false, null, notationSymbolX[j] + notationSymbolY[i]));
           } else {
             if (
               (i === 0 && j >= 2 && j <= 4) ||
@@ -122,7 +122,7 @@ export class Board {
             (i === 12 && j === 0) ||
             (i === 13 && j === 1)
           ) {
-            row.push(new Cell(this, j, i, Colors.FORTRESS, false, null, ""));
+            row.push(new Cell(this, j, i, Colors.FORTRESS, false, null, notationSymbolX[j] + notationSymbolY[i]));
           } else {
             if (
               (i === 0 && j >= 2 && j <= 4) ||
@@ -168,6 +168,28 @@ export class Board {
 
   public getCell(x: number, y: number) {
     return this.cells[y][x];
+  }
+
+  public getCellByCoordinate(coorditate: string): Cell | null {
+    const match = coorditate.match(/^([A-G]+)(\d+)$/);
+
+    if (!match) {
+      console.error('Invalid coordinate format');
+      return null;
+    }
+
+    const xStr = match[1];
+    const yStr = match[2];
+
+    const x = notationSymbolX.indexOf(xStr);
+    const y = notationSymbolY.indexOf(yStr);
+
+
+    if (x !== -1 && y !== -1 && y < this.cells.length && x < this.cells[y].length) {
+      return this.cells[y][x];
+    } else {
+      return null;
+    }
   }
 
   canEatAbility(target: Cell) {

@@ -43,6 +43,14 @@ const Field: React.FC<FieldProps> = ({
 }) => {
   const figureRef = React.useRef(null);
 
+  const isTopRow = index === 0;
+  const isBottomRow = index === 13; // Assuming 14 rows (0 to 13)
+  const isLeftColumn = indexRow === 0;
+  const isRightColumn = indexRow === 6; // Assuming 7 columns (0 to 6)
+
+
+  const coordinateName = cell.coordinate.match(/^([A-G]+)(\d+)$/);
+
   return (
     <Group
       x={indexRow * 40}
@@ -64,7 +72,31 @@ const Field: React.FC<FieldProps> = ({
         height={40}
         fill={selected ? fieldIntent.activeField : fieldIntent[intent]}
       />
-      {/* <Text x={1} y={1} fontSize={7} text={cell.coordinate} fill="gray" /> */}
+      {isBottomRow && coordinateName && (
+        <Text
+          x={-2}
+          y={-1}
+          width={40}
+          height={40}
+          align={"right"}
+          verticalAlign={'bottom'}
+          fontSize={8}
+          text={`${coordinateName[1]}`}
+          fill="gray"
+        />
+      )}
+      {isLeftColumn && coordinateName && (
+        <Text
+          x={2}
+          y={2}
+          width={40}
+          height={40}
+          verticalAlign={'top'}
+          fontSize={8}
+          text={`${coordinateName[2]}`}
+          fill="gray"
+        />
+      )}
       {intent === "fortress"
         ? null
         : cell.available &&
