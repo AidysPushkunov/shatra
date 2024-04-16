@@ -9,6 +9,8 @@ import { Suspense } from 'react';
 import Loading from "@/app/loading";
 import { Menu } from '@/widgets/menu';
 
+import SearchGif from '@/../public/gifs/search.gif';
+
 import { io, Socket } from 'socket.io-client';
 import { useSocket } from '@/contexts/socketContext';
 
@@ -20,13 +22,28 @@ export default function Home() {
   const path = usePathname();
   console.log("asPath ", path);
 
-  const [gameId, setGameId] = useState<string | null>(null);
-  const [playerId, setPlayerId] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
-  // const [socket, setSocket] = useState<Socket | null>(null);
+  const [onlineCount, setOnlineCount] = useState(0);
+
+  useEffect(() => {
+    if (socket) {
+      socket.on('onlineCount', (count: number) => {
+        setOnlineCount(count);
+      });
+
+      return () => {
+        socket.off('onlineCount');
+      };
+    } else {
+      console.error('Socket is null. Cannot join or create game.');
+    }
+  }, [socket]);
+
 
   const handlePlayOnline = () => {
     if (socket) {
+      setLoading(true)
       console.log('Attempting to join or create game...');
       const playerId = socket.id; // Используем socket.id как playerId
 
@@ -35,7 +52,18 @@ export default function Home() {
       socket.on('gameReady', (gameId: string) => {
         console.log('Received game ID:', gameId);
         router.push(`/game/${gameId}?gameId=${gameId}&playerId=${playerId}`); // Перенаправляем на страницу игры с gameId
+        setLoading(false)
       });
+    } else {
+      console.error('Socket is null. Cannot join or create game.');
+    }
+  };
+
+  const handleStopSearch = () => {
+    if (socket) {
+      setLoading(false);
+      // Отправить сообщение на сервер о завершении поиска и выходе из комнаты
+      socket.emit('stopSearch');
     } else {
       console.error('Socket is null. Cannot join or create game.');
     }
@@ -51,46 +79,33 @@ export default function Home() {
   }, [socket]);
 
 
-  // useEffect(() => {
-  //   if (socket) {
-  //     socket.on('gameReady', (gameId: string) => {
-  //       console.log('Game is ready with ID:', gameId);
-  //       setGameId(gameId);
-  //       router.push(`/game/${gameId}?playerId=${playerId}`);
-  //     });
-
-  //     return () => {
-  //       socket.off('gameReady');
-  //     };
-  //   }
-  // }, [socket, router, playerId]);
-
-
-  const makeMove = (gameId: string, move: string) => {
-    if (socket) {
-      socket.emit('makeMove', { gameId, move });
-    } else {
-      console.error('Socket is null. Cannot emit makeMove.');
-    }
-  };
-
-
-
   return (
     <>
       <Suspense fallback={<Loading />}>
         <Menu />
         <div className="grid items-center justify-center w-full h-[100vh]">
+          {loading ? ( // Отображаем гифку о поиске соперника, если состояние загрузки true
+            <div className="fixed flex-col top-0 left-0 w-full h-full flex items-center justify-center bg-white z-50">
+              <Image src={SearchGif} alt="my gif" height={300} width={300} />
+              <div >
+                <div>Search players...</div>
+                <div onClick={handleStopSearch} className='cursor-pointer'>Stop to search</div>
+              </div>
+            </div>
+          ) : null}
           <div className="grid max-w-96 md:gid-rows-2 md:grid-cols-2 text-sm gap-2">
             <button onClick={handlePlayOnline}>
               <div className="flex flex-col hover:bg-gray-50 transition-all gap-5 justify-center items-center px-10 py-5 cursor-pointer bg-white border rounded-md">
                 <Image
                   src="/images/controller_game.svg"
-                  width={70}
-                  height={70}
+                  width={60}
+                  height={60}
                   alt="main page"
                 />
-                <span>Play Online</span>
+                <div>
+                  <span className="text-xl">Play</span>
+                  <div className="text-green-300">Online: {onlineCount}</div>
+                </div>
               </div>
             </button>
             <Link href="/" className="relative">
