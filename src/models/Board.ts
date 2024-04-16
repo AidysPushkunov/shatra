@@ -32,6 +32,11 @@ export class Board {
   lostBlackFigures: Figure[] = [];
   lostWhiteFigures: Figure[] = [];
 
+  constructor() {
+    this.initCells();
+    this.addFigures();
+  }
+
   public flipBoard() {
     this.cells = this.cells.reverse();
 
@@ -81,7 +86,7 @@ export class Board {
             (i === 13 && j === 6) ||
             (i === 13 && j === 0)
           ) {
-            row.push(new Cell(this, j, i, Colors.FORTRESS, false, null, ""));
+            row.push(new Cell(this, j, i, Colors.FORTRESS, false, null, notationSymbolX[j] + notationSymbolY[i]));
           } else {
             if (
               (i === 0 && j >= 2 && j <= 4) ||
@@ -122,7 +127,7 @@ export class Board {
             (i === 12 && j === 0) ||
             (i === 13 && j === 1)
           ) {
-            row.push(new Cell(this, j, i, Colors.FORTRESS, false, null, ""));
+            row.push(new Cell(this, j, i, Colors.FORTRESS, false, null, notationSymbolX[j] + notationSymbolY[i]));
           } else {
             if (
               (i === 0 && j >= 2 && j <= 4) ||
@@ -168,6 +173,43 @@ export class Board {
 
   public getCell(x: number, y: number) {
     return this.cells[y][x];
+  }
+
+  public getCellByCoordinate(coorditate: string): Cell | null {
+    if (!this.cells || !Array.isArray(this.cells) || this.cells.length === 0) {
+      console.error('Board cells are not properly initialized.');
+      return null;
+    }
+
+    const match = coorditate.match(/^([A-G]+)(\d+)$/);
+
+    if (!match) {
+      console.error('Invalid coordinate format');
+      return null;
+    }
+
+    const xStr = match[1];
+    const yStr = match[2];
+
+    const x = notationSymbolX.indexOf(xStr);
+    const y = notationSymbolY.indexOf(yStr);
+
+    if (x === -1 || y === -1 || y >= this.cells.length || x >= this.cells[y].length) {
+      console.error('Invalid coordinates:', xStr, yStr);
+      return null;
+    }
+
+    // Возвращаем актуальную ячейку по координатам x и y
+    return this.cells[y][x];
+  }
+
+  // Метод для обновления данных в ячейке по координатам x и y
+  public updateCell(x: number, y: number, updatedCell: Cell) {
+    if (y >= 0 && y < this.cells.length && x >= 0 && x < this.cells[y].length) {
+      this.cells[y][x] = updatedCell;
+    } else {
+      console.error('Invalid coordinates for updating cell:', x, y);
+    }
   }
 
   canEatAbility(target: Cell) {
