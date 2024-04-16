@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { SocketProvider } from "@/contexts";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,6 +17,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
+    <SocketProvider>
     <html lang="en" className="bg-[#F8F9FD]">
       <head>
         <link rel="icon" href="/favicon.ico" sizes="any" />
@@ -24,5 +26,6 @@ export default function RootLayout({
         {children}
       </body>
     </html>
+    </SocketProvider>
   );
 }

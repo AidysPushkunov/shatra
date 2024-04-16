@@ -16,6 +16,8 @@ import { FlippingBoard } from "@/features/flippingBoard";
 import Loading from "@/app/loading";
 import { Menu } from "@/widgets/menu";
 
+import { useSocket } from '@/contexts/socketContext';
+
 
 
 
@@ -23,8 +25,8 @@ let historyMovements: any[] = [];
 
 
 export default function Home() {
+  const socket = useSocket();
   const searchParams = useSearchParams();
-  const [socket, setSocket] = useState<Socket | null>(null);
 
   const [historyMovementsState, setHistoryMovementsState] = useState(historyMovements);
   const [whitePlayer] = useState(new Player(Colors.WHITE));
@@ -34,41 +36,13 @@ export default function Home() {
 
 
 
-
-  const gameId = searchParams.get('search')
-
-  useEffect(() => {
-    const socket = io('http://localhost:5000', {
-      withCredentials: true,
-      transports: ['websocket'],
-      extraHeaders: {
-        'Access-Control-Allow-Origin': 'http://localhost:3000',
-      },
-    });
-
-    socket.on('connect', () => {
-      console.log('Connected to WebSocket server');
-      // Присоединиться к комнате игры с gameId
-      socket.emit('joinGameRoom', gameId);
-      setSocket(socket);
-    });
-
-    //  // Обработка событий (например, прием ходов от других игроков)
-    //  socket.on('opponentMove', (moveFrom: string, moveTo: string) => {
-    //   console.log('Received opponent move:', moveFrom, moveTo);
-    //   // Обработать ход от другого игрока
-    // });
-
-
-    return () => {
-      socket.disconnect(); // Отключить сокет при размонтировании компонента
-    };
-  }, []);
+  const gameId = searchParams.get('gameId')
+  const playerId = searchParams.get('playerId');
 
 
   const handlePlayerMove = (moveFrom: string, moveTo: string, event: any) => {
     if (socket) {
-      socket.emit('makeMove', { gameId, moveFrom, moveTo, event });
+      socket.emit('makeMove', { gameId, playerId, moveFrom, moveTo, event });
     }
   };
 

@@ -5,9 +5,12 @@ import { Cell } from "@/models/Cell";
 import { Player } from "@/models/Player";
 import { Direction } from "@/models/Direction";
 
+import { useSocket } from '@/contexts/socketContext';
+
 import { Stage, Layer } from "react-konva";
 
 import Konva from "konva";
+import { Socket } from 'socket.io-client';
 
 
 interface BoardProps {
@@ -39,6 +42,7 @@ const BoardWidget: React.FC<BoardProps> = ({
   handlePlayerMove,
   socket
 }) => {
+
   const [selectedCell, setSelectedCell] = useState<Cell | null>(null);
   const [checkedCell, setCheckedCell] = useState<Cell | null>(null);
 
@@ -46,6 +50,7 @@ const BoardWidget: React.FC<BoardProps> = ({
   const [animatedFigure, setAnimateFigure] = useState<any>(null);
   const [selectedCellItems, setSelectedCellItems] = useState<any>();
   const [oldCellCoordinate, setOldCellCoordinate] = useState<any>();
+
 
   const [size, setSize] = useState({
     width: SCENE_BASE_WIDTH,
@@ -61,12 +66,17 @@ const BoardWidget: React.FC<BoardProps> = ({
 
 
   const makeMove = (fromCoordinate: string, toCoordinate: string, event: any) => {
+    console.log('Received move request:', fromCoordinate, toCoordinate);
     const fromCell = board.getCellByCoordinate(fromCoordinate);
     const toCell = board.getCellByCoordinate(toCoordinate);
 
+
+    console.log('From cell: ', fromCell, 'To Cell: ', toCell);
+    // console.log('To cell:', toCell);
+
     // console.log('fromCell: ', fromCell, ' toCell: ', toCell);
 
-    animatedChangePositionFigure(toCell, event, true);
+    // animatedChangePositionFigure(toCell, event, true);
 
     const moveFigureTimer = setTimeout(() => {
       // console.log('Testing: fromCell', fromCell)
@@ -83,33 +93,34 @@ const BoardWidget: React.FC<BoardProps> = ({
           setSelectedCell(null);
           setCheckedCell(null);
         } else {
-          // console.log("Invalid move!");
+          console.log("Invalid move!");
         }
       } else {
-        // console.log("Invalid selection!");
+        console.log("Invalid selection!");
       }
     }, 300);
 
     return () => clearTimeout(moveFigureTimer);
+  }
 
-  };
+
 
 
   useEffect(() => {
-    if (socket) {
-      const handleOpponentMove = (moveFrom: string, moveTo: string, event: any) => {
-        // console.log('Received opponent move in BoardWidget:', moveFrom, moveTo);
-        makeMove(moveFrom, moveTo, event);
-        // Здесь обрабатывайте прием хода от другого игрока
-      };
+    const handleOpponentMove = (moveFrom: string, moveTo: string, event: any) => {
+      console.log('Received opponent move:', moveFrom, moveTo);
+      makeMove(moveFrom, moveTo, event);
+      // Здесь вызывайте функцию, которая обрабатывает ход противника
+    };
 
-      // Подписка на событие 'opponentMove' при монтировании компонента
+    if (socket) {
       socket.on('opponentMove', handleOpponentMove);
 
-      // Функция очистки подписки при размонтировании компонента
       return () => {
         socket.off('opponentMove', handleOpponentMove);
       };
+    } else {
+      console.log('Socket connection not available');
     }
   }, [socket]);
 
@@ -228,7 +239,6 @@ const BoardWidget: React.FC<BoardProps> = ({
       animatedChangePositionFigure(cell, event, true);
       makeMove(selectedCell.coordinate, cell.coordinate, event);
       handlePlayerMove(selectedCell.coordinate, cell.coordinate, event);
-
       setTimeout(() => {
         if (
           cell.x - selectedCell.x === 1 ||
@@ -278,82 +288,6 @@ const BoardWidget: React.FC<BoardProps> = ({
     }
   }
 
-
-
-  // function clickField(cell: Cell, event: any) {
-  //   if (
-  //     selectedCell &&
-  //     selectedCell !== cell &&
-  //     selectedCell.figure?.canMove(cell)
-  //   ) {
-  //     let x = cell.x;
-  //     let y = cell.y;
-
-
-  //     historyMovements.push({
-  //       moveFigure: true,
-  //       currentPlayer: currentPlayer?.color,
-  //       coordinate: cell.coordinate,
-  //       movedX: x,
-  //       movedY: y,
-  //     });
-
-  //     setHistoryMovementsState(historyMovements);
-
-  //     // setSelectedCellItems({ selectedCell, cell });
-  //     checkedCell && makeMove(selectedCell.coordinate, checkedCell.coordinate, event);
-  //     // animatedChangePositionFigure(cell, event, true);
-
-  //     checkedCell && handlePlayerMove(selectedCell.coordinate, checkedCell.coordinate, event);
-
-  //     setTimeout(() => {
-  //       if (
-  //         cell.x - selectedCell.x === 1 ||
-  //         cell.y - selectedCell.y === 1 ||
-  //         cell.x - selectedCell.x === -1 ||
-  //         cell.y - selectedCell.y === -1 ||
-  //         checkedCell?.infortress
-  //       ) {
-  //         // moveSound.play();
-  //         // swapPlayer();
-  //         setSelectedCell(null);
-  //       } else {
-  //         if (!board.canEatAbility(cell)) {
-  //           // moveSound.play();
-  //           // swapPlayer();
-  //           setSelectedCell(null);
-  //         } else {
-  //           // moveSound.play();
-  //           setSelectedCell(cell);
-  //           // animatedChangePositionFigure(cell, event, false);
-  //         }
-  //       }
-
-  //       setCheckedCell(null);
-  //       updateBoard();
-  //     }, 305);
-  //   } else {
-  //     if (cell.figure?.color === currentPlayer?.color) {
-  //       let x = cell.x;
-  //       let y = cell.y;
-
-  //       historyMovements.push({
-  //         moveFigure: false,
-  //         currentPlayer: currentPlayer?.color,
-  //         coordinateChecked: cell.coordinate,
-  //         checkedX: x,
-  //         checkedY: y,
-  //       });
-
-  //       cell.setEatFieldAttack(null, false);
-  //       setCheckedCell(cell);
-  //       setHistoryMovementsState(historyMovements);
-
-  //       setSelectedCell(cell);
-  //       animatedChangePositionFigure(cell, event, false);
-  //     }
-  //   }
-  // }
 
 
   useEffect(() => {

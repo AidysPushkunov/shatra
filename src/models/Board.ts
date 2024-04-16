@@ -32,6 +32,11 @@ export class Board {
   lostBlackFigures: Figure[] = [];
   lostWhiteFigures: Figure[] = [];
 
+  constructor() {
+    this.initCells();
+    this.addFigures();
+  }
+
   public flipBoard() {
     this.cells = this.cells.reverse();
 
@@ -171,6 +176,11 @@ export class Board {
   }
 
   public getCellByCoordinate(coorditate: string): Cell | null {
+    if (!this.cells || !Array.isArray(this.cells) || this.cells.length === 0) {
+      console.error('Board cells are not properly initialized.');
+      return null;
+    }
+
     const match = coorditate.match(/^([A-G]+)(\d+)$/);
 
     if (!match) {
@@ -184,11 +194,21 @@ export class Board {
     const x = notationSymbolX.indexOf(xStr);
     const y = notationSymbolY.indexOf(yStr);
 
-
-    if (x !== -1 && y !== -1 && y < this.cells.length && x < this.cells[y].length) {
-      return this.cells[y][x];
-    } else {
+    if (x === -1 || y === -1 || y >= this.cells.length || x >= this.cells[y].length) {
+      console.error('Invalid coordinates:', xStr, yStr);
       return null;
+    }
+
+    // Возвращаем актуальную ячейку по координатам x и y
+    return this.cells[y][x];
+  }
+
+  // Метод для обновления данных в ячейке по координатам x и y
+  public updateCell(x: number, y: number, updatedCell: Cell) {
+    if (y >= 0 && y < this.cells.length && x >= 0 && x < this.cells[y].length) {
+      this.cells[y][x] = updatedCell;
+    } else {
+      console.error('Invalid coordinates for updating cell:', x, y);
     }
   }
 
