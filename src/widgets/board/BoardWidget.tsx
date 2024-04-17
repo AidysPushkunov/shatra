@@ -248,12 +248,10 @@ const BoardWidget: React.FC<BoardProps> = ({
           checkedCell?.infortress
         ) {
           moveSound.play();
-          swapPlayer();
           setSelectedCell(null);
         } else {
           if (!board.canEatAbility(cell)) {
             moveSound.play();
-            swapPlayer();
             setSelectedCell(null);
           } else {
             moveSound.play();

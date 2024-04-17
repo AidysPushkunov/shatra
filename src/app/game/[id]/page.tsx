@@ -32,10 +32,7 @@ export default function Home() {
   const [whitePlayer] = useState(new Player(Colors.WHITE));
   const [blackPlayer] = useState(new Player(Colors.BLACK));
   const [currentPlayer, setCurrentPlayer] = useState<Player | null>(null);
-  const [board, setBoard] = useState(new Board());
-
-
-
+  const [board, setBoard] = useState<Board | null>(null);
   const gameId = searchParams.get('gameId')
   const playerId = searchParams.get('playerId');
 
@@ -54,8 +51,11 @@ export default function Home() {
 
 
   function updateBoard(): void {
-    const newBoard = board.getCopyBoard();
-    setBoard(newBoard);
+    if (board) {
+      const newBoard = board.getCopyBoard();
+      setBoard(newBoard);
+    }
+
   }
 
   function swapPlayer(): void {
@@ -74,29 +74,35 @@ export default function Home() {
     historyMovements = [];
   }
 
-  return (
-    <>
+  if (board) {
+    return (
+      <>
 
-      <Suspense fallback={<Loading />}>
-        <Menu />
-        <div className="flex justify-center">
+        <Suspense fallback={<Loading />}>
+          <Menu />
           <div className="flex justify-center">
+            <div className="flex justify-center">
 
-            <BoardWidget
-              board={board}
-              setHistoryMovementsState={setHistoryMovementsState}
-              historyMovements={historyMovements}
-              setBoard={setBoard}
-              currentPlayer={currentPlayer}
-              updateBoard={updateBoard}
-              swapPlayer={swapPlayer}
-              onUpdateBoard={(updatedBoard: any) => setBoard(updatedBoard)}
-              handlePlayerMove={handlePlayerMove}
-              socket={socket}
-            />
+              <BoardWidget
+                board={board}
+                setHistoryMovementsState={setHistoryMovementsState}
+                historyMovements={historyMovements}
+                setBoard={setBoard}
+                currentPlayer={currentPlayer}
+                updateBoard={updateBoard}
+                swapPlayer={swapPlayer}
+                onUpdateBoard={(updatedBoard: any) => setBoard(updatedBoard)}
+                handlePlayerMove={handlePlayerMove}
+                socket={socket}
+              />
+            </div>
           </div>
-        </div>
-      </Suspense>
-    </>
-  );
+        </Suspense>
+      </>
+    )
+  } else {
+    return (
+      <h1>404</h1>
+    )
+  }
 }
