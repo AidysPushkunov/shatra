@@ -7,12 +7,6 @@ import { Board } from "@/models/Board";
 import { Player } from "@/models/Player";
 import { Colors } from "@/models/Colors";
 import { useSearchParams } from 'next/navigation';
-import { io, Socket } from 'socket.io-client';
-import { Timer } from "@/widgets/timer";
-import { ShowCoordinates } from "@/features/showCoordinates";
-import { Notation } from "@/widgets/notation";
-import { FlippingBoard } from "@/features/flippingBoard";
-
 import Loading from "@/app/loading";
 import { Menu } from "@/widgets/menu";
 

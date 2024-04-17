@@ -3,14 +3,8 @@ import { Board } from "@/models/Board";
 import { ShowFigure } from "@/features/showFigure";
 import { Cell } from "@/models/Cell";
 import { Player } from "@/models/Player";
-import { Direction } from "@/models/Direction";
-
-import { useSocket } from '@/contexts/socketContext';
-
 import { Stage, Layer } from "react-konva";
-
 import Konva from "konva";
-import { Socket } from 'socket.io-client';
 
 
 interface BoardProps {
@@ -51,6 +45,7 @@ const BoardWidget: React.FC<BoardProps> = ({
   const [selectedCellItems, setSelectedCellItems] = useState<any>();
   const [oldCellCoordinate, setOldCellCoordinate] = useState<any>();
 
+  const [eventForAnimation, setEventForAnimation] = useState<object>({});
 
   const [size, setSize] = useState({
     width: SCENE_BASE_WIDTH,
@@ -66,30 +61,20 @@ const BoardWidget: React.FC<BoardProps> = ({
 
 
   const makeMove = (fromCoordinate: string, toCoordinate: string, event: any) => {
-    console.log('Received move request:', fromCoordinate, toCoordinate);
+
     const fromCell = board.getCellByCoordinate(fromCoordinate);
     const toCell = board.getCellByCoordinate(toCoordinate);
 
-
-    console.log('From cell: ', fromCell, 'To Cell: ', toCell);
-    // console.log('To cell:', toCell);
-
-    // console.log('fromCell: ', fromCell, ' toCell: ', toCell);
-
-    // animatedChangePositionFigure(toCell, event, true);
+    fromCell && toCell && animatedChangePositionFigure(fromCell, toCell, event);
 
     const moveFigureTimer = setTimeout(() => {
-      // console.log('Testing: fromCell', fromCell)
       if (fromCell && toCell && fromCell.figure) {
-
-        if (fromCell.figure.canMove(toCell)) { // error in this place
+        if (fromCell.figure.canMove(toCell)) {
           moveSound.play();
           fromCell.moveFigure(toCell);
           swapPlayer();
           updateBoard();
-          // Здесь можно добавить обновление истории ходов, звука и других действий
 
-          // Пример обновления состояния после хода
           setSelectedCell(null);
           setCheckedCell(null);
         } else {
@@ -105,12 +90,31 @@ const BoardWidget: React.FC<BoardProps> = ({
 
 
 
+  function clickField(cell: Cell, event: any) {
+    if (
+      selectedCell &&
+      selectedCell !== cell &&
+      selectedCell.figure?.canMove(cell)
+    ) {
+      makeMove(selectedCell.coordinate, cell.coordinate, eventForAnimation);
+      handlePlayerMove(selectedCell.coordinate, cell.coordinate, eventForAnimation);
+    } else {
+      if (cell.figure?.color === currentPlayer?.color) {
+        cell.setEatFieldAttack(null, false);
+        setEventForAnimation(event);
+        setCheckedCell(cell);
+        setSelectedCell(cell);
+      }
+    }
+  }
+
+
+
 
   useEffect(() => {
     const handleOpponentMove = (moveFrom: string, moveTo: string, event: any) => {
-      console.log('Received opponent move:', moveFrom, moveTo);
+
       makeMove(moveFrom, moveTo, event);
-      // Здесь вызывайте функцию, которая обрабатывает ход противника
     };
 
     if (socket) {
@@ -124,33 +128,25 @@ const BoardWidget: React.FC<BoardProps> = ({
     }
   }, [socket]);
 
-  // useEffect(() => {
-  //   if (selectedCellItems) {
-  //     const moveFigureTimer = setTimeout(() => {
-  //       selectedCellItems?.selectedCell.moveFigure(selectedCellItems?.cell);
-  //       updateBoard();
-  //     }, 300);
 
-  //     return () => clearTimeout(moveFigureTimer);
-  //   }
-  // }, [selectedCellItems]);
+  function animatedChangePositionFigure(fromCell: Cell, toCell: Cell, e: any) {
+    if (!fromCell || !toCell) {
+      console.log("Invalid cell objects provided.");
+      return;
+    }
 
-  function animatedChangePositionFigure(
-    figure: any,
-    e: any,
-    sequence: boolean
-  ) {
-    const findAncestor = (
-      node: any,
-      predicate: (node: any) => boolean
-    ): any => {
-      while (node && !predicate(node)) {
-        node = node.parent;
-      }
-      return node;
-    };
-
+    console.log(e);
     const addToLayerIfNeeded = (figure: any): any => {
+      const findAncestor = (
+        node: any,
+        predicate: (node: any) => boolean
+      ): any => {
+        while (node && !predicate(node)) {
+          node = node.parent;
+        }
+        return node;
+      };
+
       const figureGroup = findAncestor(
         figure,
         (node: any) => node.getClassName && node.getClassName() === "Group"
@@ -166,125 +162,105 @@ const BoardWidget: React.FC<BoardProps> = ({
       }
     };
 
-    if (!sequence) {
-      addToLayerIfNeeded(e.target);
+    addToLayerIfNeeded(e.target);
 
-      const parent = e.target.parent;
-      const children = parent ? parent.getChildren() : [];
-      const animateFigure = children.find(
-        (child: any) => child instanceof Konva.Image
-      );
-
-      if (animateFigure) {
-        setAnimateFigure(animateFigure);
-        setOldCellCoordinate(figure);
-      }
-    } else {
-      if (animatedFigure) {
-        addToLayerIfNeeded(animatedFigure);
-
-        animatedFigure.to({
-          x:
-            (figure.x - oldCellCoordinate.x) * 40 == 0
-              ? (figure.x - oldCellCoordinate.x) * 40 + 5
-              : (figure.x - oldCellCoordinate.x) * 40 + 5,
-          y:
-            (figure.y - oldCellCoordinate.y) * 40 == 0
-              ? (figure.y - oldCellCoordinate.y) * 40 + 5
-              : (figure.y - oldCellCoordinate.y) * 40 + 5,
-          duration: 0.3,
-          onFinish: () => setAnimateFigure(null),
-        });
-      }
+    const parent = e.target.parent;// Используйте board вместо parent, если это доступно
+    console.log('Parent: ', parent);
+    if (!parent) {
+      console.log("Parent container not found for fromCell:", fromCell);
+      return;
     }
+
+    const children = parent ? parent.getChildren() : [];
+
+    console.log('children: ', children);
+    const animateFigure = children.find(
+      (child: any) => child instanceof Konva.Image
+    );
+
+    console.log('animateFigure: ', animateFigure)
+    if (!animateFigure) {
+      console.log("Animate figure not found in children.");
+      return;
+    }
+
+    animateFigure.to({
+      x: (toCell.x - fromCell.x) * 40 + 5,
+      y: (toCell.y - fromCell.y) * 40 + 5,
+      duration: 0.3,
+      onFinish: () => {
+        console.log("Animation finished.");
+      },
+    });
   }
 
 
 
-  // const clickField = (cell: Cell) => {
-  //   if (selectedCell) {
-  //     if (checkedCell) {
-  //     
-  //       makeMove(fromCoordinate, toCoordinate);
+
+
+  // function animatedChangePositionFigure(
+  //   figure: any,
+  //   e: any,
+  //   sequence: boolean
+  // ) {
+  //   const findAncestor = (
+  //     node: any,
+  //     predicate: (node: any) => boolean
+  //   ): any => {
+  //     while (node && !predicate(node)) {
+  //       node = node.parent;
   //     }
-  //     else {
-  //       setCheckedCell(cell)
+  //     return node;
+  //   };
+
+  //   const addToLayerIfNeeded = (figure: any): any => {
+  //     const figureGroup = findAncestor(
+  //       figure,
+  //       (node: any) => node.getClassName && node.getClassName() === "Group"
+  //     );
+
+  //     if (figureGroup) {
+  //       if (
+  //         !figureGroup.getParent() ||
+  //         figureGroup.getParent().className !== "Layer"
+  //       ) {
+  //         figureGroup.moveToTop();
+  //       }
+  //     }
+  //   };
+
+  //   if (!sequence) {
+  //     addToLayerIfNeeded(e.target);
+
+  //     const parent = e.target.parent;
+  //     const children = parent ? parent.getChildren() : [];
+  //     const animateFigure = children.find(
+  //       (child: any) => child instanceof Konva.Image
+  //     );
+
+  //     if (animateFigure) {
+  //       setAnimateFigure(animateFigure);
+  //       setOldCellCoordinate(figure);
   //     }
   //   } else {
-  //     setSelectedCell(cell);
+  //     if (animatedFigure) {
+  //       addToLayerIfNeeded(animatedFigure);
+
+  //       animatedFigure.to({
+  //         x:
+  //           (figure.x - oldCellCoordinate.x) * 40 == 0
+  //             ? (figure.x - oldCellCoordinate.x) * 40 + 5
+  //             : (figure.x - oldCellCoordinate.x) * 40 + 5,
+  //         y:
+  //           (figure.y - oldCellCoordinate.y) * 40 == 0
+  //             ? (figure.y - oldCellCoordinate.y) * 40 + 5
+  //             : (figure.y - oldCellCoordinate.y) * 40 + 5,
+  //         duration: 0.3,
+  //         onFinish: () => setAnimateFigure(null),
+  //       });
+  //     }
   //   }
-  // };
-
-
-  function clickField(cell: Cell, event: any) {
-    if (
-      selectedCell &&
-      selectedCell !== cell &&
-      selectedCell.figure?.canMove(cell)
-    ) {
-      let x = cell.x;
-      let y = cell.y;
-
-      historyMovements.push({
-        moveFigure: true,
-        currentPlayer: currentPlayer?.color,
-        coordinate: cell.coordinate,
-        movedX: x,
-        movedY: y,
-      });
-
-      setHistoryMovementsState(historyMovements);
-
-      setSelectedCellItems({ selectedCell, cell });
-      animatedChangePositionFigure(cell, event, true);
-      makeMove(selectedCell.coordinate, cell.coordinate, event);
-      handlePlayerMove(selectedCell.coordinate, cell.coordinate, event);
-      setTimeout(() => {
-        if (
-          cell.x - selectedCell.x === 1 ||
-          cell.y - selectedCell.y === 1 ||
-          cell.x - selectedCell.x === -1 ||
-          cell.y - selectedCell.y === -1 ||
-          checkedCell?.infortress
-        ) {
-          moveSound.play();
-          setSelectedCell(null);
-        } else {
-          if (!board.canEatAbility(cell)) {
-            moveSound.play();
-            setSelectedCell(null);
-          } else {
-            moveSound.play();
-            setSelectedCell(cell);
-            animatedChangePositionFigure(cell, event, false);
-          }
-        }
-
-        setCheckedCell(null);
-        updateBoard();
-      }, 305);
-    } else {
-      if (cell.figure?.color === currentPlayer?.color) {
-        let x = cell.x;
-        let y = cell.y;
-
-        historyMovements.push({
-          moveFigure: false,
-          currentPlayer: currentPlayer?.color,
-          coordinateChecked: cell.coordinate,
-          checkedX: x,
-          checkedY: y,
-        });
-
-        cell.setEatFieldAttack(null, false);
-        setCheckedCell(cell);
-        setHistoryMovementsState(historyMovements);
-
-        setSelectedCell(cell);
-        animatedChangePositionFigure(cell, event, false);
-      }
-    }
-  }
+  // }
 
 
 

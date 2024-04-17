@@ -8,10 +8,7 @@ import Image from 'next/image';
 import { Suspense } from 'react';
 import Loading from "@/app/loading";
 import { Menu } from '@/widgets/menu';
-
 import SearchGif from '@/../public/gifs/search.gif';
-
-import { io, Socket } from 'socket.io-client';
 import { useSocket } from '@/contexts/socketContext';
 
 
@@ -19,8 +16,6 @@ import { useSocket } from '@/contexts/socketContext';
 export default function Home() {
   const socket = useSocket();
   const router = useRouter();
-  const path = usePathname();
-  console.log("asPath ", path);
 
   const [loading, setLoading] = useState(false);
 
@@ -44,14 +39,12 @@ export default function Home() {
   const handlePlayOnline = () => {
     if (socket) {
       setLoading(true)
-      console.log('Attempting to join or create game...');
-      const playerId = socket.id; // Используем socket.id как playerId
+      const playerId = socket.id;
 
-      socket.emit('joinOrCreate', { playerId }); // Отправляем событие на сервер с playerId
+      socket.emit('joinOrCreate', { playerId });
 
       socket.on('gameReady', (gameId: string) => {
-        console.log('Received game ID:', gameId);
-        router.push(`/game/${gameId}?gameId=${gameId}&playerId=${playerId}`); // Перенаправляем на страницу игры с gameId
+        router.push(`/game/${gameId}?gameId=${gameId}&playerId=${playerId}`);
         setLoading(false)
       });
     } else {
@@ -62,7 +55,6 @@ export default function Home() {
   const handleStopSearch = () => {
     if (socket) {
       setLoading(false);
-      // Отправить сообщение на сервер о завершении поиска и выходе из комнаты
       socket.emit('stopSearch');
     } else {
       console.error('Socket is null. Cannot join or create game.');
@@ -84,7 +76,7 @@ export default function Home() {
       <Suspense fallback={<Loading />}>
         <Menu />
         <div className="grid items-center justify-center w-full h-[100vh]">
-          {loading ? ( // Отображаем гифку о поиске соперника, если состояние загрузки true
+          {loading ? (
             <div className="fixed flex-col top-0 left-0 w-full h-full flex items-center justify-center bg-white z-50">
               <Image src={SearchGif} alt="my gif" height={300} width={300} />
               <div >
