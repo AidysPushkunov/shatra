@@ -30,10 +30,9 @@ export default function Home() {
   const gameId = searchParams.get('gameId')
   const playerId = searchParams.get('playerId');
 
-
-  const handlePlayerMove = (moveFrom: string, moveTo: string, event: any) => {
+  const handlePlayerMove = (moveFrom: string, moveTo: string) => {
     if (socket) {
-      socket.emit('makeMove', { gameId, playerId, moveFrom, moveTo, event });
+      socket.emit('makeMove', { gameId, playerId, moveFrom, moveTo });
     }
   };
 

@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Board } from "@/models/Board";
 import { ShowFigure } from "@/features/showFigure";
 import { Cell } from "@/models/Cell";
 import { Player } from "@/models/Player";
 import { Stage, Layer } from "react-konva";
 import Konva from "konva";
+import { Group } from "react-konva";
+
 
 
 interface BoardProps {
@@ -16,7 +18,7 @@ interface BoardProps {
   updateBoard: () => void;
   swapPlayer: () => void;
   onUpdateBoard: (board: Board) => void;
-  handlePlayerMove: (moveFrom: string, moveTo: string, event: any) => void;
+  handlePlayerMove: (moveFrom: string, moveTo: string) => void;
   socket: any;
 }
 
@@ -34,9 +36,8 @@ const BoardWidget: React.FC<BoardProps> = ({
   swapPlayer,
   onUpdateBoard,
   handlePlayerMove,
-  socket
+  socket,
 }) => {
-
   const [selectedCell, setSelectedCell] = useState<Cell | null>(null);
   const [checkedCell, setCheckedCell] = useState<Cell | null>(null);
 
@@ -46,6 +47,23 @@ const BoardWidget: React.FC<BoardProps> = ({
   const [oldCellCoordinate, setOldCellCoordinate] = useState<any>();
 
   const [eventForAnimation, setEventForAnimation] = useState<object>({});
+
+  const cellRefs = useRef<Array<Array<typeof Group | null>>>([]);
+
+  useEffect(() => {
+    cellRefs.current = Array.from({ length: board.cells.length }, () => []);
+  }, [board.cells.length]);
+
+  // Функция, которая передается в Field для обновления рефов
+  const updateCellRef = (row: number, col: number, ref: typeof Group | null) => {
+    cellRefs.current[row][col] = ref;
+  };
+
+  const getCellRef = (row: number, col: number) => {
+    return cellRefs.current[row][col];
+  };
+
+
 
   const [size, setSize] = useState({
     width: SCENE_BASE_WIDTH,
@@ -60,93 +78,60 @@ const BoardWidget: React.FC<BoardProps> = ({
 
 
 
-  const makeMove = (fromCoordinate: string, toCoordinate: string, event: any) => {
-
+  const makeMove = (fromCoordinate: string, toCoordinate: string) => {
     const fromCell = board.getCellByCoordinate(fromCoordinate);
     const toCell = board.getCellByCoordinate(toCoordinate);
 
-    fromCell && toCell && animatedChangePositionFigure(fromCell, toCell, event);
+    console.log('From Cell:', fromCell);
+    console.log('To Cell:', toCell);
 
-    const moveFigureTimer = setTimeout(() => {
-      if (fromCell && toCell && fromCell.figure) {
-        if (fromCell.figure.canMove(toCell)) {
-          moveSound.play();
-          fromCell.moveFigure(toCell);
-          swapPlayer();
-          updateBoard();
+    if (fromCell && toCell && fromCell.figure && fromCell.figure.canMove(toCell)) {
+      // Определяем координаты и группы для анимации
+      const animateFigure = getAnimateFigure(fromCell);
+      const animateGroup = animateFigure ? animateFigure.getParent() : null;
 
-          setSelectedCell(null);
-          setCheckedCell(null);
-        } else {
-          console.log("Invalid move!");
-        }
+      console.log('Animate Figure:', animateFigure);
+      console.log('Animate Group:', animateGroup);
+
+      if (animateFigure && animateGroup) {
+        animateFigure.to({
+          x: (toCell.x - fromCell.x) * 40 + 5,
+          y: (toCell.y - fromCell.y) * 40 + 5,
+          duration: 0.3,
+          onFinish: () => {
+            console.log('Animation Finished');
+            moveSound.play();
+            fromCell.moveFigure(toCell);
+            swapPlayer();
+            updateBoard();
+            setSelectedCell(null);
+            setCheckedCell(null);
+          },
+        });
       } else {
-        console.log("Invalid selection!");
+        console.log('Animate Figure or Group is not available.');
       }
-    }, 300);
-
-    return () => clearTimeout(moveFigureTimer);
-  }
-
-
-
-  function clickField(cell: Cell, event: any) {
-    if (
-      selectedCell &&
-      selectedCell !== cell &&
-      selectedCell.figure?.canMove(cell)
-    ) {
-      makeMove(selectedCell.coordinate, cell.coordinate, eventForAnimation);
-      handlePlayerMove(selectedCell.coordinate, cell.coordinate, eventForAnimation);
     } else {
-      if (cell.figure?.color === currentPlayer?.color) {
-        cell.setEatFieldAttack(null, false);
-        setEventForAnimation(event);
-        setCheckedCell(cell);
-        setSelectedCell(cell);
-      }
+      console.log('Invalid move or cells.');
     }
-  }
+  };
 
+  const getAnimateFigure = (cell: Cell): Konva.Image | null => {
+    console.log('Animation refs: ', cellRefs)
+    const groupRef: any = getCellRef(cell.x, cell.y);
+    console.log('get groupRef: ', groupRef)
 
-
-
-  useEffect(() => {
-    const handleOpponentMove = (moveFrom: string, moveTo: string, event: any) => {
-
-      makeMove(moveFrom, moveTo, event);
+    const findAncestor = (
+      node: any,
+      predicate: (node: any) => boolean
+    ): any => {
+      while (node && !predicate(node)) {
+        node = node.parent;
+      }
+      return node;
     };
 
-    if (socket) {
-      socket.on('opponentMove', handleOpponentMove);
-
-      return () => {
-        socket.off('opponentMove', handleOpponentMove);
-      };
-    } else {
-      console.log('Socket connection not available');
-    }
-  }, [socket]);
-
-
-  function animatedChangePositionFigure(fromCell: Cell, toCell: Cell, e: any) {
-    if (!fromCell || !toCell) {
-      console.log("Invalid cell objects provided.");
-      return;
-    }
-
-    console.log(e);
     const addToLayerIfNeeded = (figure: any): any => {
-      const findAncestor = (
-        node: any,
-        predicate: (node: any) => boolean
-      ): any => {
-        while (node && !predicate(node)) {
-          node = node.parent;
-        }
-        return node;
-      };
-
       const figureGroup = findAncestor(
         figure,
         (node: any) => node.getClassName && node.getClassName() === "Group"
@@ -162,105 +147,57 @@ const BoardWidget: React.FC<BoardProps> = ({
       }
     };
 
-    addToLayerIfNeeded(e.target);
+    if (groupRef) {
+      const children = groupRef.current.children;
 
-    const parent = e.target.parent;// Используйте board вместо parent, если это доступно
-    console.log('Parent: ', parent);
-    if (!parent) {
-      console.log("Parent container not found for fromCell:", fromCell);
-      return;
+      const animateFigure = children.find(
+        (child: any) => child instanceof Konva.Image
+      );
+      addToLayerIfNeeded(animateFigure);
+      return animateFigure as Konva.Image;
+    } else {
+      console.log('GroupRef is null or undefined.');
     }
 
-    const children = parent ? parent.getChildren() : [];
+    return null;
+  };
 
-    console.log('children: ', children);
-    const animateFigure = children.find(
-      (child: any) => child instanceof Konva.Image
-    );
 
-    console.log('animateFigure: ', animateFigure)
-    if (!animateFigure) {
-      console.log("Animate figure not found in children.");
-      return;
+
+  function clickField(cell: Cell, event: any) {
+    if (
+      selectedCell &&
+      selectedCell !== cell &&
+      selectedCell.figure?.canMove(cell)
+    ) {
+      makeMove(selectedCell.coordinate, cell.coordinate);
+      handlePlayerMove(selectedCell.coordinate, cell.coordinate);
+    } else {
+      if (cell.figure?.color === currentPlayer?.color) {
+        cell.setEatFieldAttack(null, false);
+        setEventForAnimation(event);
+        setCheckedCell(cell);
+        setSelectedCell(cell);
+      }
     }
-
-    animateFigure.to({
-      x: (toCell.x - fromCell.x) * 40 + 5,
-      y: (toCell.y - fromCell.y) * 40 + 5,
-      duration: 0.3,
-      onFinish: () => {
-        console.log("Animation finished.");
-      },
-    });
   }
 
+  useEffect(() => {
+    const handleOpponentMove = (moveFrom: string, moveTo: string, event: any) => {
 
+      makeMove(moveFrom, moveTo);
+    };
 
+    if (socket) {
+      socket.on('opponentMove', handleOpponentMove);
 
-
-  // function animatedChangePositionFigure(
-  //   figure: any,
-  //   e: any,
-  //   sequence: boolean
-  // ) {
-  //   const findAncestor = (
-  //     node: any,
-  //     predicate: (node: any) => boolean
-  //   ): any => {
-  //     while (node && !predicate(node)) {
-  //       node = node.parent;
-  //     }
-  //     return node;
-  //   };
-
-  //   const addToLayerIfNeeded = (figure: any): any => {
-  //     const figureGroup = findAncestor(
-  //       figure,
-  //       (node: any) => node.getClassName && node.getClassName() === "Group"
-  //     );
-
-  //     if (figureGroup) {
-  //       if (
-  //         !figureGroup.getParent() ||
-  //         figureGroup.getParent().className !== "Layer"
-  //       ) {
-  //         figureGroup.moveToTop();
-  //       }
-  //     }
-  //   };
-
-  //   if (!sequence) {
-  //     addToLayerIfNeeded(e.target);
-
-  //     const parent = e.target.parent;
-  //     const children = parent ? parent.getChildren() : [];
-  //     const animateFigure = children.find(
-  //       (child: any) => child instanceof Konva.Image
-  //     );
-
-  //     if (animateFigure) {
-  //       setAnimateFigure(animateFigure);
-  //       setOldCellCoordinate(figure);
-  //     }
-  //   } else {
-  //     if (animatedFigure) {
-  //       addToLayerIfNeeded(animatedFigure);
-
-  //       animatedFigure.to({
-  //         x:
-  //           (figure.x - oldCellCoordinate.x) * 40 == 0
-  //             ? (figure.x - oldCellCoordinate.x) * 40 + 5
-  //             : (figure.x - oldCellCoordinate.x) * 40 + 5,
-  //         y:
-  //           (figure.y - oldCellCoordinate.y) * 40 == 0
-  //             ? (figure.y - oldCellCoordinate.y) * 40 + 5
-  //             : (figure.y - oldCellCoordinate.y) * 40 + 5,
-  //         duration: 0.3,
-  //         onFinish: () => setAnimateFigure(null),
-  //       });
-  //     }
-  //   }
-  // }
+      return () => {
+        socket.off('opponentMove', handleOpponentMove);
+      };
+    } else {
+      console.log('Socket connection not available');
+    }
+  }, [socket]);
 
 
 
@@ -293,6 +230,8 @@ const BoardWidget: React.FC<BoardProps> = ({
           intent={cell.color}
           cell={cell}
           selected={cell.x === selectedCell?.x && cell.y === selectedCell?.y}
+          cellRefs={cellRefs}
+          updateCellRef={updateCellRef}
         />
       ))
     );

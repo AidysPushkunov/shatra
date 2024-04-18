@@ -1,6 +1,7 @@
 import { Field } from "@/entities/field";
 import { Cell } from "@/models/Cell";
 import { FigureEntities } from "@/entities/figure";
+import { Group } from "react-konva";
 
 type ShowFieldProps = {
   index: number;
@@ -9,6 +10,8 @@ type ShowFieldProps = {
   cell: Cell;
   selected: boolean;
   clickField: (cell: Cell, event: any) => void;
+  cellRefs: any;
+  updateCellRef: any;
 };
 
 const ShowFigure: React.FC<ShowFieldProps> = ({
@@ -18,6 +21,8 @@ const ShowFigure: React.FC<ShowFieldProps> = ({
   cell,
   selected,
   clickField,
+  cellRefs,
+  updateCellRef
 }) => {
   return (
     <Field
@@ -28,6 +33,8 @@ const ShowFigure: React.FC<ShowFieldProps> = ({
       selected={selected}
       clickField={clickField}
       cell={cell}
+      cellRefs={cellRefs}
+      updateCellRef={updateCellRef}
     >
       <FigureEntities intent={cell} />
     </Field>

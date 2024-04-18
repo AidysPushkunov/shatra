@@ -1,7 +1,5 @@
-"use client";
-
 import { Cell } from "@/models/Cell";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { Rect, Circle, Group, Text } from "react-konva";
 
 const fieldIntent = {
@@ -13,15 +11,6 @@ const fieldIntent = {
   attackFigure: "green",
 };
 
-// const fieldIntent = {
-// black: "#769656",
-// white: "#EEEED2",
-// active: "rgba(123, 97, 255, 0.5)",
-// activeField: "#BAAEFE",
-// fortress: "",
-// attackFigure: "red",
-// };
-
 type FieldProps = {
   index: number;
   indexRow: number;
@@ -30,6 +19,8 @@ type FieldProps = {
   children: React.ReactNode;
   selected: boolean;
   clickField: (cell: Cell, event: any) => void;
+  cellRefs: any;
+  updateCellRef: (row: number, col: number, ref: any) => void;
 };
 
 const Field: React.FC<FieldProps> = ({
@@ -40,14 +31,19 @@ const Field: React.FC<FieldProps> = ({
   children,
   selected,
   clickField,
+  cellRefs,
+  updateCellRef
 }) => {
-  const figureRef = React.useRef(null);
+  const groupRef = useRef(null);
+
+  useEffect(() => {
+    updateCellRef(indexRow, index, groupRef);
+  }, [index, indexRow, updateCellRef]);
 
   const isTopRow = index === 0;
-  const isBottomRow = index === 13; // Assuming 14 rows (0 to 13)
+  const isBottomRow = index === 13;
   const isLeftColumn = indexRow === 0;
-  const isRightColumn = indexRow === 6; // Assuming 7 columns (0 to 6)
-
+  const isRightColumn = indexRow === 6;
 
   const coordinateName = cell.coordinate.match(/^([A-G]+)(\d+)$/);
 
@@ -57,7 +53,7 @@ const Field: React.FC<FieldProps> = ({
       y={index * 40}
       width={40}
       height={40}
-      ref={figureRef}
+      ref={groupRef}
       onClick={(event) => {
         clickField(cell, event);
       }}
