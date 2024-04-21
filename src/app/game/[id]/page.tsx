@@ -11,7 +11,8 @@ import Loading from "@/app/loading";
 import { Menu } from "@/widgets/menu";
 
 import { useSocket } from '@/contexts/socketContext';
-
+import { useRouter } from 'next/navigation';
+import _ from "lodash";
 
 
 
@@ -21,6 +22,7 @@ let historyMovements: any[] = [];
 export default function Home() {
   const socket = useSocket();
   const searchParams = useSearchParams();
+  const router = useRouter();
 
   const [historyMovementsState, setHistoryMovementsState] = useState(historyMovements);
   const [whitePlayer] = useState(new Player(Colors.WHITE));
@@ -29,6 +31,13 @@ export default function Home() {
   const [board, setBoard] = useState<Board | null>(null);
   const gameId = searchParams.get('gameId')
   const playerId = searchParams.get('playerId');
+  const playerColor = searchParams.get('playerColor');
+
+  const [flippBoard, setflippBoard] = useState(false);
+
+
+  console.log('Player color: ', playerColor)
+  console.log('currentPlayer: ', currentPlayer)
 
   const handlePlayerMove = (moveFrom: string, moveTo: string) => {
     if (socket) {
@@ -36,6 +45,26 @@ export default function Home() {
     }
   };
 
+
+  useEffect(() => {
+    if (playerColor === 'black' && board) {
+      setflippBoard(true);
+    }
+  }, [playerColor, board]);
+
+  useEffect(() => {
+    if (board) {
+      setBoard(prevBoard => {
+        const newBoard = _.cloneDeep(prevBoard);
+        newBoard && newBoard.flipBoard();
+        newBoard && newBoard.addFigures();
+        return newBoard;
+      });
+
+
+      console.log(board);
+    }
+  }, [flippBoard])
 
   useEffect((): void => {
     restart();
@@ -51,10 +80,22 @@ export default function Home() {
 
   }
 
+  useEffect(() => {
+    if (socket) {
+      console.log('socket swap worked')
+      socket.on('playerUpdated', (newPlayerColor) => {
+        const newPlayer = new Player(newPlayerColor);
+        setCurrentPlayer(newPlayer);
+        updateBoard(); // Обновление игровой доски
+      });
+    }
+  }, [socket])
+
   function swapPlayer(): void {
-    setCurrentPlayer(
-      currentPlayer?.color === Colors.WHITE ? blackPlayer : whitePlayer
-    );
+    if (socket) {
+      socket.emit('swapPlayer');
+    }
+
     setTimeout((): void => updateBoard(), 305);
   }
 
@@ -87,6 +128,7 @@ export default function Home() {
                 onUpdateBoard={(updatedBoard: any) => setBoard(updatedBoard)}
                 handlePlayerMove={handlePlayerMove}
                 socket={socket}
+                playerColor={playerColor}
               />
             </div>
           </div>

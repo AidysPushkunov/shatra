@@ -20,6 +20,7 @@ interface BoardProps {
   onUpdateBoard: (board: Board) => void;
   handlePlayerMove: (moveFrom: string, moveTo: string) => void;
   socket: any;
+  playerColor: string | null;
 }
 
 
@@ -37,11 +38,13 @@ const BoardWidget: React.FC<BoardProps> = ({
   onUpdateBoard,
   handlePlayerMove,
   socket,
+  playerColor
 }) => {
   const [selectedCell, setSelectedCell] = useState<Cell | null>(null);
   const [checkedCell, setCheckedCell] = useState<Cell | null>(null);
 
   const [state, setState] = useState<any[]>([]);
+
   const [animatedFigure, setAnimateFigure] = useState<any>(null);
   const [selectedCellItems, setSelectedCellItems] = useState<any>();
   const [oldCellCoordinate, setOldCellCoordinate] = useState<any>();
@@ -78,6 +81,7 @@ const BoardWidget: React.FC<BoardProps> = ({
 
 
 
+
   const makeMove = (fromCoordinate: string, toCoordinate: string) => {
     const fromCell = board.getCellByCoordinate(fromCoordinate);
     const toCell = board.getCellByCoordinate(toCoordinate);
@@ -102,7 +106,6 @@ const BoardWidget: React.FC<BoardProps> = ({
             console.log('Animation Finished');
             moveSound.play();
             fromCell.moveFigure(toCell);
-            swapPlayer();
             updateBoard();
             setSelectedCell(null);
             setCheckedCell(null);
@@ -172,8 +175,9 @@ const BoardWidget: React.FC<BoardProps> = ({
     ) {
       makeMove(selectedCell.coordinate, cell.coordinate);
       handlePlayerMove(selectedCell.coordinate, cell.coordinate);
+      swapPlayer();
     } else {
-      if (cell.figure?.color === currentPlayer?.color) {
+      if (currentPlayer?.color === playerColor && cell.figure?.color === playerColor) {
         cell.setEatFieldAttack(null, false);
         setEventForAnimation(event);
         setCheckedCell(cell);
@@ -186,6 +190,7 @@ const BoardWidget: React.FC<BoardProps> = ({
     const handleOpponentMove = (moveFrom: string, moveTo: string, event: any) => {
 
       makeMove(moveFrom, moveTo);
+
     };
 
     if (socket) {

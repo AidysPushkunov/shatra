@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 
-import { useRouter, usePathname } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Suspense } from 'react';
@@ -15,7 +15,7 @@ import { useSocket } from '@/contexts/socketContext';
 
 export default function Home() {
   const socket = useSocket();
-  const router = useRouter();
+  const router: any = useRouter();
 
   const [loading, setLoading] = useState(false);
 
@@ -43,8 +43,8 @@ export default function Home() {
 
       socket.emit('joinOrCreate', { playerId });
 
-      socket.on('gameReady', (gameId: string) => {
-        router.push(`/game/${gameId}?gameId=${gameId}&playerId=${playerId}`);
+      socket.on('gameReady', (gameId: string, playrColor: string) => {
+        router.push(`/game/${gameId}?gameId=${gameId}&playerId=${playerId}&playerColor=${playrColor}`);
         setLoading(false)
       });
     } else {
