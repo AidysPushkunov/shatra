@@ -32,10 +32,10 @@ export class Board {
   lostBlackFigures: Figure[] = [];
   lostWhiteFigures: Figure[] = [];
 
-  constructor() {
-    this.initCells();
-    this.addFigures();
-  }
+  // constructor() {
+  //   this.initCells();
+  //   this.addFigures();
+  // }
 
   public flipBoard() {
     this.cells = this.cells.reverse();

@@ -7,6 +7,9 @@ import { Stage, Layer } from "react-konva";
 import Konva from "konva";
 import { Group } from "react-konva";
 
+import _ from "lodash";
+import { Colors } from "@/models/Colors";
+
 
 
 interface BoardProps {
@@ -44,6 +47,7 @@ const BoardWidget: React.FC<BoardProps> = ({
   const [checkedCell, setCheckedCell] = useState<Cell | null>(null);
 
   const [state, setState] = useState<any[]>([]);
+  const [flippBoard, setFlippBoard] = useState<boolean>(false);
 
   const [animatedFigure, setAnimateFigure] = useState<any>(null);
   const [selectedCellItems, setSelectedCellItems] = useState<any>();
@@ -52,12 +56,14 @@ const BoardWidget: React.FC<BoardProps> = ({
   const [eventForAnimation, setEventForAnimation] = useState<object>({});
 
   const cellRefs = useRef<Array<Array<typeof Group | null>>>([]);
+  const [initialized, setInitialized] = useState(false);
+
+
 
   useEffect(() => {
     cellRefs.current = Array.from({ length: board.cells.length }, () => []);
   }, [board.cells.length]);
 
-  // Функция, которая передается в Field для обновления рефов
   const updateCellRef = (row: number, col: number, ref: typeof Group | null) => {
     cellRefs.current[row][col] = ref;
   };
@@ -79,23 +85,18 @@ const BoardWidget: React.FC<BoardProps> = ({
     moveSound = new Audio("/sounds/shatra_sound.mp3")
   }
 
-
-
-
   const makeMove = (fromCoordinate: string, toCoordinate: string) => {
     const fromCell = board.getCellByCoordinate(fromCoordinate);
     const toCell = board.getCellByCoordinate(toCoordinate);
 
-    console.log('From Cell:', fromCell);
-    console.log('To Cell:', toCell);
+    console.log('From cell, to cell: ', fromCoordinate, toCoordinate)
+    console.log('From cell, to cell: ', fromCell, toCell)
+
 
     if (fromCell && toCell && fromCell.figure && fromCell.figure.canMove(toCell)) {
-      // Определяем координаты и группы для анимации
       const animateFigure = getAnimateFigure(fromCell);
       const animateGroup = animateFigure ? animateFigure.getParent() : null;
 
-      console.log('Animate Figure:', animateFigure);
-      console.log('Animate Group:', animateGroup);
 
       if (animateFigure && animateGroup) {
         animateFigure.to({
@@ -103,7 +104,6 @@ const BoardWidget: React.FC<BoardProps> = ({
           y: (toCell.y - fromCell.y) * 40 + 5,
           duration: 0.3,
           onFinish: () => {
-            console.log('Animation Finished');
             moveSound.play();
             fromCell.moveFigure(toCell);
             updateBoard();
@@ -120,9 +120,7 @@ const BoardWidget: React.FC<BoardProps> = ({
   };
 
   const getAnimateFigure = (cell: Cell): Konva.Image | null => {
-    console.log('Animation refs: ', cellRefs)
     const groupRef: any = getCellRef(cell.x, cell.y);
-    console.log('get groupRef: ', groupRef)
 
     const findAncestor = (
       node: any,
@@ -177,6 +175,7 @@ const BoardWidget: React.FC<BoardProps> = ({
       handlePlayerMove(selectedCell.coordinate, cell.coordinate);
       swapPlayer();
     } else {
+      console.log(cell);
       if (currentPlayer?.color === playerColor && cell.figure?.color === playerColor) {
         cell.setEatFieldAttack(null, false);
         setEventForAnimation(event);
@@ -188,9 +187,8 @@ const BoardWidget: React.FC<BoardProps> = ({
 
   useEffect(() => {
     const handleOpponentMove = (moveFrom: string, moveTo: string, event: any) => {
-
+      console.log("From Socket: ", moveFrom, moveTo);
       makeMove(moveFrom, moveTo);
-
     };
 
     if (socket) {
@@ -212,6 +210,7 @@ const BoardWidget: React.FC<BoardProps> = ({
 
 
 
+
   useEffect(() => {
     setState(() => generateCanvasElements());
     onUpdateBoard(board);
@@ -222,7 +221,6 @@ const BoardWidget: React.FC<BoardProps> = ({
     board.highlightCells(selectedCell);
     updateBoard();
   }
-
 
   function generateCanvasElements() {
     const arrayCanvasElements: any = board.cells.map((row, index) =>
@@ -243,6 +241,7 @@ const BoardWidget: React.FC<BoardProps> = ({
 
     return arrayCanvasElements.flat();
   }
+
 
   useEffect(() => {
     const handleResize = () => {
@@ -275,7 +274,7 @@ const BoardWidget: React.FC<BoardProps> = ({
 
   return (
     <div id="stage-parent-container">
-      <div id="stage-parent" >
+      <div id="stage-parent">
         <Stage width={size.width} height={size.height}
           scale={getScale()}
         >
