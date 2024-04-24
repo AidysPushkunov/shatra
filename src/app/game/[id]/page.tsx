@@ -18,7 +18,6 @@ import { Cell } from "@/models/Cell";
 
 
 
-
 let historyMovements: any[] = [];
 
 
@@ -35,6 +34,11 @@ export default function Home() {
   const gameId = searchParams.get('gameId')
   const playerId = searchParams.get('playerId');
   const playerColor = searchParams.get('playerColor');
+
+
+  console.log('currentPlayer: ', currentPlayer);
+  console.log('playerColor: ', playerColor);
+
 
 
   const handlePlayerMove = (moveFrom: string, moveTo: string) => {
@@ -55,16 +59,11 @@ export default function Home() {
 
   function updateBoard(): void {
     if (board) {
-      if (playerColor && playerColor === Colors.BLACK) {
-        console.log('Updated black')
-        const newBoard = board.getCopyBoard();
-        setBoard(newBoard);
-      } else {
-        const newBoard = board.getCopyBoard();
-        setBoard(newBoard);
-      }
+      const newBoard = board.getCopyBoard();
+      setBoard(newBoard)
     }
   }
+
 
   useEffect(() => {
     if (socket) {
@@ -109,9 +108,6 @@ export default function Home() {
 
     return reversedBoard;
   }
-
-
-
 
 
   function restart(): void {

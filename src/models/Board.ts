@@ -175,7 +175,8 @@ export class Board {
     return this.cells[y][x];
   }
 
-  public getCellByCoordinate(coorditate: string): Cell | null {
+  // edited in this place
+  public getCellByCoordinate(coorditate: string, isBoardReversed: boolean): Cell | null {
     if (!this.cells || !Array.isArray(this.cells) || this.cells.length === 0) {
       console.error('Board cells are not properly initialized.');
       return null;
@@ -191,8 +192,23 @@ export class Board {
     const xStr = match[1];
     const yStr = match[2];
 
-    const x = notationSymbolX.indexOf(xStr);
-    const y = notationSymbolY.indexOf(yStr);
+    let x, y;
+
+    // let x = notationSymbolX.indexOf(xStr);
+    // let y = notationSymbolY.indexOf(yStr);
+
+    if (isBoardReversed) {
+      // Если доска перевернута, использовать обратные координаты
+      const reversedXStr = this.reverseNotationSymbolX(xStr);
+      const reversedYStr = this.reverseNotationSymbolY(yStr);
+
+      x = notationSymbolX.indexOf(reversedXStr);
+      y = notationSymbolY.indexOf(reversedYStr);
+    } else {
+      // Иначе использовать стандартные координаты
+      x = notationSymbolX.indexOf(xStr);
+      y = notationSymbolY.indexOf(yStr);
+    }
 
     if (x === -1 || y === -1 || y >= this.cells.length || x >= this.cells[y].length) {
       console.error('Invalid coordinates:', xStr, yStr);
@@ -202,6 +218,36 @@ export class Board {
     // Возвращаем актуальную ячейку по координатам x и y
     return this.cells[y][x];
   }
+
+  reverseNotationSymbolX(xStr: string): string {
+
+    // Индекс текущего символа в стандартных символах
+    const currentIndex = notationSymbolX.indexOf(xStr);
+
+    // Отражаем символ по горизонтальной оси
+    const reversedSymbol = notationSymbolX[notationSymbolX.length - 1 - currentIndex];
+
+    return reversedSymbol;
+  }
+
+  reverseNotationSymbolY(yStr: string): string {
+    // Предположим, что в данном случае yStr представляет собой цифровое значение (номер строки на доске)
+
+    // Пример: Пусть yStr = '3', соответствует третьей строке на доске
+    const maxY = 14; // Максимальное количество строк на доске (предположим, доска имеет 8 строк)
+
+    // Преобразуем yStr в число (номер строки на доске)
+    const y = parseInt(yStr, 10);
+
+    // Отражаем номер строки на доске относительно максимального количества строк
+    const reversedY = maxY - y + 1;
+
+    // Преобразуем результат обратно в строку (новый номер строки)
+    const reversedYStr = reversedY.toString();
+
+    return reversedYStr;
+  }
+
 
   // Метод для обновления данных в ячейке по координатам x и y
   public updateCell(x: number, y: number, updatedCell: Cell) {

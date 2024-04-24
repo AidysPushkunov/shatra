@@ -73,7 +73,6 @@ const BoardWidget: React.FC<BoardProps> = ({
   };
 
 
-
   const [size, setSize] = useState({
     width: SCENE_BASE_WIDTH,
     height: SCENE_BASE_HEIGHT,
@@ -82,12 +81,22 @@ const BoardWidget: React.FC<BoardProps> = ({
   let moveSound: any;
 
   if (typeof window !== 'undefined') {
-    moveSound = new Audio("/sounds/shatra_sound.mp3")
+    moveSound = new Audio("/sounds/shatra_sound.mp3");
   }
 
   const makeMove = (fromCoordinate: string, toCoordinate: string) => {
-    const fromCell = board.getCellByCoordinate(fromCoordinate);
-    const toCell = board.getCellByCoordinate(toCoordinate);
+    console.log('was makeMove');
+
+
+    let fromCell, toCell;
+
+    if (playerColor === Colors.BLACK) {
+      fromCell = board.getCellByCoordinate(fromCoordinate, true);
+      toCell = board.getCellByCoordinate(toCoordinate, true);
+    } else {
+      fromCell = board.getCellByCoordinate(fromCoordinate, false);
+      toCell = board.getCellByCoordinate(toCoordinate, false);
+    }
 
     console.log('From cell, to cell: ', fromCoordinate, toCoordinate)
     console.log('From cell, to cell: ', fromCell, toCell)
@@ -100,8 +109,8 @@ const BoardWidget: React.FC<BoardProps> = ({
 
       if (animateFigure && animateGroup) {
         animateFigure.to({
-          x: (toCell.x - fromCell.x) * 40 + 5,
-          y: (toCell.y - fromCell.y) * 40 + 5,
+          x: playerColor === Colors.WHITE ? (toCell.x - fromCell.x) * 40 + 5 : (fromCell.x - toCell.x) * 40 + 5,
+          y: playerColor === Colors.WHITE ? (toCell.y - fromCell.y) * 40 + 5 : (fromCell.y - toCell.y) * 40 + 5,
           duration: 0.3,
           onFinish: () => {
             moveSound.play();
@@ -120,7 +129,17 @@ const BoardWidget: React.FC<BoardProps> = ({
   };
 
   const getAnimateFigure = (cell: Cell): Konva.Image | null => {
-    const groupRef: any = getCellRef(cell.x, cell.y);
+
+    let groupRef: any;
+
+    // Determine which board orientation to use based on player's color
+    if (playerColor === Colors.BLACK) {
+      // For black player, use reversed board orientation
+      groupRef = getCellRef(6 - cell.x, 13 - cell.y); // Reversing coordinates for the black side
+    } else {
+      // For white player, use normal board orientation
+      groupRef = getCellRef(cell.x, cell.y);
+    }
 
     const findAncestor = (
       node: any,
@@ -148,7 +167,7 @@ const BoardWidget: React.FC<BoardProps> = ({
       }
     };
 
-    if (groupRef) {
+    if (groupRef && groupRef.current) {
       const children = groupRef.current.children;
 
       const animateFigure = children.find(
@@ -164,6 +183,51 @@ const BoardWidget: React.FC<BoardProps> = ({
   };
 
 
+  // const getAnimateFigure = (cell: Cell): Konva.Image | null => {
+  //   const groupRef: any = getCellRef(cell.x, cell.y);
+
+  //   const findAncestor = (
+  //     node: any,
+  //     predicate: (node: any) => boolean
+  //   ): any => {
+  //     while (node && !predicate(node)) {
+  //       node = node.parent;
+  //     }
+  //     return node;
+  //   };
+
+  //   const addToLayerIfNeeded = (figure: any): any => {
+  //     const figureGroup = findAncestor(
+  //       figure,
+  //       (node: any) => node.getClassName && node.getClassName() === "Group"
+  //     );
+
+  //     if (figureGroup) {
+  //       if (
+  //         !figureGroup.getParent() ||
+  //         figureGroup.getParent().className !== "Layer"
+  //       ) {
+  //         figureGroup.moveToTop();
+  //       }
+  //     }
+  //   };
+
+  //   if (groupRef) {
+  //     const children = groupRef.current.children;
+
+  //     const animateFigure = children.find(
+  //       (child: any) => child instanceof Konva.Image
+  //     );
+  //     addToLayerIfNeeded(animateFigure);
+  //     return animateFigure as Konva.Image;
+  //   } else {
+  //     console.log('GroupRef is null or undefined.');
+  //   }
+
+  //   return null;
+  // };
+
+
 
   function clickField(cell: Cell, event: any) {
     if (
@@ -171,16 +235,25 @@ const BoardWidget: React.FC<BoardProps> = ({
       selectedCell !== cell &&
       selectedCell.figure?.canMove(cell)
     ) {
+      console.log('secondClick: ', cell);
+
       makeMove(selectedCell.coordinate, cell.coordinate);
       handlePlayerMove(selectedCell.coordinate, cell.coordinate);
       swapPlayer();
     } else {
-      console.log(cell);
+      console.log('firstClick: ', cell);
+
+      console.log('playerColor: ', playerColor);
+      console.log('currentPlayer?.color: ', currentPlayer?.color);
+      console.log('currentPlayer?.color === playerColor && cell.figure?.color === playerColor: ', currentPlayer?.color === playerColor && cell.figure?.color === playerColor);
+
       if (currentPlayer?.color === playerColor && cell.figure?.color === playerColor) {
         cell.setEatFieldAttack(null, false);
         setEventForAnimation(event);
         setCheckedCell(cell);
         setSelectedCell(cell);
+
+        console.log('selectedCell: ', selectedCell);
       }
     }
   }
