@@ -115,7 +115,7 @@ const BoardWidget: React.FC<BoardProps> = ({
           onFinish: () => {
             moveSound.play();
             fromCell.moveFigure(toCell);
-            updateBoard();
+            setTimeout(() => updateBoard(), 305);
             setSelectedCell(null);
             setCheckedCell(null);
           },
