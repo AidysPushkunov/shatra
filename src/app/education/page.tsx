@@ -11,7 +11,7 @@ export default function Home() {
         <>
             <Suspense fallback={<Loading />}>
                 <Menu />
-                <div className="flex justify-center ml-[70px]">
+                <div className="grid items-center w-full mx-auto justify-center px-5">
                     <div className='max-w-[700px]'>
                         <h1 className="font-medium my-5">Shatra Board</h1>
                         <p>
