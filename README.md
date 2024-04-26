@@ -3,7 +3,7 @@
 
 Welcome to Altai Shatra - an immersive virtual world where two players can engage in real-time gameplay.
 
-![Altai Shatra Animation](./gifs/shatra_movements.gif)
+![shatra_movements](https://github.com/AidysPushkunov/shatra/assets/75690905/c99a3722-dc88-420f-ac6d-4ec85f344223)
 
 
 ## Features
