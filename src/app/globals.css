@@ -5,11 +5,7 @@
 
 body {
     overflow-x: hidden;
-    /* overflow-y: hidden; */
 }
-
-
-/* === Adaptive for canvas board game === */
 
 #stage-parent-container {
     display: flex;
@@ -28,8 +24,8 @@ body {
 
 @media screen and (min-width: 280px) {
   #stage-parent {
-    width: 280px; /* Ширина доски */
-    height: 560px; /* Высота доски */
+    width: 280px;
+    height: 560px;
   }
 }
 
@@ -39,5 +35,3 @@ body {
     height: auto;
   }
 }
-
-  /* ================================  */

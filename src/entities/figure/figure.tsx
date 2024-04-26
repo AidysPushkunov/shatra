@@ -44,8 +44,6 @@ const FigureEntities: React.FC<FigureProps> = ({ intent }) => {
     <>
       {intent.figure?.logo === "whiteShatra" ? (
         <Image
-          // draggable
-
           image={image}
           x={5}
           y={5}
@@ -57,8 +55,6 @@ const FigureEntities: React.FC<FigureProps> = ({ intent }) => {
         />
       ) : intent.figure?.logo === "blackShatra" ? (
         <Image
-          // draggable
-
           image={image}
           x={5}
           y={5}
@@ -70,8 +66,6 @@ const FigureEntities: React.FC<FigureProps> = ({ intent }) => {
         />
       ) : intent.figure?.logo === "whiteBiy" ? (
         <Image
-          // draggable
-
           image={image}
           x={5}
           y={5}
@@ -83,8 +77,6 @@ const FigureEntities: React.FC<FigureProps> = ({ intent }) => {
         />
       ) : intent.figure?.logo === "blackBiy" ? (
         <Image
-          // draggable
-
           image={image}
           x={5}
           y={5}
@@ -96,8 +88,6 @@ const FigureEntities: React.FC<FigureProps> = ({ intent }) => {
         />
       ) : intent.figure?.logo === "whiteBaatyr" ? (
         <Image
-          // draggable
-
           image={image}
           x={5}
           y={5}
@@ -109,7 +99,6 @@ const FigureEntities: React.FC<FigureProps> = ({ intent }) => {
         />
       ) : intent.figure?.logo === "blackBaatyr" ? (
         <Image
-          // draggable
           image={image}
           x={5}
           y={5}

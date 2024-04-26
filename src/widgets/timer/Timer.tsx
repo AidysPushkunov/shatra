@@ -11,7 +11,7 @@ const Timer: React.FC<TimerProps> = ({ currentPlayer, restart }) => {
   const [blackTime, setBlackTime] = React.useState(300);
   const [whiteTime, setWhiteTime] = React.useState(300);
 
-  // поработать над временем
+
 
   // let hoursBlackTime = blackTime >= 3600 ? blackTime / 3600 : 0;
   let minutesBlackTime = blackTime >= 60 ? blackTime / 60 : 0;

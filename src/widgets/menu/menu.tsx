@@ -43,20 +43,6 @@ const Menu = () => {
                 </Link>
 
 
-
-                {/* <Link href="/game" className="py-2 w-full flex flex-col justify-center hover:bg-gray-100 transition-all rounded-sm items-center gap-2 text-gray-500">
-                    <Image
-                        src="/images/controller.png"
-                        width={30}
-                        height={30}
-                        alt="main page"
-                    />
-                    <div className="text-center">Game</div>
-                </Link> */}
-
-
-
-
                 <Link href="/education" className="p-2 w-full flex flex-col justify-center hover:bg-gray-100 transition-all rounded-sm items-center gap-2 text-gray-500">
 
                     <Image

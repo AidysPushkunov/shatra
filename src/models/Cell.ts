@@ -63,11 +63,11 @@ export class Cell {
       !this.board.getCell(areaFigureX, areaFigureY).isEmpty() &&
       !this.board.getCell(areaFigureX, areaFigureY).figure?.eaten &&
       this.board.getCell(areaFigureX, areaFigureY).figure?.color !==
-        this.figure?.color &&
+      this.figure?.color &&
       this.isEnemy(this.board.getCell(areaFigureX, areaFigureY)) &&
       this.board.getCell(areaFigureXEmpty, areaFigureYEmpty).isEmpty() &&
       this.board.getCell(areaFigureXEmpty, areaFigureYEmpty).color !==
-        Colors.FORTRESS
+      Colors.FORTRESS
     ) {
       if (this.figure?.color === Colors.WHITE) {
         if (this.figure.logo === "whiteBiy" && areaFigureYEmpty < 10) {
@@ -488,6 +488,7 @@ export class Cell {
   }
 
   moveFigure(target: Cell) {
+
     if (this.figure && this.figure?.canMove(target)) {
       this.figure?.moveFigure(target);
       if (

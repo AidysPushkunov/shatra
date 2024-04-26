@@ -48,16 +48,9 @@ const BoardWidget: React.FC<BoardProps> = ({
   const [checkedCell, setCheckedCell] = useState<Cell | null>(null);
 
   const [state, setState] = useState<any[]>([]);
-  const [flippBoard, setFlippBoard] = useState<boolean>(false);
-
-  const [animatedFigure, setAnimateFigure] = useState<any>(null);
-  const [selectedCellItems, setSelectedCellItems] = useState<any>();
-  const [oldCellCoordinate, setOldCellCoordinate] = useState<any>();
-
   const [eventForAnimation, setEventForAnimation] = useState<object>({});
 
   const cellRefs = useRef<Array<Array<typeof Group | null>>>([]);
-  const [initialized, setInitialized] = useState(false);
 
 
 
@@ -86,8 +79,6 @@ const BoardWidget: React.FC<BoardProps> = ({
   }
 
   const makeMove = (fromCoordinate: string, toCoordinate: string) => {
-    console.log('was makeMove');
-
 
     let fromCell, toCell;
 
@@ -99,11 +90,16 @@ const BoardWidget: React.FC<BoardProps> = ({
       toCell = board.getCellByCoordinate(toCoordinate, false);
     }
 
-    console.log('From cell, to cell: ', fromCoordinate, toCoordinate)
-    console.log('From cell, to cell: ', fromCell, toCell)
-
-
     if (fromCell && toCell && fromCell.figure && fromCell.figure.canMove(toCell)) {
+
+      const isKingCaptured = toCell.board.isKingCaptured();
+      if (isKingCaptured) {
+        console.log(`Game over! ${fromCell.figure.color === Colors.WHITE ? "White" : "Black"} king has been captured.`);
+        alert(`Game over! ${fromCell.figure.color === Colors.WHITE ? "Black win" : "White win"} .`);
+        return;
+      }
+
+
       const animateFigure = getAnimateFigure(fromCell);
       const animateGroup = animateFigure ? animateFigure.getParent() : null;
 
@@ -133,12 +129,9 @@ const BoardWidget: React.FC<BoardProps> = ({
 
     let groupRef: any;
 
-    // Determine which board orientation to use based on player's color
     if (playerColor === Colors.BLACK) {
-      // For black player, use reversed board orientation
-      groupRef = getCellRef(6 - cell.x, 13 - cell.y); // Reversing coordinates for the black side
+      groupRef = getCellRef(6 - cell.x, 13 - cell.y);
     } else {
-      // For white player, use normal board orientation
       groupRef = getCellRef(cell.x, cell.y);
     }
 
@@ -191,6 +184,8 @@ const BoardWidget: React.FC<BoardProps> = ({
       selectedCell.figure?.canMove(cell)
     ) {
 
+
+
       makeMove(selectedCell.coordinate, cell.coordinate);
       handlePlayerMove(selectedCell.coordinate, cell.coordinate);
 
@@ -199,41 +194,29 @@ const BoardWidget: React.FC<BoardProps> = ({
         [Direction.TOP, Direction.TOP_LEFT, Direction.TOP_RIGHT, Direction.LEFT, Direction.RIGHT, Direction.BOTTOM, Direction.BOTTOM_LEFT, Direction.BOTTOM_RIGHT]
           .some(direction => selectedCell.canEat(selectedCell, direction));
 
-
-      // Проверяем, можно ли съесть фигуру идущей в выбранную ячейку
-
       const canChopFurther =
         [Direction.TOP, Direction.TOP_LEFT, Direction.TOP_RIGHT, Direction.LEFT, Direction.RIGHT, Direction.BOTTOM, Direction.BOTTOM_LEFT, Direction.BOTTOM_RIGHT]
           .some(direction => selectedCell.canEat(cell, direction));
 
-      console.log('movement: ', movements);
+
       if (canChopFurther && movements) {
-        console.log('База јиир арга бар');
       } else {
         swapPlayer();
       }
 
     } else {
-      console.log('firstClick: ', cell);
-
-      console.log('playerColor: ', playerColor);
-      console.log('currentPlayer?.color: ', currentPlayer?.color);
-      console.log('currentPlayer?.color === playerColor && cell.figure?.color === playerColor: ', currentPlayer?.color === playerColor && cell.figure?.color === playerColor);
 
       if (currentPlayer?.color === playerColor && cell.figure?.color === playerColor) {
         cell.setEatFieldAttack(null, false);
         setEventForAnimation(event);
         setCheckedCell(cell);
         setSelectedCell(cell);
-
-        console.log('selectedCell: ', selectedCell);
       }
     }
   }
 
   useEffect(() => {
     const handleOpponentMove = (moveFrom: string, moveTo: string, event: any) => {
-      console.log("From Socket: ", moveFrom, moveTo);
       makeMove(moveFrom, moveTo);
     };
 

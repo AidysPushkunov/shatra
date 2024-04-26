@@ -2,13 +2,14 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { SocketProvider } from "@/contexts";
+import { Footer } from '@/widgets/footer';
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Shatra",
+  title: "Altai Shatra",
   description:
-    "The goal of this project is to create an Internet platform for the game “Shatra” in real time between two people or with artificial intelligence.",
+    "Altai checkers (shatra) is one of the varieties of the game of checkers, combining the rules of both checkers and chess.",
 };
 
 export default function RootLayout({
@@ -18,14 +19,15 @@ export default function RootLayout({
 }) {
   return (
     <SocketProvider>
-    <html lang="en" className="bg-[#F8F9FD]">
-      <head>
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-      </head>
-      <body className={inter.className} suppressHydrationWarning={true}>
-        {children}
-      </body>
-    </html>
+      <html lang="en" className="bg-[#F8F9FD]">
+        <head>
+          <link rel="icon" href="/favicon.ico" sizes="any" />
+        </head>
+        <body className={inter.className} suppressHydrationWarning={true}>
+          {children}
+          <Footer />
+        </body>
+      </html>
     </SocketProvider>
   );
 }

@@ -4,14 +4,31 @@ import { Direction } from "../Direction";
 import { Figure, FigureNames } from "./Figure";
 
 export class Baatyr extends Figure {
+  biyRules: boolean;
+
   constructor(color: Colors, cell: Cell) {
     super(color, cell);
     this.logo = color === Colors.BLACK ? "blackBaatyr" : "whiteBaatyr";
     this.name = FigureNames.BAATYR;
+    this.biyRules = false;
+  }
+
+  setBiyRules(active: boolean): void {
+    this.biyRules = active;
   }
 
   canMove(target: Cell): boolean {
     if (!super.canMove(target)) return false;
+
+    if (
+      (this.cell.x === 3 && this.cell.y === 3) ||
+      (this.cell.x === 3 && this.cell.y === 10)
+    ) {
+      this.setBiyRules(true);
+    } else {
+      this.setBiyRules(false);
+    }
+
 
     function isFortress(cell: any) {
       return cell.figure === null && cell.color === "fortress";
@@ -37,7 +54,7 @@ export class Baatyr extends Figure {
       for (const direction of directions) {
         const canEatBaatyr = this.cell.canEatBaatyr(target, direction);
 
- 
+
 
         if (Boolean(canEatBaatyr) && canEatBaatyr) {
           let x = canEatBaatyr.x;
@@ -95,3 +112,4 @@ export class Baatyr extends Figure {
     return false;
   }
 }
+

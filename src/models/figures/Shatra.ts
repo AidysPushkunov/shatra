@@ -2,7 +2,7 @@ import { Cell } from "../Cell";
 import { Colors } from "../Colors";
 import { Direction } from "../Direction";
 import { Figure, FigureNames } from "./Figure";
-import { Board } from "../Board"; 
+import { Board } from "../Board";
 
 export class Shatra extends Figure {
   board: Board;
@@ -38,7 +38,7 @@ export class Shatra extends Figure {
 
 
 
-    if ( flippedBoardValue === 'true') {
+    if (flippedBoardValue === 'true') {
       direction = this.cell.figure?.color === Colors.BLACK ? -1 : 1;;
     } else {
       direction = this.cell.figure?.color === Colors.BLACK ? 1 : -1;
@@ -194,26 +194,26 @@ export class Shatra extends Figure {
       } else {
         if (
           this.cell.isFortressAbility(this.cell) &&
-          this.cell.figure?.color === Colors.WHITE
+            this.cell.figure?.color === Colors.WHITE
             ? this.cell.y >= 10
             : this.cell.y <= 3
         ) {
           if (!this.cell.board.canEatAbilityWithBiy(this.cell)) {
             if (
               !this.cell.board.canEatAbilityWithBiy(this.cell) &&
-              this.cell.figure?.color === Colors.WHITE
+                this.cell.figure?.color === Colors.WHITE
                 ? this.cell.board
-                    .getCell(this.cell.x - 1, this.cell.y)
-                    .isEmpty() &&
-                  this.cell.board
-                    .getCell(this.cell.x + 2, this.cell.y - 1)
-                    .isEmpty()
+                  .getCell(this.cell.x - 1, this.cell.y)
+                  .isEmpty() &&
+                this.cell.board
+                  .getCell(this.cell.x + 2, this.cell.y - 1)
+                  .isEmpty()
                 : this.cell.board
-                    .getCell(this.cell.x + 1, this.cell.y)
-                    .isEmpty() &&
-                  this.cell.board
-                    .getCell(this.cell.x - 2, this.cell.y + 1)
-                    .isEmpty()
+                  .getCell(this.cell.x + 1, this.cell.y)
+                  .isEmpty() &&
+                this.cell.board
+                  .getCell(this.cell.x - 2, this.cell.y + 1)
+                  .isEmpty()
             ) {
               if (this.cell.y >= 10) {
                 for (let i = 7; i <= 9; i++) {

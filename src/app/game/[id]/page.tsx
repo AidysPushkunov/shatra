@@ -10,12 +10,7 @@ import { useSearchParams } from 'next/navigation';
 import { useSocket } from '@/contexts/socketContext';
 import { useRouter } from 'next/navigation';
 import { Menu } from "@/widgets/menu";
-
 import Loading from "@/app/loading";
-import { Figure } from "@/models/figures/Figure";
-import { Cell } from "@/models/Cell";
-
-
 
 
 let historyMovements: any[] = [];
@@ -24,7 +19,6 @@ let historyMovements: any[] = [];
 export default function Home() {
   const socket = useSocket();
   const searchParams = useSearchParams();
-  const router = useRouter();
 
   const [historyMovementsState, setHistoryMovementsState] = useState(historyMovements);
   const [whitePlayer] = useState(new Player(Colors.WHITE));
@@ -34,11 +28,6 @@ export default function Home() {
   const gameId = searchParams.get('gameId')
   const playerId = searchParams.get('playerId');
   const playerColor = searchParams.get('playerColor');
-
-
-  console.log('currentPlayer: ', currentPlayer);
-  console.log('playerColor: ', playerColor);
-
 
 
   const handlePlayerMove = (moveFrom: string, moveTo: string) => {
@@ -53,9 +42,6 @@ export default function Home() {
     setCurrentPlayer(whitePlayer);
   }, []);
 
-
-
-  // updateBoard надо что то сделать из за него происсхлодит двойное движение фигур
 
   function updateBoard(): void {
     if (board) {
@@ -79,31 +65,24 @@ export default function Home() {
     if (socket) {
       socket.emit('swapPlayer');
     }
-
-    // setTimeout((): void => updateBoard(), 305);
   }
 
   function reverseBoardAndFigures(board: Board): Board {
     const reversedBoard = new Board();
-
-    // Определяем количество строк и столбцов на доске
     const numRows = board.cells.length;
     const numCols = numRows > 0 ? board.cells[0].length : 0;
 
-    // Создаем новый двумерный массив для перевернутой доски
     reversedBoard.cells = [];
 
-    // Перебираем строки доски в обратном порядке
     for (let i = numRows - 1; i >= 0; i--) {
       const originalRow = board.cells[i];
       const reversedRow = [];
 
-      // Перебираем элементы в строке в обратном порядке
       for (let j = numCols - 1; j >= 0; j--) {
-        reversedRow.push(originalRow[j]); // Добавляем элемент в перевернутую строку
+        reversedRow.push(originalRow[j]);
       }
 
-      reversedBoard.cells.push(reversedRow); // Добавляем перевернутую строку на новую доску
+      reversedBoard.cells.push(reversedRow);
     }
 
     return reversedBoard;
