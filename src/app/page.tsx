@@ -79,7 +79,7 @@ export default function Home() {
           {loading ? (
             <div className="fixed flex-col top-0 left-0 w-full h-full flex items-center justify-center bg-white z-50">
               <Image src={SearchGif} alt="my gif" height={300} width={300} />
-              <div >
+              <div className='grid justify-center'>
                 <div>Search players...</div>
                 <div onClick={handleStopSearch} className='cursor-pointer'>Stop to search</div>
               </div>
