@@ -13,11 +13,11 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
     const [socket, setSocket] = useState<Socket | null>(null);
 
     useEffect(() => {
-        const newSocket = io('https://45.147.179.12:5000', {
+        const newSocket = io('http://45.147.179.12:80', {
             withCredentials: true,
             transports: ['websocket'],
             extraHeaders: {
-                'Access-Control-Allow-Origin': 'https://shatra.vercel.app/',
+                'Access-Control-Allow-Origin': 'https://shatra.vercel.app',
             },
         });
 
