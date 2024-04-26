@@ -9,6 +9,7 @@ import { Group } from "react-konva";
 
 import _ from "lodash";
 import { Colors } from "@/models/Colors";
+import { Direction } from "@/models/Direction";
 
 
 
@@ -183,63 +184,35 @@ const BoardWidget: React.FC<BoardProps> = ({
   };
 
 
-  // const getAnimateFigure = (cell: Cell): Konva.Image | null => {
-  //   const groupRef: any = getCellRef(cell.x, cell.y);
-
-  //   const findAncestor = (
-  //     node: any,
-  //     predicate: (node: any) => boolean
-  //   ): any => {
-  //     while (node && !predicate(node)) {
-  //       node = node.parent;
-  //     }
-  //     return node;
-  //   };
-
-  //   const addToLayerIfNeeded = (figure: any): any => {
-  //     const figureGroup = findAncestor(
-  //       figure,
-  //       (node: any) => node.getClassName && node.getClassName() === "Group"
-  //     );
-
-  //     if (figureGroup) {
-  //       if (
-  //         !figureGroup.getParent() ||
-  //         figureGroup.getParent().className !== "Layer"
-  //       ) {
-  //         figureGroup.moveToTop();
-  //       }
-  //     }
-  //   };
-
-  //   if (groupRef) {
-  //     const children = groupRef.current.children;
-
-  //     const animateFigure = children.find(
-  //       (child: any) => child instanceof Konva.Image
-  //     );
-  //     addToLayerIfNeeded(animateFigure);
-  //     return animateFigure as Konva.Image;
-  //   } else {
-  //     console.log('GroupRef is null or undefined.');
-  //   }
-
-  //   return null;
-  // };
-
-
-
   function clickField(cell: Cell, event: any) {
     if (
       selectedCell &&
       selectedCell !== cell &&
       selectedCell.figure?.canMove(cell)
     ) {
-      console.log('secondClick: ', cell);
 
       makeMove(selectedCell.coordinate, cell.coordinate);
       handlePlayerMove(selectedCell.coordinate, cell.coordinate);
-      swapPlayer();
+
+
+      const movements =
+        [Direction.TOP, Direction.TOP_LEFT, Direction.TOP_RIGHT, Direction.LEFT, Direction.RIGHT, Direction.BOTTOM, Direction.BOTTOM_LEFT, Direction.BOTTOM_RIGHT]
+          .some(direction => selectedCell.canEat(selectedCell, direction));
+
+
+      // Проверяем, можно ли съесть фигуру идущей в выбранную ячейку
+
+      const canChopFurther =
+        [Direction.TOP, Direction.TOP_LEFT, Direction.TOP_RIGHT, Direction.LEFT, Direction.RIGHT, Direction.BOTTOM, Direction.BOTTOM_LEFT, Direction.BOTTOM_RIGHT]
+          .some(direction => selectedCell.canEat(cell, direction));
+
+      console.log('movement: ', movements);
+      if (canChopFurther && movements) {
+        console.log('База јиир арга бар');
+      } else {
+        swapPlayer();
+      }
+
     } else {
       console.log('firstClick: ', cell);
 
