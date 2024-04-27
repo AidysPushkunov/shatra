@@ -13,7 +13,7 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
     const [socket, setSocket] = useState<Socket | null>(null);
 
     useEffect(() => {
-        const newSocket = io('http://45.147.179.12:80', {
+        const newSocket = io('https://shatra.ru:443', {
             withCredentials: true,
             transports: ['websocket'],
             extraHeaders: {
