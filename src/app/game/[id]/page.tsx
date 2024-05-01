@@ -125,6 +125,7 @@ export default function Home() {
                 handlePlayerMove={handlePlayerMove}
                 socket={socket}
                 playerColor={playerColor}
+                multiplayer={true}
               />
             </div>
           </div>

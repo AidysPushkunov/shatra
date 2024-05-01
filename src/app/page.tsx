@@ -86,13 +86,24 @@ export default function Home() {
             </div>
           ) : null}
           <div className="grid max-w-96 md:gid-rows-2 md:grid-cols-2 text-sm gap-2">
+            <Link href="/passandplay" className="relative">
+              <div className="flex flex-col hover:bg-gray-50 transition-all gap-5 justify-center items-center px-10 py-5 cursor-pointer bg-white border rounded-md">
+                <Image
+                  src="/images/people.svg"
+                  width={85}
+                  height={85}
+                  alt="people"
+                />
+                <span className="text-base">Pass & Play</span>
+              </div>
+            </Link>
             <button onClick={handlePlayOnline}>
               <div className="flex flex-col hover:bg-gray-50 transition-all gap-5 justify-center items-center px-10 py-5 cursor-pointer bg-white border rounded-md">
                 <Image
                   src="/images/controller_game.svg"
                   width={60}
                   height={60}
-                  alt="main page"
+                  alt="game_controller"
                 />
                 <div>
                   <span className="text-xl">Play</span>
@@ -107,7 +118,7 @@ export default function Home() {
                   src="/images/robot.svg"
                   width={70}
                   height={70}
-                  alt="main page"
+                  alt="robot"
                 />
                 <span>Play Computer</span>
               </div>
@@ -119,7 +130,7 @@ export default function Home() {
                   src="/images/cup.svg"
                   width={70}
                   height={70}
-                  alt="main page"
+                  alt="cup"
                 />
                 <span>Tournaments</span>
               </div>

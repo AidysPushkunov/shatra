@@ -3,7 +3,7 @@
 import { Suspense } from 'react';
 import Loading from "@/app/loading";
 import { Menu } from '@/widgets/menu';
-
+import { Footer } from '@/widgets/footer';
 
 export default function Home() {
 
@@ -79,6 +79,7 @@ export default function Home() {
                         </p>
                     </div>
                 </div>
+                <Footer />
             </Suspense>
         </>
     );

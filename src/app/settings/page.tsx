@@ -3,6 +3,7 @@
 import { Suspense } from 'react';
 import Loading from "@/app/loading";
 import { Menu } from '@/widgets/menu';
+import { Footer } from '@/widgets/footer';
 import Image from 'next/image';
 
 export default function Home() {
@@ -22,6 +23,7 @@ export default function Home() {
                         </div>
                     </div>
                 </div>
+                <Footer />
             </Suspense>
         </>
     );

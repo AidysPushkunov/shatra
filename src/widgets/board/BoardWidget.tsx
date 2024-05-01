@@ -25,6 +25,7 @@ interface BoardProps {
   handlePlayerMove: (moveFrom: string, moveTo: string) => void;
   socket: any;
   playerColor: string | null;
+  multiplayer: boolean;
 }
 
 
@@ -42,7 +43,8 @@ const BoardWidget: React.FC<BoardProps> = ({
   onUpdateBoard,
   handlePlayerMove,
   socket,
-  playerColor
+  playerColor,
+  multiplayer
 }) => {
   const [selectedCell, setSelectedCell] = useState<Cell | null>(null);
   const [checkedCell, setCheckedCell] = useState<Cell | null>(null);
@@ -106,8 +108,8 @@ const BoardWidget: React.FC<BoardProps> = ({
 
       if (animateFigure && animateGroup) {
         animateFigure.to({
-          x: playerColor === Colors.WHITE ? (toCell.x - fromCell.x) * 40 + 5 : (fromCell.x - toCell.x) * 40 + 5,
-          y: playerColor === Colors.WHITE ? (toCell.y - fromCell.y) * 40 + 5 : (fromCell.y - toCell.y) * 40 + 5,
+          x: (multiplayer ? (playerColor === Colors.WHITE) : !(playerColor === Colors.WHITE)) ? (toCell.x - fromCell.x) * 40 + 5 : (fromCell.x - toCell.x) * 40 + 5,
+          y: (multiplayer ? (playerColor === Colors.WHITE) : !(playerColor === Colors.WHITE)) ? (toCell.y - fromCell.y) * 40 + 5 : (fromCell.y - toCell.y) * 40 + 5,
           duration: 0.3,
           onFinish: () => {
             moveSound.play();
@@ -206,7 +208,14 @@ const BoardWidget: React.FC<BoardProps> = ({
 
     } else {
 
-      if (currentPlayer?.color === playerColor && cell.figure?.color === playerColor) {
+      if (multiplayer) {
+        if (currentPlayer?.color === playerColor && cell.figure?.color === playerColor) {
+          cell.setEatFieldAttack(null, false);
+          setEventForAnimation(event);
+          setCheckedCell(cell);
+          setSelectedCell(cell);
+        }
+      } else {
         cell.setEatFieldAttack(null, false);
         setEventForAnimation(event);
         setCheckedCell(cell);
