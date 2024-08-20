@@ -1,7 +1,7 @@
-# Telengit Shatra - Real-Time Multiplayer Game Website
+# Shatra - Real-Time Multiplayer Game Website
 
 
-Welcome to Telengit Shatra - an immersive virtual world where two players can engage in real-time gameplay.
+Welcome to Shatra - an immersive virtual world where two players can engage in real-time gameplay.
 
 ![shatra_movements](https://github.com/AidysPushkunov/shatra/assets/75690905/c99a3722-dc88-420f-ac6d-4ec85f344223)
 
