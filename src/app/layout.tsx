@@ -7,9 +7,9 @@ import { SocketProvider } from "@/contexts";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Altai Shatra",
+  title: "Shatra",
   description:
-    "Altai checkers (shatra) is one of the varieties of the game of checkers, combining the rules of both checkers and chess.",
+    "Altai(Telengit) checkers (shatra) is one of the varieties of the game of checkers, combining the rules of both checkers and chess.",
 };
 
 export default function RootLayout({
